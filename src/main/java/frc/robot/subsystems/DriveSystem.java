@@ -9,13 +9,17 @@ package frc.robot.subsystems;
 
 import edu.wpi.first.wpilibj.command.Subsystem;
 
+
 /**
  * Add your docs here.
  */
 public class DriveSystem extends Subsystem {
   // Put methods for controlling this subsystem
   // here. Call these from Commands.
-
+  TalonSRX test;
+  public DriveSystem() {
+    test = new TalonSRX(0);  
+  }
   @Override
   public void initDefaultCommand() {
     // Set the default command for a subsystem here.
