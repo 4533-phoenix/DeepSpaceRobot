@@ -7,6 +7,8 @@
 
 package frc.robot.subsystems;
 
+import com.ctre.phoenix.motorcontrol.can.TalonSRX;
+
 import edu.wpi.first.wpilibj.command.Subsystem;
 
 
@@ -16,9 +18,15 @@ import edu.wpi.first.wpilibj.command.Subsystem;
 public class DriveSystem extends Subsystem {
   // Put methods for controlling this subsystem
   // here. Call these from Commands.
-  TalonSRX test;
+  TalonSRX rightMaster;
+  TalonSRX leftMaster;
+  TalonSRX rightSlave;
+  TalonSRX leftSlave;
   public DriveSystem() {
-    test = new TalonSRX(0);  
+    rightMaster = new TalonSRX(); 
+    leftMaster = new TalonSRX();
+    rightSlave = new TalonSRX();
+    leftSlave = new TalonSRX(); 
   }
   @Override
   public void initDefaultCommand() {
