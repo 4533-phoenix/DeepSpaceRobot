@@ -23,10 +23,10 @@ public class DriveSystem extends Subsystem {
   TalonSRX rightSlave;
   TalonSRX leftSlave;
   public DriveSystem() {
-    rightMaster = new TalonSRX(); 
-    leftMaster = new TalonSRX();
-    rightSlave = new TalonSRX();
-    leftSlave = new TalonSRX(); 
+    rightMaster = new TalonSRX(2); 
+    leftMaster = new TalonSRX(0);
+    rightSlave = new TalonSRX(3);
+    leftSlave = new TalonSRX(1); 
   }
   @Override
   public void initDefaultCommand() {
