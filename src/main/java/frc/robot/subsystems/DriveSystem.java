@@ -37,7 +37,10 @@ public class DriveSystem extends Subsystem {
     return INSTANCE;
   }
   public static void initialize() {
-    INSTANCE = new DriveSystem();
+    if (INSTANCE == null){
+      INSTANCE = new DriveSystem();
+    }
+    
 
   }
   @Override
