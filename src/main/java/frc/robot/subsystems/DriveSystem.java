@@ -12,6 +12,7 @@ import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 import edu.wpi.first.wpilibj.command.Subsystem;
 
 
+
 /**
  * Add your docs here.
  */
@@ -22,11 +23,25 @@ public class DriveSystem extends Subsystem {
   TalonSRX leftMaster;
   TalonSRX rightSlave;
   TalonSRX leftSlave;
+  private static DriveSystem INSTANCE;
+  
   public DriveSystem() {
     rightMaster = new TalonSRX(2); 
     leftMaster = new TalonSRX(0);
     rightSlave = new TalonSRX(3);
     leftSlave = new TalonSRX(1); 
+
+
+  }
+  public static DriveSystem getInstance() {
+    return INSTANCE;
+  }
+  public static void initialize() {
+    if (INSTANCE == null){
+      INSTANCE = new DriveSystem();
+    }
+    
+
   }
   @Override
   public void initDefaultCommand() {
