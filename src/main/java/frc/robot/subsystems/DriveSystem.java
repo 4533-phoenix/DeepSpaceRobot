@@ -34,6 +34,7 @@ public class DriveSystem extends Subsystem {
     rightSlave.set(ControlMode.PercentOutput, right);
     leftMaster.set(ControlMode.PercentOutput, left);
     leftSlave.set(ControlMode.PercentOutput, left);
+  }
   public static DriveSystem getInstance() {
     return INSTANCE;
   }
