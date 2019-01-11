@@ -35,5 +35,9 @@ public class RobotMap {
   public final int START = 10;
   public final int LEFT_JOYSTICK_BUTTON = 11;
   public final int RIGHT_JOYSTICK_BUTTON = 12;
+  public final int LEFT_SLAVE_MOTOR = 1;
+  public final int LEFT_MASTER_MOTOR = 0;
+  public final int RIGHT_SLAVE_MOTOR = 3;
+  public final int RIGHT_MASTER_MOTOR = 2;
 }
 
