@@ -24,10 +24,10 @@ public class DriveSystem extends Subsystem {
   TalonSRX leftSlave;
   private static DriveSystem INSTANCE;
   public DriveSystem() {
-    rightMaster = new TalonSRX(2); 
-    leftMaster = new TalonSRX(0);
-    rightSlave = new TalonSRX(3);
-    leftSlave = new TalonSRX(1);
+    rightMaster = new TalonSRX(RobotMap.RIGHT_MASTER_MOTOR); 
+    leftMaster = new TalonSRX(RobotMap.LEFT_MASTER_MOTOR);
+    rightSlave = new TalonSRX(RobotMap.RIGHT_SLAVE_MOTOR);
+    leftSlave = new TalonSRX(RobotMap.LEFT_SLAVE_MOTOR);
   }
   public void drivePercentOutput(double left, double right) {
     rightMaster.set(ControlMode.PercentOutput, right);
