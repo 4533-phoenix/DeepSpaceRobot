@@ -11,6 +11,7 @@ import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.command.Subsystem;
+import frc.robot.commands.DriveCommand;
 
 /**
  * Add your docs here.
@@ -47,5 +48,6 @@ public class DriveSystem extends Subsystem {
   public void initDefaultCommand() {
     // Set the default command for a subsystem here.
     // setDefaultCommand(new MySpecialCommand());
+    this.setDefaultCommand(new DriveCommand());
   }
 }

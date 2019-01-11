@@ -19,6 +19,7 @@ public class DriveCommand extends Command {
     // eg. requires(chassis);
     joystick = new Joystick(0);
     driveSystem = DriveSystem.getInstance();
+    requires(DriveSystem.getInstance());
 
 
 
@@ -32,8 +33,7 @@ public class DriveCommand extends Command {
   // Called repeatedly when this Command is scheduled to run
   @Override
   protected void execute() {
-    joystick.getRawAxis(3);
-    
+    driveSystem.drivePercentOutput(joystick.getRawAxis(1) ,joystick.getRawAxis(3));
   }
 
   // Make this return true when this Command no longer needs to run execute()
