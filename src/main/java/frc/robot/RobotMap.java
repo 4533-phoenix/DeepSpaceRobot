@@ -39,5 +39,6 @@ public class RobotMap {
   public final int LEFT_MASTER_MOTOR = 0;
   public final int RIGHT_SLAVE_MOTOR = 3;
   public final int RIGHT_MASTER_MOTOR = 2;
+  public final int JOYSTICK_PORT = 0;
 }
 

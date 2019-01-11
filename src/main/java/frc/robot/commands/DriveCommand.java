@@ -17,7 +17,7 @@ public class DriveCommand extends Command {
   public DriveCommand() {
     // Use requires() here to declare subsystem dependencies
     // eg. requires(chassis);
-    joystick = new Joystick(0);
+    joystick = new Joystick(RobotMap.JOYSTICK_PORT);
     driveSystem = DriveSystem.getInstance();
     requires(DriveSystem.getInstance());
 
