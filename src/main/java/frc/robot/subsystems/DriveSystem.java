@@ -7,10 +7,10 @@
 
 package frc.robot.subsystems;
 
+import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 
 import edu.wpi.first.wpilibj.command.Subsystem;
-
 
 /**
  * Add your docs here.
@@ -22,11 +22,19 @@ public class DriveSystem extends Subsystem {
   TalonSRX leftMaster;
   TalonSRX rightSlave;
   TalonSRX leftSlave;
+  Joystick joystick;
   public DriveSystem() {
     rightMaster = new TalonSRX(2); 
     leftMaster = new TalonSRX(0);
     rightSlave = new TalonSRX(3);
     leftSlave = new TalonSRX(1); 
+    joystick = new Joystick();
+  }
+  public void drivePercentOutput(double left, double right) {
+    rightMaster.set(ControlMode.PercentOutput, right);
+    rightSlave.set(ControlMode.PercentOutput, right);
+    leftMaster.set(ControlMode.PercentOutput, left);
+    leftSlave.set(ControlMode.PercentOutput, left);
   }
   @Override
   public void initDefaultCommand() {
