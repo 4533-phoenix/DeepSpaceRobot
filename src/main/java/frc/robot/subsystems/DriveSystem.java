@@ -30,6 +30,8 @@ public class DriveSystem extends Subsystem {
     leftMaster = new TalonSRX(RobotMap.LEFT_MASTER_MOTOR);
     rightSlave = new TalonSRX(RobotMap.RIGHT_SLAVE_MOTOR);
     leftSlave = new TalonSRX(RobotMap.LEFT_SLAVE_MOTOR);
+    leftMaster.configSelectedFeedbackSensor(FeedbackDevice.CTRE_MagEncoder_Relative, 0, 100);
+    rightMaster.configSelectedFeedbackSensor(FeedbackDevice.CTRE_MagEncoder_Relative, 0, 100);
   }
   public void drivePercentOutput(double left, double right) {
     rightMaster.set(ControlMode.PercentOutput, right);
