@@ -8,6 +8,7 @@
 package frc.robot.subsystems;
 
 import com.ctre.phoenix.motorcontrol.ControlMode;
+import com.ctre.phoenix.motorcontrol.FeedbackDevice;
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.command.Subsystem;
@@ -40,14 +41,14 @@ public class DriveSystem extends Subsystem {
     leftSlave.set(ControlMode.PercentOutput, left);
   }
   public void drivePosition(int position) {
-    leftMaster.set(ControlMode.Postition,position);
-    rightMaster.set(ControlMode.Postition,position);
-    leftSlave.set(ContolMode.Follower, RobotMap.LEFT_MASTER_MOTOR);
+    leftMaster.set(ControlMode.Position,position);
+    rightMaster.set(ControlMode.Position,position);
+    leftSlave.set(ControlMode.Follower, RobotMap.LEFT_MASTER_MOTOR);
     rightSlave.set(ControlMode.Follower, RobotMap.RIGHT_MASTER_MOTOR);
   }
   public void setPosition(int position) {
     leftMaster.setSelectedSensorPosition(position,0,100);
-    rightMaster.setSelectedSensorPosstion(position,0,100);
+    rightMaster.setSelectedSensorPosition(position,0,100);
   }
   public int getLeftPosition() {
     return leftMaster.getSelectedSensorPosition(0);
