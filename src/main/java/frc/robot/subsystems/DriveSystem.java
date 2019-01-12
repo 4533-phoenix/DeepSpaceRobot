@@ -13,6 +13,7 @@ import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.command.Subsystem;
 import frc.robot.commands.DriveCommand;
+import frc.robot.commands.DriveVelocity;
 import frc.robot.RobotMap;
 
 /**
@@ -39,6 +40,8 @@ public class DriveSystem extends Subsystem {
     rightMaster.setSensorPhase(true);
     rightMaster.setInverted(true);
     rightSlave.setInverted(true);
+    leftMaster.configAllowableClosedloopError(0, 50, 100);
+    rightMaster.configAllowableClosedloopError(0, 50, 100);
   }
   public void drivePercentOutput(double left, double right) {
     rightMaster.set(ControlMode.PercentOutput, right);
@@ -62,7 +65,7 @@ public class DriveSystem extends Subsystem {
   public int getRightPosition() {
     return rightMaster.getSelectedSensorPosition(0);
   }
-  public void setPIDFValues(double p,double d,double i,double f){
+  public void setPIDFValues(double p,double i,double d,double f){
     leftMaster.config_kF(0,f,100);
     rightMaster.config_kF(0,f,100);
     leftMaster.config_kP(0,p,100);
@@ -86,8 +89,8 @@ public class DriveSystem extends Subsystem {
     }
   }
   public void driveVelocity (double left, double right){
-    targetL = left * 4096 / 600;
-    targetR = right * 4096 / 600;
+    targetL = left * 250 * 4096 / 600;
+    targetR = right * 250 * 4096 / 600;
     leftMaster.set (ControlMode.Velocity, targetL);
     leftSlave.set (ControlMode.Follower, RobotMap.LEFT_MASTER_MOTOR);
     rightMaster.set (ControlMode.Velocity, targetR);
@@ -97,6 +100,6 @@ public class DriveSystem extends Subsystem {
   public void initDefaultCommand() {
     // Set the default command for a subsystem here.
     // setDefaultCommand(new MySpecialCommand());
-    this.setDefaultCommand(new DriveCommand());
+    this.setDefaultCommand(new DriveVelocity());
   }
 }

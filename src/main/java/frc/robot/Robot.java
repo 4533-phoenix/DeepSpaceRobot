@@ -116,6 +116,7 @@ public class Robot extends IterativeRobot {
     if (testing != null) {
       testing.cancel();
     }
+    DriveSystem.getInstance().setPIDFValues(.15, 0, 2.5, 0.243);
   }
 
   /**
