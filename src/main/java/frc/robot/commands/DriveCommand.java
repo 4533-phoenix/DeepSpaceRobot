@@ -33,7 +33,7 @@ public class DriveCommand extends Command {
   // Called repeatedly when this Command is scheduled to run
   @Override
   protected void execute() {
-    driveSystem.drivePercentOutput(-joystick.getRawAxis(1) ,joystick.getRawAxis(3));
+    driveSystem.drivePercentOutput(joystick.getRawAxis(3) ,-joystick.getRawAxis(1));
   }
 
   // Make this return true when this Command no longer needs to run execute()
