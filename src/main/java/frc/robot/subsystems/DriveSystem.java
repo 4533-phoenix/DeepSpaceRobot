@@ -26,6 +26,8 @@ public class DriveSystem extends Subsystem {
   TalonSRX rightSlave;
   TalonSRX leftSlave;
   private static DriveSystem INSTANCE;
+  private double targetL = 0;
+  private double targetR = 0;
   public DriveSystem() {
     rightMaster = new TalonSRX(RobotMap.RIGHT_MASTER_MOTOR); 
     leftMaster = new TalonSRX(RobotMap.LEFT_MASTER_MOTOR);
@@ -37,8 +39,6 @@ public class DriveSystem extends Subsystem {
     rightMaster.setSensorPhase(true);
     rightMaster.setInverted(true);
     rightSlave.setInverted(true);
-    leftMaster.configSelectedFeedbackSensor(FeedbackDevice.CTRE_MagEncoder_Relative, 0, 100);
-    rightMaster.configSelectedFeedbackSensor(FeedbackDevice.CTRE_MagEncoder_Relative, 0, 100);
   }
   public void drivePercentOutput(double left, double right) {
     rightMaster.set(ControlMode.PercentOutput, right);
@@ -84,6 +84,14 @@ public class DriveSystem extends Subsystem {
     if (INSTANCE == null){
       INSTANCE = new DriveSystem();
     }
+  }
+  public void driveVelocity (double left, double right){
+    targetL = left * 4096 / 600;
+    targetR = right * 4096 / 600;
+    leftMaster.set (ControlMode.Velocity, targetL);
+    leftSlave.set (ControlMode.Follower, RobotMap.LEFT_MASTER_MOTOR);
+    rightMaster.set (ControlMode.Velocity, targetR);
+    rightSlave.set (ControlMode.Follower, RobotMap.RIGHT_MASTER_MOTOR);
   }
   @Override
   public void initDefaultCommand() {
