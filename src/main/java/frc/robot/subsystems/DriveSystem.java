@@ -37,6 +37,8 @@ public class DriveSystem extends Subsystem {
     rightMaster.setSensorPhase(true);
     rightMaster.setInverted(true);
     rightSlave.setInverted(true);
+    leftMaster.configSelectedFeedbackSensor(FeedbackDevice.CTRE_MagEncoder_Relative, 0, 100);
+    rightMaster.configSelectedFeedbackSensor(FeedbackDevice.CTRE_MagEncoder_Relative, 0, 100);
   }
   public void drivePercentOutput(double left, double right) {
     rightMaster.set(ControlMode.PercentOutput, right);
