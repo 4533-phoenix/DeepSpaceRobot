@@ -13,6 +13,7 @@ import edu.wpi.first.wpilibj.command.Scheduler;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.subsystems.*;
+import frc.robot.utilities.SmartDashboardValues;
 import frc.robot.commands.*;
 
 /**
@@ -24,7 +25,7 @@ import frc.robot.commands.*;
  */
 public class Robot extends IterativeRobot {
   public static OI m_oi;
-
+  public SmartDashboardValues smartDashboardValues;
   Testing testing;
  
 
@@ -37,7 +38,8 @@ public class Robot extends IterativeRobot {
     m_oi = new OI();
     DriveSystem.initialize();
     // chooser.addOption("My Auto", new MyAutoCommand());
-   
+    smartDashboardValues = new SmartDashboardValues();
+    DriveSystem.getInstance().setPosition(0);
   }
 
   /**
@@ -59,11 +61,13 @@ public class Robot extends IterativeRobot {
    */
   @Override
   public void disabledInit() {
+    DriveSystem.getInstance().setPosition(0);
   }
 
   @Override
   public void disabledPeriodic() {
     Scheduler.getInstance().run();
+    smartDashboardValues.updateValue();
   }
 
   /**
@@ -105,6 +109,7 @@ public class Robot extends IterativeRobot {
   @Override
   public void autonomousPeriodic() {
     Scheduler.getInstance().run();
+    smartDashboardValues.updateValue();
   }
 
   @Override
@@ -125,6 +130,7 @@ public class Robot extends IterativeRobot {
   @Override
   public void teleopPeriodic() {
     Scheduler.getInstance().run();
+    smartDashboardValues.updateValue();
   }
 
   /**
@@ -132,5 +138,6 @@ public class Robot extends IterativeRobot {
    */
   @Override
   public void testPeriodic() {
+    smartDashboardValues.updateValue();
   }
 }

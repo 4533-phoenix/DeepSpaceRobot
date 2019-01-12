@@ -20,6 +20,7 @@ public class DrivePosition extends Command {
     // eg. requires(chassis);
     this.requires(DriveSystem.getInstance());
     this.distance=distance*UNITS_PER_INCH;
+    DriveSystem.getInstance().setPeakOutput(.5);
   }
 
   // Called just before this Command runs the first time
@@ -43,8 +44,9 @@ public class DrivePosition extends Command {
   // Called once after isFinished returns true
   @Override
   protected void end() {
-    driveSystem.setPosition(0);
+    driveSystem.setPeakOutput(1);
     driveSystem.stop();
+    driveSystem.setPosition(0);
   }
 
   // Called when another command which requires one or more of the same

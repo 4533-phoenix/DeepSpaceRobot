@@ -29,6 +29,7 @@ public class DriveSystem extends Subsystem {
   private static DriveSystem INSTANCE;
   private double targetL = 0;
   private double targetR = 0;
+  public static double MAX_VELOCITY = 250;
   public DriveSystem() {
     rightMaster = new TalonSRX(RobotMap.RIGHT_MASTER_MOTOR); 
     leftMaster = new TalonSRX(RobotMap.LEFT_MASTER_MOTOR);
@@ -89,12 +90,22 @@ public class DriveSystem extends Subsystem {
     }
   }
   public void driveVelocity (double right, double left){
-    targetL = left * 250 * 4096 / 600;
-    targetR = right * 250 * 4096 / 600;
+    targetL = left * MAX_VELOCITY * 4096 / 600;
+    targetR = right * MAX_VELOCITY * 4096 / 600;
     leftMaster.set (ControlMode.Velocity, targetL);
     leftSlave.set (ControlMode.Follower, RobotMap.LEFT_MASTER_MOTOR);
     rightMaster.set (ControlMode.Velocity, targetR);
     rightSlave.set (ControlMode.Follower, RobotMap.RIGHT_MASTER_MOTOR);
+  }
+  public double[] getTemperature() {
+    double[] output = {leftMaster.getTemperature(), leftSlave.getTemperature(), rightMaster.getTemperature(), rightSlave.getTemperature()};
+    return output;
+  }
+  public void setPeakOutput(double output) {
+    rightMaster.configPeakOutputForward(output, 100);
+    rightSlave.configPeakOutputForward(output, 100);
+    leftMaster.configPeakOutputForward(output, 100);
+    leftSlave.configPeakOutputForward(output, 100);
   }
   @Override
   public void initDefaultCommand() {
