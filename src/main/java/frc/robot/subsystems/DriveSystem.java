@@ -33,6 +33,10 @@ public class DriveSystem extends Subsystem {
     leftSlave = new TalonSRX(RobotMap.LEFT_SLAVE_MOTOR);
     leftMaster.configSelectedFeedbackSensor(FeedbackDevice.CTRE_MagEncoder_Relative,0,100);
     rightMaster.configSelectedFeedbackSensor(FeedbackDevice.CTRE_MagEncoder_Relative,0,100);
+    leftMaster.setSensorPhase(true);
+    rightMaster.setSensorPhase(true);
+    rightMaster.setInverted(true);
+    rightSlave.setInverted(true);
   }
   public void drivePercentOutput(double left, double right) {
     rightMaster.set(ControlMode.PercentOutput, right);
