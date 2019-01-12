@@ -88,7 +88,7 @@ public class DriveSystem extends Subsystem {
       INSTANCE = new DriveSystem();
     }
   }
-  public void driveVelocity (double left, double right){
+  public void driveVelocity (double right, double left){
     targetL = left * 250 * 4096 / 600;
     targetR = right * 250 * 4096 / 600;
     leftMaster.set (ControlMode.Velocity, targetL);

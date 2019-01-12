@@ -12,13 +12,14 @@ import frc.robot.RobotMap;
 import frc.robot.subsystems.DriveSystem;
 
 public class DriveVelocity extends Command {
-  private Joystick controller;
-  private DriveSystem driveSystem;
+  Joystick controller;
+  DriveSystem driveSystem;
 
   public DriveVelocity() {
     // Use requires() here to declare subsystem dependencies
     // eg. requires(chassis);
     controller = new Joystick(RobotMap.JOYSTICK_PORT);
+    driveSystem = DriveSystem.getInstance();
     this.requires(DriveSystem.getInstance());
   }
 
@@ -30,7 +31,7 @@ public class DriveVelocity extends Command {
   // Called repeatedly when this Command is scheduled to run
   @Override
   protected void execute() {
-    driveSystem.driveVelocity(controller.getRawAxis(3), controller.getRawAxis(1));
+    driveSystem.driveVelocity(controller.getRawAxis(1), controller.getRawAxis(3));
   }
 
   // Make this return true when this Command no longer needs to run execute()
