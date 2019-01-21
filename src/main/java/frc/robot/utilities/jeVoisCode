@@ -1,0 +1,52 @@
+import libjevois as jevois
+import cv2
+import numpy as np
+import math
+
+class Hello:
+    def process(self, inframe, outframe):
+      img = inframe.getCvBGR()
+ #     hsv = cv2.cvtColor(img, cv2.COLOR_BGR2HSV)
+      lower_green = np.array([0,200,0])
+      upper_green = np.array([255,255,160])
+      mask = cv2.inRange(img,lower_green, upper_green)
+      res = cv2.bitwise_and(img,img,mask= mask)
+      median = cv2.medianBlur(res,5)
+      gray_image = cv2.cvtColor(median, cv2.COLOR_BGR2GRAY)
+      ret, thresh = cv2.threshold(gray_image, 127,255,0)
+      height = np.size(median, 0)
+      width = np.size(median, 1)
+      cv2.circle(median,(int(width/2), int(height/2)), 5, (255,255,255), -1)
+      M = cv2.moments(thresh)
+      if(M["m00"] !=0 ):
+          cX = int(M["m10"]/M["m00"])
+          cY = int(M["m01"]/M["m00"])
+          cv2.circle(median,(cX, cY), 5, (255,255,255), -1)
+          cv2.line(median, (cX,cY),(int(width/2), int(height/2)), (255,0,0),5)
+          dist = math.sqrt(math.pow((cX-(width/2)),2)+math.pow((cY-(height/2)),2))
+          font = cv2.FONT_HERSHEY_SIMPLEX
+          cv2.putText(median,'Distance: ' + str(int(dist)) ,(0,int(height)-30), font, .5,(255,255,255),1,cv2.LINE_AA)
+      contours, hierarchy = cv2.findContours(gray_image, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
+      cv2.drawContours(median, contours,-1,(100,255,100), 3)
+      #dst = cv2.cornerHarris(gray_image,3,3,0.001)
+      #median[dst>0.01*dst.max()]=[0,0,255]
+      for c in contours :
+           cnt = c
+           area = cv2.contourArea(cnt)
+           #jevois.LINFO(str(area))
+           rect = cv2.minAreaRect(cnt)
+           box = cv2.boxPoints(rect)
+           box = np.int0(box)
+           cv2.drawContours(median,[box],0,(0,0,255),2)
+           leftmost = tuple(cnt[cnt[:,:,0].argmin()][0])
+           rightmost = tuple(cnt[cnt[:,:,0].argmax()][0])
+           cv2.circle(median,leftmost,5,(255,0,0),-1)
+           cv2.circle(median,rightmost,5,(255,0,0),-1)
+           cv2.line(median,leftmost,rightmost,(255,255,255),5)
+           mom = cv2.moments(cnt)
+           if(mom['m00'] != 0):
+               ccX = int(mom['m10']/mom['m00'])
+               ccY = int(mom['m01']/mom['m00'])
+               cv2.circle(median,(ccX, ccY), 5, (0,0,255), -1)
+      #jevois.LINFO(str(contours))
+      outframe.sendCv(median)
