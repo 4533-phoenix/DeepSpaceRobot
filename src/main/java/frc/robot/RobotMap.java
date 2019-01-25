@@ -39,6 +39,8 @@ public class RobotMap {
   public static final int LEFT_MASTER_MOTOR = 0;
   public static final int RIGHT_SLAVE_MOTOR = 3;
   public static final int RIGHT_MASTER_MOTOR = 2;
+  public static final int PID_INDEX = 0;
+  public static final int TIMEOUT = 100;
   public static final int JOYSTICK_PORT = 0;
 }
 
