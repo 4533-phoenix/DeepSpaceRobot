@@ -7,12 +7,14 @@
 
 package frc.robot;
 
-import edu.wpi.first.wpilibj.TimedRobot;
+import edu.wpi.first.wpilibj.IterativeRobot;
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.Scheduler;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.subsystems.*;
+import frc.robot.utilities.SmartDashboardValues;
+import frc.robot.commands.*;
 
 /**
  * The VM is configured to automatically run this class, and to call the
@@ -21,10 +23,10 @@ import frc.robot.subsystems.*;
  * creating this project, you must also update the build.gradle file in the
  * project.
  */
-public class Robot extends TimedRobot {
-    public static OI m_oi;
-
-  Command m_autonomousCommand;
+public class Robot extends IterativeRobot {
+  public static OI m_oi;
+  public SmartDashboardValues smartDashboardValues;
+  Testing testing;
  
 
   /**
@@ -36,7 +38,8 @@ public class Robot extends TimedRobot {
     m_oi = new OI();
     DriveSystem.initialize();
     // chooser.addOption("My Auto", new MyAutoCommand());
-   
+    smartDashboardValues = new SmartDashboardValues();
+    DriveSystem.getInstance().setPosition(0);
   }
 
   /**
@@ -58,11 +61,13 @@ public class Robot extends TimedRobot {
    */
   @Override
   public void disabledInit() {
+    DriveSystem.getInstance().setPosition(0);
   }
 
   @Override
   public void disabledPeriodic() {
     Scheduler.getInstance().run();
+    smartDashboardValues.updateValue();
   }
 
   /**
@@ -90,6 +95,12 @@ public class Robot extends TimedRobot {
    // if (m_autonomousCommand != null) {
     //  m_autonomousCommand.start();
     //}
+    testing = new Testing();
+    DriveSystem.getInstance().setPIDFValues(0.1, 0.0001, 0, 0);
+    DriveSystem.getInstance().setPosition(0);
+    if(testing != null) {
+      testing.start();
+    }
   }
 
   /**
@@ -98,6 +109,7 @@ public class Robot extends TimedRobot {
   @Override
   public void autonomousPeriodic() {
     Scheduler.getInstance().run();
+    smartDashboardValues.updateValue();
   }
 
   @Override
@@ -106,9 +118,10 @@ public class Robot extends TimedRobot {
     // teleop starts running. If you want the autonomous to
     // continue until interrupted by another command, remove
     // this line or comment it out.
-   // if (m_autonomousCommand != null) {
-      //m_autonomousCommand.cancel();
-    //}
+    if (testing != null) {
+      testing.cancel();
+    }
+    DriveSystem.getInstance().setPIDFValues(.15, 0, 2.5, 0.243);
   }
 
   /**
@@ -117,6 +130,7 @@ public class Robot extends TimedRobot {
   @Override
   public void teleopPeriodic() {
     Scheduler.getInstance().run();
+    smartDashboardValues.updateValue();
   }
 
   /**
@@ -124,5 +138,6 @@ public class Robot extends TimedRobot {
    */
   @Override
   public void testPeriodic() {
+    smartDashboardValues.updateValue();
   }
 }

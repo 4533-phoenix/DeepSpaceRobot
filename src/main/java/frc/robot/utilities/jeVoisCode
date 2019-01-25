@@ -1,0 +1,180 @@
+import libjevois as jevois
+import cv2
+import numpy as np
+import math
+
+#4060/distCentroids = distToReflectTape (in)
+class Hello:
+    count=0
+    rollingm_1 = []
+    rollingm_2 = []
+    rollingm_3 = []
+    rollingm_4 = []
+    def process(self, inframe, outframe):
+      img = inframe.getCvBGR()
+      #     hsv = cv2.cvtColor(img, cv2.COLOR_BGR2HSV)
+      lower_green = np.array([0,200,0])
+      upper_green = np.array([255,255,160])
+      mask = cv2.inRange(img,lower_green, upper_green)
+      res = cv2.bitwise_and(img,img,mask= mask)
+      median = cv2.medianBlur(res,5)
+      gray_image = cv2.cvtColor(median, cv2.COLOR_BGR2GRAY)
+      ret, thresh = cv2.threshold(gray_image, 127,255,0)
+      height = np.size(median, 0)
+      width = np.size(median, 1)
+      cv2.circle(median,(int(width/2), int(height/2)), 5, (255,255,255), -1)
+      M = cv2.moments(thresh)
+      if(M["m00"] !=0 ):
+          cX = int(M["m10"]/M["m00"])
+          cY = int(M["m01"]/M["m00"])
+          cv2.circle(median,(cX, cY), 5, (255,255,255), -1)
+          cv2.line(median, (cX,cY),(int(width/2), int(height/2)), (255,0,0),5)
+          dist = math.sqrt(math.pow((cX-(width/2)),2)+math.pow((cY-(height/2)),2))
+          font = cv2.FONT_HERSHEY_SIMPLEX
+          cv2.putText(median,'Distance: ' + str(int(dist)) ,(0,int(height)-35), font, .5,(255,255,255),1,cv2.LINE_AA)
+      contours, hierarchy = cv2.findContours(gray_image, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
+      cv2.drawContours(median, contours,-1,(100,255,100), 3)
+      #dst = cv2.cornerHarris(gray_image,3,3,0.001)
+      #median[dst>0.01*dst.max()]=[0,0,255]
+      if(len(contours)==2):
+          cnt0=contours[0]
+          cnt1=contours[1]
+          mom0 = cv2.moments(cnt0)
+          mom1 = cv2.moments(cnt1)
+          if(mom0['m00'] != 0 and mom1['m00'] != 0):
+              ccX0 = int(mom0['m10']/mom0['m00'])
+              ccX1 = int(mom1['m10']/mom1['m00'])
+              ccY0 = int(mom0['m01']/mom0['m00'])
+              ccY1 = int(mom1['m01']/mom1['m00'])
+              centroidDistance=math.sqrt((ccX1-ccX0)*(ccX1-ccX0)+(ccY1-ccY0)*(ccY1-ccY0))
+              font = cv2.FONT_HERSHEY_SIMPLEX
+              cv2.putText(median,'Distance between centroids: ' + str(int(centroidDistance)) ,(0,int(height)-20), font, .5,(255,255,255),1,cv2.LINE_AA)
+              font = cv2.FONT_HERSHEY_SIMPLEX
+              cv2.putText(median,'Distance to tape: ' + str(int(4060/centroidDistance))+' in' ,(0,int(height)-5), font, .5,(255,255,255),1,cv2.LINE_AA)
+      rect = cv2.minAreaRect(contours[0])
+      box = cv2.boxPoints(rect)
+      font = cv2.FONT_HERSHEY_SIMPLEX
+      cv2.putText(median,'Box: '+str((math.sqrt((box[0][0]-box[1][0])*(box[0][0]-box[1][0])+(box[0][1]-box[1][1])*(box[0][1]-box[1][1]))/math.sqrt((box[2][0]-box[1][0])*(box[2][0]-box[1][0])+(box[2][1]-box[1][1])*(box[2][1]-box[1][1])))),(0,int(height)-50), font, .5,(255,255,255),1,cv2.LINE_AA)
+      if(len(contours)==2):
+          rect0 = cv2.minAreaRect(contours[0])
+          box0 = cv2.boxPoints(rect0)
+          box0 = np.int0(box0)
+          rect1 = cv2.minAreaRect(contours[1])
+          box1 = cv2.boxPoints(rect1)
+          box1 = np.int0(box1)
+          m_1=999
+          m_2=0
+          m_3=999
+          m_4=0
+          for a in range(4):
+              if(box0[a][0]<m_1):
+                  m_1=box0[a][0]
+              if(box0[a][0]>m_2):
+                  m_2=box0[a][0]
+              if(box1[a][0]<m_3):
+                  m_3=box1[a][0]
+              if(box1[a][0]>m_4):
+                  m_4=box1[a][0]
+              if(m_1>m_3):
+                  hold_1=m_1
+                  hold_2=m_2
+                  m_1=m_3
+                  m_2=m_4
+                  m_3=hold_1
+                  m_4=hold_2
+              if(len(self.rollingm_1)<9):
+                  self.rollingm_1.append(m_1)
+                  self.rollingm_2.append(m_2)
+                  self.rollingm_3.append(m_3)
+                  self.rollingm_4.append(m_4)
+              else:
+                  self.rollingm_1.pop(0)
+                  self.rollingm_2.pop(0)
+                  self.rollingm_3.pop(0)
+                  self.rollingm_4.pop(0)
+                  self.rollingm_1.append(m_1)
+                  self.rollingm_2.append(m_2)
+                  self.rollingm_3.append(m_3)
+                  self.rollingm_4.append(m_4)
+              m_1=sum(self.rollingm_1)/float(len(self.rollingm_1))-int(width)/2
+              m_2=sum(self.rollingm_2)/float(len(self.rollingm_2))-int(width)/2
+              m_3=sum(self.rollingm_3)/float(len(self.rollingm_3))-int(width)/2
+              m_4=sum(self.rollingm_4)/float(len(self.rollingm_4))-int(width)/2
+              m=0
+              dm=0.02;
+              c=int(width)
+              #Where/What is b
+              m_d=math.sqrt((m*b*(c/m_3-c/m_4)/(c/m_3-m)/(c/m_4-m))*(m*b*(c/m_3-c/m_4)/(c/m_3-m)/(c/m_4-m))+((b/(c/m_3-m))-(b/(c/m_4-m)))*((b/(c/m_3-m))-(b/(c/m_4-m))))/math.sqrt((m*b*(c/m_1-c/m_2)/(c/m_1-m)/(c/m_2-m))*(m*b*(c/m_1-c/m_2)/(c/m_1-m)/(c/m_2-m))+((b/(c/m_1-m))-(b/(c/m_2-m)))*((b/(c/m_1-m))-(b/(c/m_2-m))))
+              if(m_d>1):
+                  while(m_d>1):
+                      m+=dm
+                      if(math.sqrt((m*b*(c/m_3-c/m_4)/(c/m_3-m)/(c/m_4-m))*(m*b*(c/m_3-c/m_4)/(c/m_3-m)/(c/m_4-m))+((b/(c/m_3-m))-(b/(c/m_4-m)))*((b/(c/m_3-m))-(b/(c/m_4-m))))/math.sqrt((m*b*(c/m_1-c/m_2)/(c/m_1-m)/(c/m_2-m))*(m*b*(c/m_1-c/m_2)/(c/m_1-m)/(c/m_2-m))+((b/(c/m_1-m))-(b/(c/m_2-m)))*((b/(c/m_1-m))-(b/(c/m_2-m))))>m_d):
+                          dm=0-dm
+                          m+=dm
+                      else:
+                          m_d=math.sqrt((m*b*(c/m_3-c/m_4)/(c/m_3-m)/(c/m_4-m))*(m*b*(c/m_3-c/m_4)/(c/m_3-m)/(c/m_4-m))+((b/(c/m_3-m))-(b/(c/m_4-m)))*((b/(c/m_3-m))-(b/(c/m_4-m))))/math.sqrt((m*b*(c/m_1-c/m_2)/(c/m_1-m)/(c/m_2-m))*(m*b*(c/m_1-c/m_2)/(c/m_1-m)/(c/m_2-m))+((b/(c/m_1-m))-(b/(c/m_2-m)))*((b/(c/m_1-m))-(b/(c/m_2-m))))
+              else:
+                  while(m_d<1):
+                      m+=dm
+                  if(math.sqrt((m*b*(c/m_3-c/m_4)/(c/m_3-m)/(c/m_4-m))*(m*b*(c/m_3-c/m_4)/(c/m_3-m)/(c/m_4-m))+((b/(c/m_3-m))-(b/(c/m_4-m)))*((b/(c/m_3-m))-(b/(c/m_4-m))))/math.sqrt((m*b*(c/m_1-c/m_2)/(c/m_1-m)/(c/m_2-m))*(m*b*(c/m_1-c/m_2)/(c/m_1-m)/(c/m_2-m))+((b/(c/m_1-m))-(b/(c/m_2-m)))*((b/(c/m_1-m))-(b/(c/m_2-m))))<m_d):
+                      dm=0-dm
+                      m+=dm
+                  else:
+                      m_d=math.sqrt((m*b*(c/m_3-c/m_4)/(c/m_3-m)/(c/m_4-m))*(m*b*(c/m_3-c/m_4)/(c/m_3-m)/(c/m_4-m))+((b/(c/m_3-m))-(b/(c/m_4-m)))*((b/(c/m_3-m))-(b/(c/m_4-m))))/math.sqrt((m*b*(c/m_1-c/m_2)/(c/m_1-m)/(c/m_2-m))*(m*b*(c/m_1-c/m_2)/(c/m_1-m)/(c/m_2-m))+((b/(c/m_1-m))-(b/(c/m_2-m)))*((b/(c/m_1-m))-(b/(c/m_2-m))))
+                      b=11.31/math.sqrt(((1+m/(c/m_1-m)+1+m/(c/m_2-m))/2-(1+m/(c/m_3-m)+1+m/(c/m_4-m))/2)*((1+m/(c/m_1-m)+1+m/(c/m_2-m))/2-(1+m/(c/m_3-m)+1+m/(c/m_4-m))/2)+((1/2/(c/m_1-m)+1/2/(c/m_2-m))-(1/2/(c/m_3-m)+1/2/(c/m_4-m)))*((1/2/(c/m_1-m)+1/2/(c/m_2-m))-(1/2/(c/m_3-m)+1/2/(c/m_4-m))))
+                  for a in range(10):
+                      cv2.line(median,(46+4*a,int(height)-7-8*a),(48+4*a,int(height)-11-8*a),(100,0,0),1)
+                      cv2.line(median,(44-4*a,int(height)-7-8*a),(42-4*a,int(height)-11-8*a),(100,0,0),1)
+                  for a in range(7):
+                      cv2.line(median,(9+12*a,int(height)-5),(9+12*a,int(height)-85),(100,100,100),1)
+                      cv2.line(median,(5,int(height)-5-12*a),(85,int(height)-5-12*a),(100,100,100),1)
+                  cv2.line(median,(45,int(height)-5),(45,int(height)-85),(255,255,255),1)
+                  cv2.line(median,(45-(b/(m-c/m_1)+b/(m-c/m_2)+b/(m-c/m_3)+b/(m-c/m_4))/4,int(height)-5),(45-(b/(m-c/m_1)+b/(m-c/m_2)+b/(m-c/m_3)+b/(m-c/m_4))/4,int(height)-85),(255,255,0),1)
+                  cv2.line(median,(5,int(height)-5-((b-m*b/(m-c/m_1))+(b-m*b/(m-c/m_2))+(b-m*b/(m-c/m_3))+(b-m*b/(m-c/m_4)))/4),(85,int(height)-5-((b-m*b/(m-c/m_1))+(b-m*b/(m-c/m_2))+(b-m*b/(m-c/m_3))+(b-m*b/(m-c/m_4)))/4),(255,255,0),1)
+                  font = cv2.FONT_HERSHEY_SIMPLEX
+                  x_distance=((b-m*b/(m-c/m_1))+(b-m*b/(m-c/m_2))+(b-m*b/(m-c/m_3))+(b-m*b/(m-c/m_4)))/4
+                  y_distance=(b/(m-c/m_1)+b/(m-c/m_2)+b/(m-c/m_3)+b/(m-c/m_4))/4
+                  cv2.putText(median,str(int(x_distance)) ,(45-x_distance-5,int(height)-87), font, .16,(255,255,0),1,cv2.LINE_AA)
+                  cv2.putText(median,str(int(y_distance)) ,(87,int(height)-2-y_distance), font, .16,(255,255,0),1,cv2.LINE_AA)
+                  cv2.line(median,(45-b/(m-c/m_1),int(height)-5-(b-m*b/(m-c/m_1))),(45-b/(m-c/m_2),int(height)-5-(b-m*b/(m-c/m_2))),(0,255,0),2)
+                  cv2.line(median,(45-b/(m-c/m_3),int(height)-5-(b-m*b/(m-c/m_3))),(45-b/(m-c/m_4),int(height)-5-(b-m*b/(m-c/m_4))),(0,255,0),2)
+                  cv2.line(median,(5,int(height)-5),(85,int(height)-5),(255,255,255),2)
+                  cv2.line(median,(5,int(height)-5),(5,int(height)-85),(255,255,255),2)
+                  cv2.line(median,(85,int(height)-5),(85,int(height)-85),(255,255,255),2)
+                  cv2.line(median,(5,int(height)-85),(85,int(height)-85),(255,255,255),2)
+                  for a in range(7):
+                      cv2.line(median,(9+12*a,int(height)-5),(9+12*a,int(height)-7),(255,255,255),1)
+                      cv2.line(median,(9+12*a,int(height)-83),(9+12*a,int(height)-85),(255,255,255),1)
+                      cv2.line(median,(5,int(height)-5-12*a),(7,int(height)-5-12*a),(255,255,255),1)
+                      cv2.line(median,(83,int(height)-5-12*a),(85,int(height)-5-12*a),(255,255,255),1)
+      for c in contours :
+           cnt = c
+           area = cv2.contourArea(cnt)
+           #jevois.LINFO(str(area))
+           rect = cv2.minAreaRect(cnt)
+           box = cv2.boxPoints(rect)
+           box = np.int0(box)
+           cv2.drawContours(median,[box],0,(0,0,255),2)
+           leftmost = tuple(cnt[cnt[:,:,0].argmin()][0])
+           rightmost = tuple(cnt[cnt[:,:,0].argmax()][0])
+           cv2.circle(median,leftmost,5,(255,0,0),-1)
+           cv2.circle(median,rightmost,5,(255,0,0),-1)
+           cv2.line(median,leftmost,rightmost,(255,255,255),5)
+           mom = cv2.moments(cnt)
+           if(mom['m00'] != 0):
+               ccX = int(mom['m10']/mom['m00'])
+               ccY = int(mom['m01']/mom['m00'])
+               cv2.circle(median,(ccX, ccY), 5, (0,0,255), -1)
+      if(mom0['m00'] != 0):
+              ccX = int(mom0['m10']/mom0['m00'])
+              ccY = int(mom0['m01']/mom0['m00'])
+              cv2.circle(median,(ccX, ccY), 5, (0,0,255), -1)
+      mom1 = cv2.moments(0)
+      if(mom1['m00'] != 0):
+               ccX = int(mom1['m10']/mom1['m00'])
+               ccY = int(mom1['m01']/mom1['m00'])
+               cv2.circle(median,(ccX, ccY), 5, (0,0,255), -1)
+      #jevois.LINFO(str(contours))
+      #cv2.imwrite("frames/frame%d.png"%self.count,img)
+      self.count+=1
+      outframe.sendCv(median)

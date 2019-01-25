@@ -10,14 +10,14 @@ package frc.robot.commands;
 import edu.wpi.first.wpilibj.command.Command;
 import frc.robot.subsystems.DriveSystem;
 import edu.wpi.first.wpilibj.Joystick;
-
+import frc.robot.RobotMap;
 public class DriveCommand extends Command {
   Joystick joystick;
   DriveSystem driveSystem;
   public DriveCommand() {
     // Use requires() here to declare subsystem dependencies
     // eg. requires(chassis);
-    joystick = new Joystick(0);
+    joystick = new Joystick(RobotMap.JOYSTICK_PORT);
     driveSystem = DriveSystem.getInstance();
     requires(DriveSystem.getInstance());
 
@@ -33,7 +33,7 @@ public class DriveCommand extends Command {
   // Called repeatedly when this Command is scheduled to run
   @Override
   protected void execute() {
-    driveSystem.drivePercentOutput(joystick.getRawAxis(1) ,joystick.getRawAxis(3));
+    driveSystem.drivePercentOutput(joystick.getRawAxis(3) ,-joystick.getRawAxis(1));
   }
 
   // Make this return true when this Command no longer needs to run execute()

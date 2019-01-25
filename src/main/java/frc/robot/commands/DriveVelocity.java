@@ -1,3 +1,4 @@
+/*----------------------------------------------------------------------------*/
 /* Copyright (c) 2018 FIRST. All Rights Reserved.                             */
 /* Open Source Software - may be modified and shared by FRC teams. The code   */
 /* must be accompanied by the FIRST BSD license file in the root directory of */
@@ -5,21 +6,22 @@
 /*----------------------------------------------------------------------------*/
 
 package frc.robot.commands;
-
+import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.command.Command;
+import frc.robot.RobotMap;
 import frc.robot.subsystems.DriveSystem;
 
-public class DrivePosition extends Command {
-  private DriveSystem driveSystem=DriveSystem.getInstance();
-  private double distance;
-  private static final double CIRCUMFRANCE=6*Math.PI;
-  private static final double UNITS_PER_INCH=4096/CIRCUMFRANCE;
-  public DrivePosition(int distance) {
+public class DriveVelocity extends Command {
+  Joystick controller;
+  DriveSystem driveSystem;
+
+  public DriveVelocity() {
     // Use requires() here to declare subsystem dependencies
     // eg. requires(chassis);
+    controller = new Joystick(RobotMap.JOYSTICK_PORT);
+    driveSystem = DriveSystem.getInstance();
     this.requires(DriveSystem.getInstance());
-    this.distance=distance*UNITS_PER_INCH;
-    DriveSystem.getInstance().setPeakOutput(.5);
+    driveSystem.setPeakOutput(1);
   }
 
   // Called just before this Command runs the first time
@@ -30,22 +32,18 @@ public class DrivePosition extends Command {
   // Called repeatedly when this Command is scheduled to run
   @Override
   protected void execute() {
-    driveSystem.setPIDFValues(0.1, 0.0001, 0, 0);
-    driveSystem.drivePosition((int)(-distance));
+    driveSystem.driveVelocity(controller.getRawAxis(1), controller.getRawAxis(3));
   }
 
   // Make this return true when this Command no longer needs to run execute()
   @Override
   protected boolean isFinished() {
-    return(Math.abs(driveSystem.getLeftPosition())>=distance)&&(Math.abs(driveSystem.getRightPosition())>=distance);
+    return false;
   }
 
   // Called once after isFinished returns true
   @Override
   protected void end() {
-    driveSystem.setPeakOutput(1);
-    driveSystem.stop();
-    driveSystem.setPosition(0);
   }
 
   // Called when another command which requires one or more of the same
