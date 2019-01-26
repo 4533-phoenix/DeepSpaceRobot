@@ -11,6 +11,34 @@ class Hello:
     rollingm_3 = []
     rollingm_4 = []
     def process(self, inframe, outframe):
+      #gets the width and height of the image
+      def getHeight(image):
+          height = np.size(image, 0)
+          return height
+      def getWidth(image):
+          width = np.size(median, 1)
+          return width
+      #finds the center between the center of the image and center of the targets
+      def findDistBetweenCenters(median, thresh):
+          #creates a circle at the center of the image
+          cv2.circle(median,(int(getWidth(median)/2), int(getHeight(median)/2)), 5, (255,255,255), -1)
+          #finds the moments of the threshold image
+          M = cv2.moments(thresh)
+          #if statement prevents a divide by zero error
+          if(M["m00"] !=0 ):
+              #Finds the x and y cordinates of the center of the two vision targets
+              cX = int(M["m10"]/M["m00"])
+              cY = int(M["m01"]/M["m00"])
+              #creates a circle at the center of the vision targets
+              cv2.circle(median,(cX, cY), 5, (255,255,255), -1)
+              #draws a line between the center of the screen and the center of the targets
+              cv2.line(median, (cX,cY),(int(getWidth(median)/2), int(getHeight(median)/2)), (255,0,0),5)
+              #finds the distance between the center of the screen and the center of the targets (pixels)
+              dist = math.sqrt(math.pow((cX-(getWidth(median)/2)),2)+math.pow((cY-(getHeight(median)/2)),2))
+              #creates a font
+              font = cv2.FONT_HERSHEY_SIMPLEX
+              #puts text on the screen regarding distance between the center of the screen and the vision targets (pixels)
+              cv2.putText(median,'Distance: ' + str(int(dist))+ ' (pixels)' ,(0,int(getHeight(median))-35), font, .5,(255,255,255),1,cv2.LINE_AA)
       #creates an image
       img = inframe.getCvBGR()
       #this value is for getting the lower barrier for detecting the green
@@ -27,28 +55,8 @@ class Hello:
       gray_image = cv2.cvtColor(median, cv2.COLOR_BGR2GRAY)
       #creates a threshold image based of the grayscale image
       ret, thresh = cv2.threshold(gray_image, 127,255,0)
-      #gets the width and height of the image
-      height = np.size(median, 0)
-      width = np.size(median, 1)
-      #creates a circle at the center of the image
-      cv2.circle(median,(int(width/2), int(height/2)), 5, (255,255,255), -1)
-      #finds the moments of the threshold image
-      M = cv2.moments(thresh)
-      #if statement prevents a divide by zero error
-      if(M["m00"] !=0 ):
-          #Finds the x and y cordinates of the center of the two vision targets
-          cX = int(M["m10"]/M["m00"])
-          cY = int(M["m01"]/M["m00"])
-          #creates a circle at the center of the vision targets
-          cv2.circle(median,(cX, cY), 5, (255,255,255), -1)
-          #draws a line between the center of the screen and the center of the targets
-          cv2.line(median, (cX,cY),(int(width/2), int(height/2)), (255,0,0),5)
-          #finds the distance between the center of the screen and the center of the targets (pixels)
-          dist = math.sqrt(math.pow((cX-(width/2)),2)+math.pow((cY-(height/2)),2))
-          #creates a font
-          font = cv2.FONT_HERSHEY_SIMPLEX
-          #puts text on the screen regarding distance between the center of the screen and the vision targets (pixels)
-          cv2.putText(median,'Distance: ' + str(int(dist))+ ' (pixels)' ,(0,int(height)-35), font, .5,(255,255,255),1,cv2.LINE_AA)
+      #gets the height of the image
+      findDistBetweenCenters(median, thresh)
       #generates contours on the grayscale image
       contours, hierarchy = cv2.findContours(gray_image, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
       #draws those contours on the median image
@@ -85,7 +93,7 @@ class Hello:
       #creating the font again (but global)
       font = cv2.FONT_HERSHEY_SIMPLEX
       #putting the box height (I think) and putting it on screen
-      cv2.putText(median,'Box: '+str((math.sqrt((box[0][0]-box[1][0])*(box[0][0]-box[1][0])+(box[0][1]-box[1][1])*(box[0][1]-box[1][1]))/math.sqrt((box[2][0]-box[1][0])*(box[2][0]-box[1][0])+(box[2][1]-box[1][1])*(box[2][1]-box[1][1])))),(0,int(height)-50), font, .5,(255,255,255),1,cv2.LINE_AA)
+      cv2.putText(median,'Box: '+str((math.sqrt((box[0][0]-box[1][0])*(box[0][0]-box[1][0])+(box[0][1]-box[1][1])*(box[0][1]-box[1][1]))/math.sqrt((box[2][0]-box[1][0])*(box[2][0]-box[1][0])+(box[2][1]-box[1][1])*(box[2][1]-box[1][1])))),(0,int(getHeight(median))-50), font, .5,(255,255,255),1,cv2.LINE_AA)
       if(len(contours)==2):
           rect0 = cv2.minAreaRect(contours[0])
           box0 = cv2.boxPoints(rect0)
@@ -210,3 +218,4 @@ class Hello:
       self.count+=1
       #displays the image on the video feed
       outframe.sendCv(median)
+    
