@@ -11,6 +11,9 @@ import edu.wpi.first.wpilibj.command.Command;
 import frc.robot.subsystems.DriveSystem;
 import edu.wpi.first.wpilibj.Joystick;
 import frc.robot.RobotMap;
+/**
+ * It's a command that calls drivePercentOutput and, has the paramaters of joystick values
+ */
 public class DriveCommand extends Command {
   Joystick joystick;
   DriveSystem driveSystem;

@@ -10,7 +10,9 @@ import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.command.Command;
 import frc.robot.RobotMap;
 import frc.robot.subsystems.DriveSystem;
-
+/**
+ * In this command we call the method driveVelocity which originates drive system
+ */
 public class DriveVelocity extends Command {
   Joystick controller;
   DriveSystem driveSystem;
