@@ -11,49 +11,80 @@ class Hello:
     rollingm_3 = []
     rollingm_4 = []
     def process(self, inframe, outframe):
+      #creates an image
       img = inframe.getCvBGR()
-      #     hsv = cv2.cvtColor(img, cv2.COLOR_BGR2HSV)
+      #this value is for getting the lower barrier for detecting the green
       lower_green = np.array([0,200,0])
+      #this value is for getting the upper barrier for detecting the green
       upper_green = np.array([255,255,160])
+      #creates an image mask (basically a black and white image) with black being the background and white being the vision targets
       mask = cv2.inRange(img,lower_green, upper_green)
+      #makes it so that the image is just the green vision targets
       res = cv2.bitwise_and(img,img,mask= mask)
+      #filters out noise
       median = cv2.medianBlur(res,5)
+      #creates a grayscale image from median
       gray_image = cv2.cvtColor(median, cv2.COLOR_BGR2GRAY)
+      #creates a threshold image based of the grayscale image
       ret, thresh = cv2.threshold(gray_image, 127,255,0)
+      #gets the width and height of the image
       height = np.size(median, 0)
       width = np.size(median, 1)
+      #creates a circle at the center of the image
       cv2.circle(median,(int(width/2), int(height/2)), 5, (255,255,255), -1)
+      #finds the moments of the threshold image
       M = cv2.moments(thresh)
+      #if statement prevents a divide by zero error
       if(M["m00"] !=0 ):
+          #Finds the x and y cordinates of the center of the two vision targets
           cX = int(M["m10"]/M["m00"])
           cY = int(M["m01"]/M["m00"])
+          #creates a circle at the center of the vision targets
           cv2.circle(median,(cX, cY), 5, (255,255,255), -1)
+          #draws a line between the center of the screen and the center of the targets
           cv2.line(median, (cX,cY),(int(width/2), int(height/2)), (255,0,0),5)
+          #finds the distance between the center of the screen and the center of the targets (pixels)
           dist = math.sqrt(math.pow((cX-(width/2)),2)+math.pow((cY-(height/2)),2))
+          #creates a font
           font = cv2.FONT_HERSHEY_SIMPLEX
-          cv2.putText(median,'Distance: ' + str(int(dist)) ,(0,int(height)-35), font, .5,(255,255,255),1,cv2.LINE_AA)
+          #puts text on the screen regarding distance between the center of the screen and the vision targets (pixels)
+          cv2.putText(median,'Distance: ' + str(int(dist))+ ' (pixels)' ,(0,int(height)-35), font, .5,(255,255,255),1,cv2.LINE_AA)
+      #generates contours on the grayscale image
       contours, hierarchy = cv2.findContours(gray_image, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
+      #draws those contours on the median image
       cv2.drawContours(median, contours,-1,(100,255,100), 3)
       #dst = cv2.cornerHarris(gray_image,3,3,0.001)
       #median[dst>0.01*dst.max()]=[0,0,255]
+      #in case there is more than two vison targets detected
       if(len(contours)==2):
+          #seperate the contours
           cnt0=contours[0]
           cnt1=contours[1]
+          #creates moments for both contours
           mom0 = cv2.moments(cnt0)
           mom1 = cv2.moments(cnt1)
+          #prevents a divide by zero error
           if(mom0['m00'] != 0 and mom1['m00'] != 0):
+              #finds the cordinates of the center of the vision targets
               ccX0 = int(mom0['m10']/mom0['m00'])
               ccX1 = int(mom1['m10']/mom1['m00'])
               ccY0 = int(mom0['m01']/mom0['m00'])
               ccY1 = int(mom1['m01']/mom1['m00'])
+              #calculates the distance between the centers of the targets (pixels)
               centroidDistance=math.sqrt((ccX1-ccX0)*(ccX1-ccX0)+(ccY1-ccY0)*(ccY1-ccY0))
+              #creates a new font
               font = cv2.FONT_HERSHEY_SIMPLEX
-              cv2.putText(median,'Distance between centroids: ' + str(int(centroidDistance)) ,(0,int(height)-20), font, .5,(255,255,255),1,cv2.LINE_AA)
-              font = cv2.FONT_HERSHEY_SIMPLEX
+              #puts the distance between centroids on the screen in text form (pixels)
+              cv2.putText(median,'Distance between centroids: ' + str(int(centroidDistance)) + ' pixels' ,(0,int(height)-20), font, .5,(255,255,255),1,cv2.LINE_AA)
+              #puts the distance between the camera and the targets on the screen (inches)
               cv2.putText(median,'Distance to tape: ' + str(int(4060/centroidDistance))+' in' ,(0,int(height)-5), font, .5,(255,255,255),1,cv2.LINE_AA)
+      #creates a rectangle around the contour
       rect = cv2.minAreaRect(contours[0])
+      #creates the bounding box around the vision targets
       box = cv2.boxPoints(rect)
+      #creating the font again (but global)
       font = cv2.FONT_HERSHEY_SIMPLEX
+      #putting the box height (I think) and putting it on screen
       cv2.putText(median,'Box: '+str((math.sqrt((box[0][0]-box[1][0])*(box[0][0]-box[1][0])+(box[0][1]-box[1][1])*(box[0][1]-box[1][1]))/math.sqrt((box[2][0]-box[1][0])*(box[2][0]-box[1][0])+(box[2][1]-box[1][1])*(box[2][1]-box[1][1])))),(0,int(height)-50), font, .5,(255,255,255),1,cv2.LINE_AA)
       if(len(contours)==2):
           rect0 = cv2.minAreaRect(contours[0])
@@ -177,4 +208,5 @@ class Hello:
       #jevois.LINFO(str(contours))
       #cv2.imwrite("frames/frame%d.png"%self.count,img)
       self.count+=1
+      #displays the image on the video feed
       outframe.sendCv(median)
