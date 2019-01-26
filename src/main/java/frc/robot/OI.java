@@ -16,6 +16,9 @@ import frc.robot.commands.*;
  * This class is the glue that binds the controls on the physical operator
  * interface to the commands and command groups that allow control of the robot.
  */
+/**
+ * create OI Class
+ */
 public class OI {
   //// CREATING BUTTONS
   // One type of button is a joystick button which is any button on a
@@ -44,10 +47,22 @@ public class OI {
   // Start the command when the button is released and let it run the command
   // until it is finished as determined by it's isFinished method.
   // button.whenReleased(new ExampleCommand());
+  /**
+   * create controller object
+   */
+  /**
+   * create constructor for OI class
+   */
   Joystick controller = new Joystick(RobotMap.JOYSTICK_PORT);
+  /**
+   * add buttons start and select by creating objects
+   */
   JoystickButton select = new JoystickButton(controller,RobotMap.SELECT);
   JoystickButton start = new JoystickButton(controller, RobotMap.START);
   public OI() {
+    /**
+     * when start is pressed increase the max velocity by 50 rpm
+     */
     start.whenPressed(new IncrementMaxVelocity(true));
     start.whenPressed(new IncrementMaxVelocity(false));
   }
