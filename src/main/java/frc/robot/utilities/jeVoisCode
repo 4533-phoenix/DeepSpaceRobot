@@ -2,7 +2,7 @@ import libjevois as jevois
 import cv2
 import numpy as np
 import math
-
+import json
 #4060/distCentroids = distToReflectTape (in)
 class Robotics:
         count=0
@@ -66,9 +66,9 @@ class Robotics:
                                     #creates a new font
                                     font = cv2.FONT_HERSHEY_SIMPLEX
                                     #puts the distance between centroids on the screen in text form (pixels)
-                                    cv2.putText(median,'Distance between centroids: ' + str(int(centroidDistance)) + ' pixels' ,(0,int(getHeight(median))-20), font, .5,(255,255,255),1,cv2.LINE_AA)
+                                    #cv2.putText(median,'Distance between centroids: ' + str(int(centroidDistance)) + ' pixels' ,(0,int(getHeight(median))-20), font, .5,(255,255,255),1,cv2.LINE_AA)
                                     #puts the distance between the camera and the targets on the screen (inches)
-                                    cv2.putText(median,'Distance to tape: ' + str(int(4060/centroidDistance))+' in' ,(0,int(getHeight(median))-5), font, .5,(255,255,255),1,cv2.LINE_AA)
+                                    #cv2.putText(median,'Distance to tape: ' + str(int(4060/centroidDistance))+' in' ,(0,int(getHeight(median))-5), font, .5,(255,255,255),1,cv2.LINE_AA)
                                     #creates a line through the contours
                                     rows,cols = median.shape[:2]
                                     [vx,vy,x,y] = cv2.fitLine(cnt0, cv2.DIST_L2,0,0.01,0.01)
@@ -85,12 +85,12 @@ class Robotics:
                                     distAdj = y- lefty
                                     distH = math.sqrt(math.pow((cols-1-x),2)+math.pow((lefty-y),2))
                                     angle = math.degrees(math.acos(distAdj/distH))
-                                    cv2.putText(median,'Angle 1: ' + str(angle) ,(0,20), font, .5,(255,255,255),1,cv2.LINE_AA)
+                                    #cv2.putText(median,'Angle 1: ' + str(angle) ,(0,20), font, .5,(255,255,255),1,cv2.LINE_AA)
                                     #cv2.line(median,(x1,y1),(x1,righty1),(250,0,100),2)
                                     distAdj1 = y1- righty1
                                     distH1 = math.sqrt(math.pow((cols1-1-x1),2)+math.pow((righty1-y1),2))
                                     angle1 = math.degrees(math.acos(distAdj1/distH1))
-                                    cv2.putText(median,'Angle 2: ' + str(angle1) ,(0,40), font, .5,(255,255,255),1,cv2.LINE_AA)
+                                    #cv2.putText(median,'Angle 2: ' + str(angle1) ,(0,40), font, .5,(255,255,255),1,cv2.LINE_AA)
                                     #creates a rectangle around the contour
                                     rect = cv2.minAreaRect(contours[0])
                                     #creates the bounding box around the vision targets
@@ -98,7 +98,11 @@ class Robotics:
                                     #creating the font again (but global)
                                     font = cv2.FONT_HERSHEY_SIMPLEX
                                     #putting the box height (I think) and putting it on screen
-                                    cv2.putText(median,'Box: '+str((math.sqrt((box[0][0]-box[1][0])*(box[0][0]-box[1][0])+(box[0][1]-box[1][1])*(box[0][1]-box[1][1]))/math.sqrt((box[2][0]-box[1][0])*(box[2][0]-box[1][0])+(box[2][1]-box[1][1])*(box[2][1]-box[1][1])))),(0,int(getHeight(median))-50), font, .5,(255,255,255),1,cv2.LINE_AA)
+                                    #cv2.putText(median,'Box: '+str((math.sqrt((box[0][0]-box[1][0])*(box[0][0]-box[1][0])+(box[0][1]-box[1][1])*(box[0][1]-box[1][1]))/math.sqrt((box[2][0]-box[1][0])*(box[2][0]-box[1][0])+(box[2][1]-box[1][1])*(box[2][1]-box[1][1])))),(0,int(getHeight(median))-50), font, .5,(255,255,255),1,cv2.LINE_AA)
+            def serialStuff():
+                #stuff = {"Hello" : 1}
+                #json_stuff = json.dumps(stuff)
+                jevois.sendSerial("Hello")
             def jamesCode(contours,img):
                     width=getWidth(img)
                     height=getHeight(img)
@@ -234,7 +238,8 @@ class Robotics:
             findDistBetweenCenters(median, thresh)
             contours = createContours(median, gray_image)
             distContours(contours)
-            jamesCode(contours,img)
+            #jamesCode(contours,img)
+            serialStuff()
             """for c in contours :
                      cnt = c
                      area = cv2.contourArea(cnt)

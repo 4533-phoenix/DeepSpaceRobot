@@ -59,8 +59,6 @@ public class DriveSystem extends Subsystem {
     /**
      * Inverts the wheel direction
      */
-    rightMaster.setInverted(true);
-    rightSlave.setInverted(true);
     /**
      * Sets PID
      */

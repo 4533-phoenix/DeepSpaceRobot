@@ -59,11 +59,13 @@ public class OI {
    */
   JoystickButton select = new JoystickButton(controller,RobotMap.SELECT);
   JoystickButton start = new JoystickButton(controller, RobotMap.START);
+  JoystickButton aButton = new JoystickButton(controller, RobotMap.A_BUTTON);
   public OI() {
     /**
      * when start is pressed increase the max velocity by 50 rpm
      */
     start.whenPressed(new IncrementMaxVelocity(true));
-    start.whenPressed(new IncrementMaxVelocity(false));
+    select.whenPressed(new IncrementMaxVelocity(false));
+    //aButton.whenPressed(new JevoisRetreival());
   }
 }

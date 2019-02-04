@@ -15,7 +15,8 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.subsystems.*;
 import frc.robot.utilities.SmartDashboardValues;
 import frc.robot.commands.*;
-
+import edu.wpi.first.wpilibj.SerialPort;
+import edu.wpi.first.wpilibj.SerialPort.Port;
 /**
  * The VM is configured to automatically run this class, and to call the
  * functions corresponding to each mode, as described in the TimedRobot
@@ -27,6 +28,7 @@ public class Robot extends IterativeRobot {
   public static OI m_oi;
   public SmartDashboardValues smartDashboardValues;
   Testing testing;
+  public SerialPort serial;
  
 
   /**
@@ -40,6 +42,7 @@ public class Robot extends IterativeRobot {
     // chooser.addOption("My Auto", new MyAutoCommand());
     smartDashboardValues = new SmartDashboardValues();
     DriveSystem.getInstance().setPosition(0);
+    //serial = new SerialPort(115200, Port.kUSB);
   }
 
   /**
@@ -131,6 +134,11 @@ public class Robot extends IterativeRobot {
   public void teleopPeriodic() {
     Scheduler.getInstance().run();
     smartDashboardValues.updateValue();
+    //byte[] jVData = serial.read(0);
+    //while(jVData[0] != 126) {
+      //System.out.println((serial.read(0)));
+    //}
+    
   }
 
   /**
