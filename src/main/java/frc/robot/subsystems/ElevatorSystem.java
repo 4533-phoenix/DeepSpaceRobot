@@ -13,7 +13,7 @@ import frc.robot.RobotMap;
  */
 public class ElevatorSystem extends Subsystem {
     private VictorSPX elevatorMotor;
-	private static ElevatorSystem INSTANCE;//s
+	private static ElevatorSystem INSTANCE;
 	
 	/**
 	 * Sets up the motors for elevator
