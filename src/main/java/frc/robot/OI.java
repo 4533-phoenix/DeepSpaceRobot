@@ -66,6 +66,6 @@ public class OI {
      */
     start.whenPressed(new IncrementMaxVelocity(true));
     select.whenPressed(new IncrementMaxVelocity(false));
-    //aButton.whenPressed(new JevoisRetreival());
+    aButton.whenPressed(new JevoisRetreival());
   }
 }

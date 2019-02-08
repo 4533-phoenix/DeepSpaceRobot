@@ -30,20 +30,20 @@ class Robotics:
                             cX = int(M["m10"]/M["m00"])
                             cY = int(M["m01"]/M["m00"])
                             #creates a circle at the center of the vision targets
-                            cv2.circle(median,(cX, cY), 5, (255,255,255), -1)
+                            #cv2.circle(median,(cX, cY), 5, (255,255,255), -1)
                             #draws a line between the center of the screen and the center of the targets
-                            cv2.line(median, (cX,cY),(int(getWidth(median)/2), int(getHeight(median)/2)), (255,0,0),5)
+                            #cv2.line(median, (cX,cY),(int(getWidth(median)/2), int(getHeight(median)/2)), (255,0,0),5)
                             #finds the distance between the center of the screen and the center of the targets (pixels)
                             dist = math.sqrt(math.pow((cX-(getWidth(median)/2)),2)+math.pow((cY-(getHeight(median)/2)),2))
                             #creates a font
                             font = cv2.FONT_HERSHEY_SIMPLEX
                             #puts text on the screen regarding distance between the center of the screen and the vision targets (pixels)
-                            cv2.putText(median,'Distance: ' + str(int(dist))+ ' (pixels)' ,(0,int(getHeight(median))-35), font, .5,(255,255,255),1,cv2.LINE_AA)
+                            #cv2.putText(median,'Distance: ' + str(int(dist))+ ' (pixels)' ,(0,int(getHeight(median))-35), font, .5,(255,255,255),1,cv2.LINE_AA)
             def createContours(image, grayImage) :
                     #generates contours on the grayscale image
                     contours, hierarchy = cv2.findContours(grayImage, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
                     #draws those contours on the median image
-                    cv2.drawContours(image, contours,-1,(100,255,100), 3)
+                    #cv2.drawContours(image, contours,-1,(100,255,100), 3)
                     return contours
             def distContours(contours) :
                     #in case there is more than two vison targets detected
@@ -74,14 +74,14 @@ class Robotics:
                                     [vx,vy,x,y] = cv2.fitLine(cnt0, cv2.DIST_L2,0,0.01,0.01)
                                     lefty = int((-x*vy/vx) + y)
                                     righty = int(((cols-x)*vy/vx)+y)
-                                    cv2.line(median,(0,lefty),(x,y),(250,0,100),2)
+                                    #cv2.line(median,(0,lefty),(x,y),(250,0,100),2)
                                     rows1,cols1 = median.shape[:2]
                                     [vx1,vy1,x1,y1] = cv2.fitLine(cnt1, cv2.DIST_L2,0,0.01,0.01)
                                     lefty1 = int((-x1*vy1/vx1) + y1)
                                     righty1 = int(((cols1-x1)*vy1/vx1)+y1)
                                     #cv2.line(median,(cols1-1,righty1),(0,lefty1),(250,0,100),2)
                                     #create triangle
-                                    cv2.line(median,(x,y),(x,lefty),(250,0,100),2)
+                                    #cv2.line(median,(x,y),(x,lefty),(250,0,100),2)
                                     distAdj = y- lefty
                                     distH = math.sqrt(math.pow((cols-1-x),2)+math.pow((lefty-y),2))
                                     angle = math.degrees(math.acos(distAdj/distH))
@@ -189,15 +189,15 @@ class Robotics:
                                             else:
                                                     m_d=math.sqrt((m*b*(c/m_3-c/m_4)/(c/m_3-m)/(c/m_4-m))*(m*b*(c/m_3-c/m_4)/(c/m_3-m)/(c/m_4-m))+((b/(c/m_3-m))-(b/(c/m_4-m)))*((b/(c/m_3-m))-(b/(c/m_4-m))))/math.sqrt((m*b*(c/m_1-c/m_2)/(c/m_1-m)/(c/m_2-m))*(m*b*(c/m_1-c/m_2)/(c/m_1-m)/(c/m_2-m))+((b/(c/m_1-m))-(b/(c/m_2-m)))*((b/(c/m_1-m))-(b/(c/m_2-m))))
                                             b=11.31/math.sqrt(((1+m/(c/m_1-m)+1+m/(c/m_2-m))/2-(1+m/(c/m_3-m)+1+m/(c/m_4-m))/2)*((1+m/(c/m_1-m)+1+m/(c/m_2-m))/2-(1+m/(c/m_3-m)+1+m/(c/m_4-m))/2)+((1/2/(c/m_1-m)+1/2/(c/m_2-m))-(1/2/(c/m_3-m)+1/2/(c/m_4-m)))*((1/2/(c/m_1-m)+1/2/(c/m_2-m))-(1/2/(c/m_3-m)+1/2/(c/m_4-m))))
-                            for a in range(10):
+                            """for a in range(10):
                                     cv2.line(median,(46+4*a,int(height)-7-8*a),(48+4*a,int(height)-11-8*a),(100,0,0),1)
                                     cv2.line(median,(44-4*a,int(height)-7-8*a),(42-4*a,int(height)-11-8*a),(100,0,0),1)
                             for a in range(7):
                                     cv2.line(median,(9+12*a,int(height)-5),(9+12*a,int(height)-85),(100,100,100),1)
                                     cv2.line(median,(5,int(height)-5-12*a),(85,int(height)-5-12*a),(100,100,100),1)
-                            cv2.line(median,(45,int(height)-5),(45,int(height)-85),(255,255,255),1)
-                            cv2.line(median,(int(45-(b/(m-c/m_1)+b/(m-c/m_2)+b/(m-c/m_3)+b/(m-c/m_4))/4),int(height)-5),(int(45-(b/(m-c/m_1)+b/(m-c/m_2)+b/(m-c/m_3)+b/(m-c/m_4))/4),int(height)-85),(255,255,0),1)
-                            cv2.line(median,(5,int(int(height)-5-((b-m*b/(m-c/m_1))+(b-m*b/(m-c/m_2))+(b-m*b/(m-c/m_3))+(b-m*b/(m-c/m_4)))/4)),(85,int(int(height)-5-((b-m*b/(m-c/m_1))+(b-m*b/(m-c/m_2))+(b-m*b/(m-c/m_3))+(b-m*b/(m-c/m_4)))/4)),(255,255,0),1)
+                            #cv2.line(median,(45,int(height)-5),(45,int(height)-85),(255,255,255),1)"""
+                            #cv2.line(median,(int(45-(b/(m-c/m_1)+b/(m-c/m_2)+b/(m-c/m_3)+b/(m-c/m_4))/4),int(height)-5),(int(45-(b/(m-c/m_1)+b/(m-c/m_2)+b/(m-c/m_3)+b/(m-c/m_4))/4),int(height)-85),(255,255,0),1)
+                            #cv2.line(median,(5,int(int(height)-5-((b-m*b/(m-c/m_1))+(b-m*b/(m-c/m_2))+(b-m*b/(m-c/m_3))+(b-m*b/(m-c/m_4)))/4)),(85,int(int(height)-5-((b-m*b/(m-c/m_1))+(b-m*b/(m-c/m_2))+(b-m*b/(m-c/m_3))+(b-m*b/(m-c/m_4)))/4)),(255,255,0),1)
                             font = cv2.FONT_HERSHEY_SIMPLEX
                             x_dist1=(b-m*b/(m-c/m_1))
                             x_dist2=(b-m*b/(m-c/m_2))
@@ -205,19 +205,19 @@ class Robotics:
                             x_dist4=(b-m*b/(m-c/m_4))
                             x_distance=int((x_dist1+x_dist2+x_dist3+x_dist4)/4)
                             y_distance=int((b/(m-c/m_1)+b/(m-c/m_2)+b/(m-c/m_3)+b/(m-c/m_4))/4)
-                            cv2.putText(median,str(int(x_distance)) ,(45-x_distance-5,int(height)-87), font, .16,(255,255,0),1,cv2.LINE_AA)
-                            cv2.putText(median,str(int(y_distance)) ,(87,int(height)-2-y_distance), font, .16,(255,255,0),1,cv2.LINE_AA)
-                            cv2.line(median,(int(45-b/(m-c/m_1)),int(int(height)-5-(b-m*b/(m-c/m_1)))),(int(45-b/(m-c/m_2)),int(int(height)-5-(b-m*b/(m-c/m_2)))),(0,255,0),2)
-                            cv2.line(median,(int(45-b/(m-c/m_3)),int(int(height)-5-(b-m*b/(m-c/m_3)))),(int(45-b/(m-c/m_4)),int(int(height)-5-(b-m*b/(m-c/m_4)))),(0,255,0),2)
-                            cv2.line(median,(5,int(height)-5),(85,int(height)-5),(255,255,255),2)
-                            cv2.line(median,(5,int(height)-5),(5,int(height)-85),(255,255,255),2)
-                            cv2.line(median,(85,int(height)-5),(85,int(height)-85),(255,255,255),2)
-                            cv2.line(median,(5,int(height)-85),(85,int(height)-85),(255,255,255),2)
-                            for a in range(7):
+                            #cv2.putText(median,str(int(x_distance)) ,(45-x_distance-5,int(height)-87), font, .16,(255,255,0),1,cv2.LINE_AA)
+                            #cv2.putText(median,str(int(y_distance)) ,(87,int(height)-2-y_distance), font, .16,(255,255,0),1,cv2.LINE_AA)
+                            #cv2.line(median,(int(45-b/(m-c/m_1)),int(int(height)-5-(b-m*b/(m-c/m_1)))),(int(45-b/(m-c/m_2)),int(int(height)-5-(b-m*b/(m-c/m_2)))),(0,255,0),2)
+                            #cv2.line(median,(int(45-b/(m-c/m_3)),int(int(height)-5-(b-m*b/(m-c/m_3)))),(int(45-b/(m-c/m_4)),int(int(height)-5-(b-m*b/(m-c/m_4)))),(0,255,0),2)
+                            #cv2.line(median,(5,int(height)-5),(85,int(height)-5),(255,255,255),2)
+                            #cv2.line(median,(5,int(height)-5),(5,int(height)-85),(255,255,255),2)
+                            #cv2.line(median,(85,int(height)-5),(85,int(height)-85),(255,255,255),2)
+                            #cv2.line(median,(5,int(height)-85),(85,int(height)-85),(255,255,255),2)
+                            """for a in range(7):
                                     cv2.line(median,(9+12*a,int(height)-5),(9+12*a,int(height)-7),(255,255,255),1)
                                     cv2.line(median,(9+12*a,int(height)-83),(9+12*a,int(height)-85),(255,255,255),1)
                                     cv2.line(median,(5,int(height)-5-12*a),(7,int(height)-5-12*a),(255,255,255),1)
-                                    cv2.line(median,(83,int(height)-5-12*a),(85,int(height)-5-12*a),(255,255,255),1)
+                                    cv2.line(median,(83,int(height)-5-12*a),(85,int(height)-5-12*a),(255,255,255),1)"""
             #creates an image
             img = inframe.getCvBGR()
             #this value is for getting the lower barrier for detecting the green

@@ -15,7 +15,7 @@ public class JevoisRetreival extends Command {
   public JevoisRetreival() {
     // Use requires() here to declare subsystem dependencies
     // eg. requires(chassis);
-    //serial = new SerialPort(921600,SerialPort.Port.kUSB);
+    serial = new SerialPort(921600,SerialPort.Port.kUSB);
     count = 0;
   }
 
@@ -29,7 +29,7 @@ public class JevoisRetreival extends Command {
   protected void execute() {
     try{
       System.out.println("Test");
-      //System.out.println(((Integer)serial.getBytesReceived()).toString());
+      System.out.println(((Integer)serial.getBytesReceived()).toString());
       count = 1;
     }
     catch(Exception e) {

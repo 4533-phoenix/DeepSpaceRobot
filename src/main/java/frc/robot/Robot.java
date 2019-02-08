@@ -42,7 +42,7 @@ public class Robot extends IterativeRobot {
     // chooser.addOption("My Auto", new MyAutoCommand());
     smartDashboardValues = new SmartDashboardValues();
     DriveSystem.getInstance().setPosition(0);
-    //serial = new SerialPort(115200, Port.kUSB);
+    serial = new SerialPort(115200, Port.kUSB);
   }
 
   /**
@@ -136,7 +136,7 @@ public class Robot extends IterativeRobot {
     smartDashboardValues.updateValue();
     //byte[] jVData = serial.read(0);
     //while(jVData[0] != 126) {
-      //System.out.println((serial.read(0)));
+      System.out.println((serial.getBytesReceived()));
     //}
     
   }
