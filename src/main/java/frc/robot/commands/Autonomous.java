@@ -6,7 +6,7 @@ public class MiddleAuto extends CommandGroup {
    /**
     this moves the bot forward off the HAB platform
     */ 
-    
+
     this.addSequential(new DrivePosition(95.28));
     public MiddleAuto(boolean left) {
         /**
@@ -19,6 +19,7 @@ public class MiddleAuto extends CommandGroup {
             this.addSequential(new AngleTurn(-90));
             /**
             moves the bot 13 inches forward
+            actual:13.00189572 
              */
             this.addSequential(new DrivePosition(13));
             /**
@@ -27,6 +28,7 @@ public class MiddleAuto extends CommandGroup {
             this.addSequential(new AngleTurn(52));
             /**
             moves forward into the rocket
+            Actual: 119.0695697
              */
             this.addSequential(new DrivePosition(119));
             /**
