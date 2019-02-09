@@ -7,6 +7,11 @@
 
 package frc.robot;
 
+import java.net.ServerSocket;
+import java.net.SocketException;
+import java.io.*;
+import java.net.*;
+import java.net.InetAddress;
 import edu.wpi.first.wpilibj.IterativeRobot;
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.Scheduler;
@@ -29,7 +34,9 @@ public class Robot extends IterativeRobot {
   public SmartDashboardValues smartDashboardValues;
   Testing testing;
   public SerialPort serial;
- 
+  public DatagramSocket serverSocket;
+  public byte[] receiveData;
+  public byte[] sendData;
 
   /**
    * This function is run when the robot is first started up and should be
@@ -43,6 +50,15 @@ public class Robot extends IterativeRobot {
     smartDashboardValues = new SmartDashboardValues();
     DriveSystem.getInstance().setPosition(0);
     serial = new SerialPort(115200, Port.kUSB);
+    //Setup the oDroid Communications
+    try {
+      serverSocket = new DatagramSocket(3641); //choose a port for your oDroid to send data to
+
+    } catch (SocketException e) {
+      e.printStackTrace();
+    }
+    receiveData = new byte [256];
+    sendData = new byte[256];
   }
 
   /**
@@ -148,4 +164,39 @@ public class Robot extends IterativeRobot {
   public void testPeriodic() {
     smartDashboardValues.updateValue();
   }
+  
+  public void sendData(){
+    InetAddress _ip = null;
+    try {
+      _ip = InetAddress.getByName("oDroid.local");
+    } catch (Exception e){
+      System.out.println(e);
+    }
+     
+    int _port = 3641;
+    String requestValue = "0";
+    DatagramPacket sendPacket = new DatagramPacket(sendData, sendData.length, _ip, _port);
+    try {
+        serverSocket.send(sendPacket);
+        
+    } catch (IOException e) {
+        e.printStackTrace();
+    }
+ }
+
+ public void receiveData(){
+     DatagramPacket receivePacket = new DatagramPacket (receiveData, receiveData.length);
+     try {
+         serverSocket.receive(receivePacket);
+     } catch(IOException e) {
+         e.printStackTrace();      
+     }
+     String incoming = new String(receivePacket.getData());
+     String[] parts = incoming.split(" ");
+     String part1_raw = parts[0];
+     double part1_double = Double.parseDouble(part1_raw);
+     System.out.println("RECEIVED: " + part1_raw);
+ }
+
+  
 }
