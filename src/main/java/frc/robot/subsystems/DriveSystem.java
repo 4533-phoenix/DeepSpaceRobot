@@ -15,6 +15,7 @@ import edu.wpi.first.wpilibj.command.Subsystem;
 import frc.robot.commands.DriveCommand;
 import frc.robot.commands.DriveVelocity;
 import frc.robot.RobotMap;
+import frc.robot.MotionProfileExample;
 
 /**
  * Add your docs here.
@@ -29,6 +30,9 @@ public class DriveSystem extends Subsystem {
   TalonSRX leftMaster;
   TalonSRX rightSlave;
   TalonSRX leftSlave;
+
+
+  MotionProfileExample _example = new MotionProfileExample(rightMaster);
   /**
    * Creating target speed variables for Left and right
    */
@@ -173,5 +177,12 @@ public class DriveSystem extends Subsystem {
     // Set the default command for a subsystem here.
     // setDefaultCommand(new MySpecialCommand());
     this.setDefaultCommand(new DriveVelocity());
+  }
+  public void motionProfileTest(){
+    _example.control();
+    
+    SetValueMotionProfile setOutput = _example.getSetValue();
+
+    rightMaster.set(ControlMode.MotionProfile, setOutput.value);
   }
 }
