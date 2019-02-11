@@ -181,28 +181,32 @@ class Robotics:
                             #jevois.LINFO(str(rrrt))
                             #jevois.LINFO(str(b))
                             if(rrrt!=0):
-                                    
-                                    m_d=math.sqrt((m*b*(c/m_3-c/m_4)/(c/m_3-m)/(c/m_4-m))*(m*b*(c/m_3-c/m_4)/(c/m_3-m)/(c/m_4-m))+((b/(c/m_3-m))-(b/(c/m_4-m)))*((b/(c/m_3-m))-(b/(c/m_4-m))))/rrrt
+                                    mb = math.pow((m*b*(c/m_3-c/m_4)/(c/m_3-m)/(c/m_4-m),2)
+                                    mb1 = math.pow(((b/(c/m_3-m))-(b/(c/m_4-m))),2)
+                                    m_d=math.sqrt((mb))+mb1)/rrrt
                             else:
                                     m_d=999
                             if(m_d>1):
+                                mb = math.pow((m*b*(c/m_3-c/m_4)/(c/m_3-m)/(c/m_4-m),2)
+                                mb1 = math.pow(((b/(c/m_3-m))-(b/(c/m_4-m))),2)
+                                why = (mb)+(mb1)/rrrt
                                     while(m_d>1):
                                             m+=dm
-                                            if(math.sqrt((m*b*(c/m_3-c/m_4)/(c/m_3-m)/(c/m_4-m))*(m*b*(c/m_3-c/m_4)/(c/m_3-m)/(c/m_4-m))+((b/(c/m_3-m))-(b/(c/m_4-m)))*((b/(c/m_3-m))-(b/(c/m_4-m))))/math.sqrt((m*b*(c/m_1-c/m_2)/(c/m_1-m)/(c/m_2-m))*(m*b*(c/m_1-c/m_2)/(c/m_1-m)/(c/m_2-m))+((b/(c/m_1-m))-(b/(c/m_2-m)))*((b/(c/m_1-m))-(b/(c/m_2-m))))>m_d):
+                                            if(math.sqrt(why>m_d):
                                                     dm=0-dm
                                                     m+=dm
                                             else:
-                                                    m_d=math.sqrt((m*b*(c/m_3-c/m_4)/(c/m_3-m)/(c/m_4-m))*(m*b*(c/m_3-c/m_4)/(c/m_3-m)/(c/m_4-m))+((b/(c/m_3-m))-(b/(c/m_4-m)))*((b/(c/m_3-m))-(b/(c/m_4-m))))/math.sqrt((m*b*(c/m_1-c/m_2)/(c/m_1-m)/(c/m_2-m))*(m*b*(c/m_1-c/m_2)/(c/m_1-m)/(c/m_2-m))+((b/(c/m_1-m))-(b/(c/m_2-m)))*((b/(c/m_1-m))-(b/(c/m_2-m))))
-                                            b=11.31/math.sqrt(((1+m/(c/m_1-m)+1+m/(c/m_2-m))/2-(1+m/(c/m_3-m)+1+m/(c/m_4-m))/2)*((1+m/(c/m_1-m)+1+m/(c/m_2-m))/2-(1+m/(c/m_3-m)+1+m/(c/m_4-m))/2)+((1/2/(c/m_1-m)+1/2/(c/m_2-m))-(1/2/(c/m_3-m)+1/2/(c/m_4-m)))*((1/2/(c/m_1-m)+1/2/(c/m_2-m))-(1/2/(c/m_3-m)+1/2/(c/m_4-m))))
+                                                    m_d=math.sqrt(why)
+                                            b=11.31/math.sqrt(cmwhat1+cmwhat2)
                             else:
                                     while(m_d<1):
                                             m+=dm
-                                            if(math.sqrt((m*b*(c/m_3-c/m_4)/(c/m_3-m)/(c/m_4-m))*(m*b*(c/m_3-c/m_4)/(c/m_3-m)/(c/m_4-m))+((b/(c/m_3-m))-(b/(c/m_4-m)))*((b/(c/m_3-m))-(b/(c/m_4-m))))/math.sqrt((m*b*(c/m_1-c/m_2)/(c/m_1-m)/(c/m_2-m))*(m*b*(c/m_1-c/m_2)/(c/m_1-m)/(c/m_2-m))+((b/(c/m_1-m))-(b/(c/m_2-m)))*((b/(c/m_1-m))-(b/(c/m_2-m))))<m_d):
+                                            if(math.sqrt(why)<m_d):
                                                     dm=0-dm
                                                     m+=dm
                                             else:
-                                                    m_d=math.sqrt((m*b*(c/m_3-c/m_4)/(c/m_3-m)/(c/m_4-m))*(m*b*(c/m_3-c/m_4)/(c/m_3-m)/(c/m_4-m))+((b/(c/m_3-m))-(b/(c/m_4-m)))*((b/(c/m_3-m))-(b/(c/m_4-m))))/math.sqrt((m*b*(c/m_1-c/m_2)/(c/m_1-m)/(c/m_2-m))*(m*b*(c/m_1-c/m_2)/(c/m_1-m)/(c/m_2-m))+((b/(c/m_1-m))-(b/(c/m_2-m)))*((b/(c/m_1-m))-(b/(c/m_2-m))))
-                                            b=11.31/math.sqrt(((1+m/(c/m_1-m)+1+m/(c/m_2-m))/2-(1+m/(c/m_3-m)+1+m/(c/m_4-m))/2)*((1+m/(c/m_1-m)+1+m/(c/m_2-m))/2-(1+m/(c/m_3-m)+1+m/(c/m_4-m))/2)+((1/2/(c/m_1-m)+1/2/(c/m_2-m))-(1/2/(c/m_3-m)+1/2/(c/m_4-m)))*((1/2/(c/m_1-m)+1/2/(c/m_2-m))-(1/2/(c/m_3-m)+1/2/(c/m_4-m))))
+                                                    m_d=math.sqrt(why)
+                                            b=11.31/math.sqrt(cmwhat1+cmwhat2)
                             """for a in range(10):
                                     cv2.line(median,(46+4*a,int(height)-7-8*a),(48+4*a,int(height)-11-8*a),(100,0,0),1)
                                     cv2.line(median,(44-4*a,int(height)-7-8*a),(42-4*a,int(height)-11-8*a),(100,0,0),1)
