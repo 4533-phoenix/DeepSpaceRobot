@@ -1,29 +1,49 @@
-/*----------------------------------------------------------------------------*/
-/* Copyright (c) 2018 FIRST. All Rights Reserved.                             */
-/* Open Source Software - may be modified and shared by FRC teams. The code   */
-/* must be accompanied by the FIRST BSD license file in the root directory of */
-/* the project.                                                               */
-/*----------------------------------------------------------------------------*/
-
 package frc.robot;
 
-import edu.wpi.first.wpilibj.RobotBase;
+public class Constants {
+	/** 
+	 * ID of Talon on CAN Bus 
+	 */
+	public static final int kTalonID = 0;
 
-/**
- * Do NOT add any static variables to this class, or any initialization at all.
- * Unless you know what you are doing, do not modify this file except to
- * change the parameter class to the startRobot call.
- */
-public final class Main {
-  private Main() {
-  }
+	/**
+	 * How many sensor units per rotation. Using CTRE Magnetic Encoder.
+	 * 
+	 * @link https://github.com/CrossTheRoadElec/Phoenix-Documentation#what-are-the-units-of-my-sensor
+	 */
+	public static final double kSensorUnitsPerRotation = 4096;
 
-  /**
-   * Main initialization function. Do not perform any initialization here.
-   *
-   * <p>If you change your main robot class, change the parameter type.
-   */
-  public static void main(String... args) {
-    RobotBase.startRobot(Robot::new);
-  }
+	/**
+	 * Which PID slot to pull gains from. Starting 2018, you can choose from
+	 * 0,1,2 or 3. Only the first two (0,1) are visible in web-based
+	 * configuration.
+	 */
+	public static final int kSlotIdx = 0;
+
+	/**
+	 * Talon SRX/ Victor SPX will supported multiple (cascaded) PID loops. For
+	 * now we just want the primary one.
+	 */
+	public static final int kPIDLoopIdx = 0;
+	/**
+	 * set to zero to skip waiting for confirmation, set to nonzero to wait and
+	 * report to DS if action fails.
+	 */
+	public static final int kTimeoutMs = 30;
+
+	/**
+	 * Base trajectory period to add to each individual trajectory point's
+	 * unique duration. This can be set to any value within [0,255]ms.
+	 */
+	public static final int kBaseTrajPeriodMs = 0;
+
+	/**
+	 * Motor deadband, set to 1%.
+	 */
+	public static final double kNeutralDeadband = 0.01;
+
+    /* Gains used in Position Closed Loop, to be adjusted accordingly
+     * Gains(kp, ki, kd, kf, izone, peak output);
+     */
+    static final Gains kGains = new Gains(0.1, 0.0, 0.0, 1023.0/7200.0, 0, 1.0);
 }

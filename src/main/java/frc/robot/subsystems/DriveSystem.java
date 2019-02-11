@@ -16,6 +16,9 @@ import frc.robot.commands.DriveCommand;
 import frc.robot.commands.DriveVelocity;
 import frc.robot.RobotMap;
 import frc.robot.MotionProfileExample;
+import com.ctre.phoenix.motion.*;
+import com.ctre.phoenix.motorcontrol.*;
+import com.ctre.phoenix.motorcontrol.can.*;
 
 /**
  * Add your docs here.
@@ -32,7 +35,8 @@ public class DriveSystem extends Subsystem {
   TalonSRX leftSlave;
 
 
-  MotionProfileExample _example = new MotionProfileExample(rightMaster);
+  MotionProfileExample _lexample = new MotionProfileExample(leftMaster);
+  MotionProfileExample _rexample = new MotionProfileExample(rightMaster);
   /**
    * Creating target speed variables for Left and right
    */
@@ -179,10 +183,15 @@ public class DriveSystem extends Subsystem {
     this.setDefaultCommand(new DriveVelocity());
   }
   public void motionProfileTest(){
-    _example.control();
-    
-    SetValueMotionProfile setOutput = _example.getSetValue();
+    _lexample.control();
+    _rexample.control();
 
-    rightMaster.set(ControlMode.MotionProfile, setOutput.value);
+    SetValueMotionProfile rsetOutput = _rexample.getSetValue();
+    SetValueMotionProfile lsetOutput = _lexample.getSetValue();
+
+    leftMaster.set(ControlMode.MotionProfile, lsetOutput.value);
+    leftSlave.set (ControlMode.Follower, RobotMap.LEFT_MASTER_MOTOR);
+    rightMaster.set (ControlMode.MotionProfile, rsetOutput.value);
+    rightSlave.set (ControlMode.Follower, RobotMap.RIGHT_MASTER_MOTOR);
   }
 }

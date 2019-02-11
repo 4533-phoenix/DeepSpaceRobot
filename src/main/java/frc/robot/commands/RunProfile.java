@@ -13,11 +13,11 @@ import frc.robot.subsystems.DriveSystem;
 /**
  * In this command we call the method driveVelocity which originates drive system
  */
-public class DriveVelocity extends Command {
+public class RunProfile extends Command {
   Joystick controller;
   DriveSystem driveSystem;
 
-  public DriveVelocity() {
+  public RunProfile() {
     // Use requires() here to declare subsystem dependencies
     // eg. requires(chassis);
     controller = new Joystick(RobotMap.JOYSTICK_PORT);
@@ -34,7 +34,7 @@ public class DriveVelocity extends Command {
   // Called repeatedly when this Command is scheduled to run
   @Override
   protected void execute() {
-    driveSystem.driveVelocity(controller.getRawAxis(3), -controller.getRawAxis(1));
+    driveSystem.motionProfileTest();
   }
 
   // Make this return true when this Command no longer needs to run execute()

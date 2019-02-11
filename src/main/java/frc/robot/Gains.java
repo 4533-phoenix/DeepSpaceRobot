@@ -1,29 +1,22 @@
-/*----------------------------------------------------------------------------*/
-/* Copyright (c) 2018 FIRST. All Rights Reserved.                             */
-/* Open Source Software - may be modified and shared by FRC teams. The code   */
-/* must be accompanied by the FIRST BSD license file in the root directory of */
-/* the project.                                                               */
-/*----------------------------------------------------------------------------*/
-
+/**
+ *  Class that organizes gains used when assigning values to slots
+ */
 package frc.robot;
 
-import edu.wpi.first.wpilibj.RobotBase;
-
-/**
- * Do NOT add any static variables to this class, or any initialization at all.
- * Unless you know what you are doing, do not modify this file except to
- * change the parameter class to the startRobot call.
- */
-public final class Main {
-  private Main() {
-  }
-
-  /**
-   * Main initialization function. Do not perform any initialization here.
-   *
-   * <p>If you change your main robot class, change the parameter type.
-   */
-  public static void main(String... args) {
-    RobotBase.startRobot(Robot::new);
-  }
+public class Gains {
+	public final double kP;
+	public final double kI;
+	public final double kD;
+	public final double kF;
+	public final int kIzone;
+	public final double kPeakOutput;
+	
+	public Gains(double _kP, double _kI, double _kD, double _kF, int _kIzone, double _kPeakOutput){
+		kP = _kP;
+		kI = _kI;
+		kD = _kD;
+		kF = _kF;
+		kIzone = _kIzone;
+		kPeakOutput = _kPeakOutput;
+	}
 }
