@@ -8,9 +8,17 @@
 package frc.robot.commands;
 
 import edu.wpi.first.wpilibj.command.Command;
+import frc.robot.subsystems.ElevatorSystem;
 
 public class ElevatorCommand extends Command {
-  public ElevatorCommand() {
+
+  private static final double INCHES_PER_REVOLUTION = 4096 / 3.875 ;
+  double distance = 0 ;
+  ElevatorSystem elevator; 
+
+  public ElevatorCommand(double distance) {
+    this.distance = distance * INCHES_PER_REVOLUTION;
+    elevator = ElevatorSystem.getInstance();
     // Use requires() here to declare subsystem dependencies
     // eg. requires(chassis);
   }
