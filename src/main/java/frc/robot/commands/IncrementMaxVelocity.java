@@ -9,23 +9,13 @@ package frc.robot.commands;
 
 import edu.wpi.first.wpilibj.command.Command;
 import frc.robot.subsystems.DriveSystem;
-import edu.wpi.first.wpilibj.Joystick;
-import frc.robot.RobotMap;
-/**
- * It's a command that calls drivePercentOutput and, has the paramaters of joystick values
- */
-public class DriveCommand extends Command {
-  Joystick joystick;
-  DriveSystem driveSystem;
-  public DriveCommand() {
+
+public class IncrementMaxVelocity extends Command {
+  boolean forwards;
+  public IncrementMaxVelocity(boolean forwards) {
     // Use requires() here to declare subsystem dependencies
     // eg. requires(chassis);
-    joystick = new Joystick(RobotMap.JOYSTICK_PORT);
-    driveSystem = DriveSystem.getInstance();
-    requires(DriveSystem.getInstance());
-
-
-
+    this.forwards = forwards;
   }
 
   // Called just before this Command runs the first time
@@ -36,7 +26,12 @@ public class DriveCommand extends Command {
   // Called repeatedly when this Command is scheduled to run
   @Override
   protected void execute() {
-    driveSystem.drivePercentOutput(joystick.getRawAxis(1) ,-joystick.getRawAxis(3));
+    if(forwards) {
+      DriveSystem.MAX_VELOCITY+=50;
+    }
+    else {
+      DriveSystem.MAX_VELOCITY-=50;
+    }
   }
 
   // Make this return true when this Command no longer needs to run execute()

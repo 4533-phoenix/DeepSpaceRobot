@@ -7,13 +7,21 @@
 
 package frc.robot;
 
-import edu.wpi.first.wpilibj.TimedRobot;
+import java.net.ServerSocket;
+import java.net.SocketException;
+import java.io.*;
+import java.net.*;
+import java.net.InetAddress;
+import edu.wpi.first.wpilibj.IterativeRobot;
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.Scheduler;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.subsystems.*;
-
+import frc.robot.utilities.SmartDashboardValues;
+import frc.robot.commands.*;
+import edu.wpi.first.wpilibj.SerialPort;
+import edu.wpi.first.wpilibj.SerialPort.Port;
 /**
  * The VM is configured to automatically run this class, and to call the
  * functions corresponding to each mode, as described in the TimedRobot
@@ -21,11 +29,14 @@ import frc.robot.subsystems.*;
  * creating this project, you must also update the build.gradle file in the
  * project.
  */
-public class Robot extends TimedRobot {
-    public static OI m_oi;
-
-  Command m_autonomousCommand;
- 
+public class Robot extends IterativeRobot {
+  public static OI m_oi;
+  public SmartDashboardValues smartDashboardValues;
+  Testing testing;
+  public SerialPort serial;
+  public DatagramSocket serverSocket;
+  public byte[] receiveData;
+  public byte[] sendData;
 
   /**
    * This function is run when the robot is first started up and should be
@@ -36,7 +47,18 @@ public class Robot extends TimedRobot {
     m_oi = new OI();
     DriveSystem.initialize();
     // chooser.addOption("My Auto", new MyAutoCommand());
-   
+    smartDashboardValues = new SmartDashboardValues();
+    DriveSystem.getInstance().setPosition(0);
+    serial = new SerialPort(115200, Port.kUSB);
+    //Setup the oDroid Communications
+    try {
+      serverSocket = new DatagramSocket(3641); //choose a port for your oDroid to send data to
+
+    } catch (SocketException e) {
+      e.printStackTrace();
+    }
+    receiveData = new byte [256];
+    sendData = new byte[256];
   }
 
   /**
@@ -58,11 +80,13 @@ public class Robot extends TimedRobot {
    */
   @Override
   public void disabledInit() {
+    DriveSystem.getInstance().setPosition(0);
   }
 
   @Override
   public void disabledPeriodic() {
     Scheduler.getInstance().run();
+    smartDashboardValues.updateValue();
   }
 
   /**
@@ -90,6 +114,12 @@ public class Robot extends TimedRobot {
    // if (m_autonomousCommand != null) {
     //  m_autonomousCommand.start();
     //}
+    testing = new Testing();
+    DriveSystem.getInstance().setPIDFValues(0.1, 0.0001, 0, 0);
+    DriveSystem.getInstance().setPosition(0);
+    if(testing != null) {
+      testing.start();
+    }
   }
 
   /**
@@ -98,6 +128,7 @@ public class Robot extends TimedRobot {
   @Override
   public void autonomousPeriodic() {
     Scheduler.getInstance().run();
+    smartDashboardValues.updateValue();
   }
 
   @Override
@@ -106,9 +137,10 @@ public class Robot extends TimedRobot {
     // teleop starts running. If you want the autonomous to
     // continue until interrupted by another command, remove
     // this line or comment it out.
-   // if (m_autonomousCommand != null) {
-      //m_autonomousCommand.cancel();
-    //}
+    if (testing != null) {
+      testing.cancel();
+    }
+    DriveSystem.getInstance().setPIDFValues(.15, 0, 2.5, 0.243);
   }
 
   /**
@@ -117,6 +149,12 @@ public class Robot extends TimedRobot {
   @Override
   public void teleopPeriodic() {
     Scheduler.getInstance().run();
+    smartDashboardValues.updateValue();
+    //byte[] jVData = serial.read(0);
+    //while(jVData[0] != 126) {
+      System.out.println((serial.getBytesReceived()));
+    //}
+    
   }
 
   /**
@@ -124,5 +162,41 @@ public class Robot extends TimedRobot {
    */
   @Override
   public void testPeriodic() {
+    smartDashboardValues.updateValue();
   }
+  
+  public void sendData(){
+    InetAddress _ip = null;
+    try {
+      _ip = InetAddress.getByName("oDroid.local");
+    } catch (Exception e){
+      System.out.println(e);
+    }
+     
+    int _port = 3641;
+    String requestValue = "0";
+    DatagramPacket sendPacket = new DatagramPacket(sendData, sendData.length, _ip, _port);
+    try {
+        serverSocket.send(sendPacket);
+        
+    } catch (IOException e) {
+        e.printStackTrace();
+    }
+ }
+
+ public void receiveData(){
+     DatagramPacket receivePacket = new DatagramPacket (receiveData, receiveData.length);
+     try {
+         serverSocket.receive(receivePacket);
+     } catch(IOException e) {
+         e.printStackTrace();      
+     }
+     String incoming = new String(receivePacket.getData());
+     String[] parts = incoming.split(" ");
+     String part1_raw = parts[0];
+     double part1_double = Double.parseDouble(part1_raw);
+     System.out.println("RECEIVED: " + part1_raw);
+ }
+
+  
 }

@@ -6,26 +6,24 @@
 /*----------------------------------------------------------------------------*/
 
 package frc.robot.commands;
-
-import edu.wpi.first.wpilibj.command.Command;
-import frc.robot.subsystems.DriveSystem;
 import edu.wpi.first.wpilibj.Joystick;
+import edu.wpi.first.wpilibj.command.Command;
 import frc.robot.RobotMap;
+import frc.robot.subsystems.DriveSystem;
 /**
- * It's a command that calls drivePercentOutput and, has the paramaters of joystick values
+ * In this command we call the method driveVelocity which originates drive system
  */
-public class DriveCommand extends Command {
-  Joystick joystick;
+public class DriveVelocity extends Command {
+  Joystick controller;
   DriveSystem driveSystem;
-  public DriveCommand() {
+
+  public DriveVelocity() {
     // Use requires() here to declare subsystem dependencies
     // eg. requires(chassis);
-    joystick = new Joystick(RobotMap.JOYSTICK_PORT);
+    controller = new Joystick(RobotMap.JOYSTICK_PORT);
     driveSystem = DriveSystem.getInstance();
-    requires(DriveSystem.getInstance());
-
-
-
+    this.requires(DriveSystem.getInstance());
+    driveSystem.setPeakOutput(1);
   }
 
   // Called just before this Command runs the first time
@@ -36,7 +34,7 @@ public class DriveCommand extends Command {
   // Called repeatedly when this Command is scheduled to run
   @Override
   protected void execute() {
-    driveSystem.drivePercentOutput(joystick.getRawAxis(1) ,-joystick.getRawAxis(3));
+    driveSystem.driveVelocity(controller.getRawAxis(3), -controller.getRawAxis(1));
   }
 
   // Make this return true when this Command no longer needs to run execute()

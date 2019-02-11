@@ -8,24 +8,15 @@
 package frc.robot.commands;
 
 import edu.wpi.first.wpilibj.command.Command;
-import frc.robot.subsystems.DriveSystem;
-import edu.wpi.first.wpilibj.Joystick;
-import frc.robot.RobotMap;
-/**
- * It's a command that calls drivePercentOutput and, has the paramaters of joystick values
- */
-public class DriveCommand extends Command {
-  Joystick joystick;
-  DriveSystem driveSystem;
-  public DriveCommand() {
+import edu.wpi.first.wpilibj.SerialPort;
+public class JevoisRetreival extends Command {
+  private SerialPort serial;
+  private int count;
+  public JevoisRetreival() {
     // Use requires() here to declare subsystem dependencies
     // eg. requires(chassis);
-    joystick = new Joystick(RobotMap.JOYSTICK_PORT);
-    driveSystem = DriveSystem.getInstance();
-    requires(DriveSystem.getInstance());
-
-
-
+    serial = new SerialPort(921600,SerialPort.Port.kUSB);
+    count = 0;
   }
 
   // Called just before this Command runs the first time
@@ -36,13 +27,20 @@ public class DriveCommand extends Command {
   // Called repeatedly when this Command is scheduled to run
   @Override
   protected void execute() {
-    driveSystem.drivePercentOutput(joystick.getRawAxis(1) ,-joystick.getRawAxis(3));
+    try{
+      System.out.println("Test");
+      System.out.println(((Integer)serial.getBytesReceived()).toString());
+      count = 1;
+    }
+    catch(Exception e) {
+      System.out.println("Error");
+    }
   }
 
   // Make this return true when this Command no longer needs to run execute()
   @Override
   protected boolean isFinished() {
-    return false;
+    return count == 1;
   }
 
   // Called once after isFinished returns true
