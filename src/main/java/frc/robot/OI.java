@@ -62,14 +62,37 @@ public class OI {
   JoystickButton aButton = new JoystickButton(controller, RobotMap.A_BUTTON);
   JoystickButton leftBumperButton = new JoystickButton(controller, RobotMap.LEFT_BUMPER);
   JoystickButton rightBumperButton = new JoystickButton(controller, RobotMap.RIGHT_BUMPER);
+  JoystickButton bButton = new JoystickButton(controller, RobotMap.B_BUTTON);
+  JoystickButton yButton = new JoystickButton(controller, RobotMap.Y_BUTTON);
+  JoystickButton xButton = new JoystickButton(controller, RobotMap.X_BUTTON);
+  JoystickButton rightTrigger = new JoystickButton(controller, RobotMap.RIGHT_TRIGGER);
+
   public OI() {
     /**
      * when start is pressed increase the max velocity by 50 rpm
      */
     start.whenPressed(new IncrementMaxVelocity(true));
     select.whenPressed(new IncrementMaxVelocity(false));
-    aButton.whenPressed(new JevoisRetreival());
+    // aButton.whenPressed(new JevoisRetreival());
     leftBumperButton.whileHeld(new IntakeCommand(false, .5));
     rightBumperButton.whileHeld(new IntakeCommand(true, .5));
+
+    // Values are from game manual
+    if (rightTrigger.get()) {  
+      // When pressed elevator goes to first cargo level
+      aButton.whenPressed(new ElevatorCommand(27.5));
+      // When pressed elevator goes to second cargo level
+      xButton.whenPressed(new ElevatorCommand(55.5));
+      // When pressed elevator goes to third cargo level
+      yButton.whenPressed(new ElevatorCommand(83.5));
+    }
+    else{
+      // When pressed elevator goes to first hatch level
+      aButton.whenPressed(new ElevatorCommand(19));
+      // When pressed elevator goes to second hatch level
+      xButton.whenPressed(new ElevatorCommand(47));
+      // When pressed elevator goes to third hatch level
+      yButton.whenPressed(new ElevatorCommand(75));
+    }
   }
 }
