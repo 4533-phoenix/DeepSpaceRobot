@@ -2,7 +2,7 @@ package frc.robot.subsystems;
 
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.FeedbackDevice;
-import com.ctre.phoenix.motorcontrol.can.VictorSPX;
+import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 
 import edu.wpi.first.wpilibj.AnalogInput;
 import edu.wpi.first.wpilibj.command.Subsystem;
@@ -13,14 +13,14 @@ import frc.robot.RobotMap;
  *
  */
 public class ElevatorSystem extends Subsystem {
-    private VictorSPX elevatorMotor;
+    private TalonSRX elevatorMotor;
 	private static ElevatorSystem INSTANCE;
 	
 	/**
 	 * Sets up the motors for elevator
 	 */
 	public ElevatorSystem() {
-		elevatorMotor = new VictorSPX(RobotMap.INTAKE_MOTOR);
+		elevatorMotor = new TalonSRX(RobotMap.INTAKE_MOTOR);
 		elevatorMotor.configSelectedFeedbackSensor(FeedbackDevice.CTRE_MagEncoder_Relative,0,100);
 		elevatorMotor.setSensorPhase(true);
 		elevatorMotor.configAllowableClosedloopError(0, 50, 100);

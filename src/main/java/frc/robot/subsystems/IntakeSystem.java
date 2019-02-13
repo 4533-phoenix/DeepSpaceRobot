@@ -1,7 +1,7 @@
 package frc.robot.subsystems;
 
 import com.ctre.phoenix.motorcontrol.ControlMode;
-import com.ctre.phoenix.motorcontrol.can.VictorSPX;
+import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 
 import edu.wpi.first.wpilibj.AnalogInput;
 import edu.wpi.first.wpilibj.command.Subsystem;
@@ -12,14 +12,14 @@ import frc.robot.RobotMap;
  *
  */
 public class IntakeSystem extends Subsystem {
-    private VictorSPX intakeMotor;
+    private TalonSRX intakeMotor;
 	private static IntakeSystem INSTANCE;
 	
 	/**
 	 * Sets up the motors for intake
 	 */
 	public IntakeSystem() {
-		intakeMotor = new VictorSPX(RobotMap.INTAKE_MOTOR);
+		intakeMotor = new TalonSRX(RobotMap.INTAKE_MOTOR);
 	}
 	
 	/**

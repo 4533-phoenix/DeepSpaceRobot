@@ -21,6 +21,9 @@ public class ElevatorCommand extends Command {
     elevator = ElevatorSystem.getInstance();
     // Use requires() here to declare subsystem dependencies
     // eg. requires(chassis);
+    this.requires(ElevatorSystem.getInstance());
+    this.distance = distance*INCHES_PER_REVOLUTION;
+    
   }
 
   // Called just before this Command runs the first time
