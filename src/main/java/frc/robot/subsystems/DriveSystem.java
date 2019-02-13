@@ -10,6 +10,7 @@ package frc.robot.subsystems;
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.FeedbackDevice;
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
+import com.ctre.phoenix.motorcontrol.can.VictorSPX;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.command.Subsystem;
 import frc.robot.commands.DriveCommand;
@@ -27,8 +28,8 @@ public class DriveSystem extends Subsystem {
    */
   TalonSRX rightMaster;
   TalonSRX leftMaster;
-  TalonSRX rightSlave;
-  TalonSRX leftSlave;
+  VictorSPX rightSlave;
+  VictorSPX leftSlave;
   /**
    * Creating target speed variables for Left and right
    */
@@ -46,8 +47,8 @@ public class DriveSystem extends Subsystem {
      */
     rightMaster = new TalonSRX(RobotMap.RIGHT_MASTER_MOTOR); 
     leftMaster = new TalonSRX(RobotMap.LEFT_MASTER_MOTOR);
-    rightSlave = new TalonSRX(RobotMap.RIGHT_SLAVE_MOTOR);
-    leftSlave = new TalonSRX(RobotMap.LEFT_SLAVE_MOTOR);
+    rightSlave = new VictorSPX(RobotMap.RIGHT_SLAVE_MOTOR);
+    leftSlave = new VictorSPX(RobotMap.LEFT_SLAVE_MOTOR);
     /**
      * configures drive sensors
      */
