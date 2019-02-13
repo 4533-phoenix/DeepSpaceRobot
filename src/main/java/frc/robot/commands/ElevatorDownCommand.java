@@ -10,19 +10,18 @@ package frc.robot.commands;
 import edu.wpi.first.wpilibj.command.Command;
 import frc.robot.subsystems.ElevatorSystem;
 
-public class ElevatorCommand extends Command {
+public class ElevatorDownCommand extends Command {
+  private static final double INCHES_PER_REVOLUTION = 4096 / 3.875;
+  double distance = 0;
+  ElevatorSystem elevatorDown;
 
-  private static final double INCHES_PER_REVOLUTION = 4096 / 3.875 ;
-  double distance = 0 ;
-  ElevatorSystem elevator; 
-
-  public ElevatorCommand(double distance) {
-    this.distance = distance * INCHES_PER_REVOLUTION;
-    elevator = ElevatorSystem.getInstance();
+  public ElevatorDownCommand() {
+    // Sets distance equal to the postion - 19 inches * inches per revolution to get the distance in encoder ticks
+    this.distance = elevatorDown.getPosition() - 19 * INCHES_PER_REVOLUTION;
+    elevatorDown = ElevatorSystem.getInstance();
+    this.requires(ElevatorSystem.getInstance());
     // Use requires() here to declare subsystem dependencies
     // eg. requires(chassis);
-    this.requires(ElevatorSystem.getInstance());
-    
   }
 
   // Called just before this Command runs the first time
@@ -33,19 +32,19 @@ public class ElevatorCommand extends Command {
   // Called repeatedly when this Command is scheduled to run
   @Override
   protected void execute() {
-   elevator.elevatorMovement((int) -distance);
+    elevatorDown.elevatorMovement((int) distance);
   }
 
   // Make this return true when this Command no longer needs to run execute()
   @Override
   protected boolean isFinished() {
-    return Math.abs(elevator.getPosition()) >= distance;
+    return Math.abs(elevatorDown.getPosition()) <= distance;
   }
 
   // Called once after isFinished returns true
   @Override
   protected void end() {
-    elevator.stop();
+    elevatorDown.stop();
   }
 
   // Called when another command which requires one or more of the same

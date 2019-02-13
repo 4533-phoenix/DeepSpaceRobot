@@ -94,5 +94,6 @@ public class OI {
       // When pressed elevator goes to third hatch level
       yButton.whenPressed(new ElevatorCommand(75));
     }
+    bButton.whenPressed(new ElevatorDownCommand());
   }
 }
