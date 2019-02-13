@@ -71,4 +71,12 @@ public class ElevatorSystem extends Subsystem {
 	public void elevatorMovement (int postion) {
 		elevatorMotor.set(ControlMode.PercentOutput, postion);
 	}
+
+	public int getPosition() {
+		return elevatorMotor.getSelectedSensorPosition(0);
+	}
+
+	public void setPosition(int distance) {
+		elevatorMotor.setSelectedSensorPosition(distance);
+	}
 }
