@@ -20,7 +20,7 @@ public class Autonomous extends CommandGroup {
             /**
             turns the bot 90 degrees left
              */
-            this.addSequential(new AutoDrive(1, -1), angleWait);
+            this.addSequential(new AngleTurn(-90));
             /**
             moves the bot 13 inches forward
             actual:13.00189572 
@@ -29,7 +29,7 @@ public class Autonomous extends CommandGroup {
             /**
             aligns the bot with the close side of the rocket ship
              */
-            this.addSequential(new AutoDrive(-1, 1), (angleWait/90) * 52);
+            this.addSequential(new AngleTurn(52));
             /**
             moves forward into the rocket
             Actual: 119.0695697
@@ -39,9 +39,9 @@ public class Autonomous extends CommandGroup {
             same thing but for right side
              */
         }else {
-            this.addSequential(new AutoDrive(-1, 1), angleWait);
+            this.addSequential(new AngleTurn(90));
             this.addSequential(new DrivePosition(13));
-            this.addSequential(new AutoDrive(1, -1), (angleWait/90) * 52);
+            this.addSequential(new AngleTurn(-52));
             this.addSequential(new DrivePosition(119));
 
         }

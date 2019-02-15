@@ -6,24 +6,20 @@
 /*----------------------------------------------------------------------------*/
 
 package frc.robot.commands;
-import edu.wpi.first.wpilibj.Joystick;
-import edu.wpi.first.wpilibj.command.Command;
-import frc.robot.RobotMap;
-import frc.robot.subsystems.DriveSystem;
-/**
- * In this command we call the method driveVelocity which originates drive system
- */
-public class DriveVelocity extends Command {
-  Joystick controller;
-  DriveSystem driveSystem;
 
-  public DriveVelocity() {
+import edu.wpi.first.wpilibj.command.Command;
+import frc.robot.subsystems.DriveSystem;
+
+public class AngleTurn extends Command {
+  double angle;
+
+  public AngleTurn(double angle) {
+    this.requires(DriveSystem.getInstance());
+    this.angle = angle;
+    DriveSystem.getInstance().resetAngle();
+    
     // Use requires() here to declare subsystem dependencies
     // eg. requires(chassis);
-    controller = new Joystick(RobotMap.JOYSTICK_PORT);
-    driveSystem = DriveSystem.getInstance();
-    this.requires(DriveSystem.getInstance());
-    driveSystem.setPeakOutput(1);
   }
 
   // Called just before this Command runs the first time
@@ -34,18 +30,27 @@ public class DriveVelocity extends Command {
   // Called repeatedly when this Command is scheduled to run
   @Override
   protected void execute() {
-    driveSystem.driveVelocity(-controller.getRawAxis(3), controller.getRawAxis(1));
+    DriveSystem.getInstance().setPIDFValues(0.25, 0, 2.5, 0.243);
+    if (angle < 0 ) {
+      DriveSystem.getInstance().driveVelocity(0.35, -0.35);
+    }else{
+      DriveSystem.getInstance().driveVelocity(-0.35, 0.35);
+    }
+
   }
 
   // Make this return true when this Command no longer needs to run execute()
   @Override
   protected boolean isFinished() {
-    return false;
+    return Math.abs(DriveSystem.getInstance().getAngle()) >= Math.abs(angle);
   }
 
   // Called once after isFinished returns true
   @Override
   protected void end() {
+    DriveSystem.getInstance().setPosition(0);
+    DriveSystem.getInstance().resetAngle();
+    DriveSystem.getInstance().stop();
   }
 
   // Called when another command which requires one or more of the same
