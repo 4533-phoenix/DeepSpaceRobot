@@ -42,7 +42,7 @@ public class DriveSystem extends Subsystem {
   /**
    * setting the max velocity to 250 rpm
    */
-  public static double MAX_VELOCITY = 250;
+  public static double MAX_VELOCITY = 120;
  
   public DriveSystem() {
     navXPort = SPI.Port.kMXP;
@@ -153,9 +153,9 @@ public class DriveSystem extends Subsystem {
    * @param right
    * @param left
    */
-  public void driveVelocity (double left, double right){
-    targetL = left * MAX_VELOCITY * 4096 / 600;
-    targetR = right * MAX_VELOCITY * 4096 / 600;
+  public void driveVelocity (double right, double left){
+    targetL = -left * MAX_VELOCITY * 4096 / 600;
+    targetR = -right * MAX_VELOCITY * 4096 / 600;
     /**
      * creates new drive control mode, Velocity
      */
