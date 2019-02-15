@@ -27,7 +27,7 @@ import edu.wpi.first.wpilibj.SerialPort.Port;
 public class Robot extends IterativeRobot {
   public static OI m_oi;
   public SmartDashboardValues smartDashboardValues;
-  Testing testing;
+  Autonomous testing;
   public SerialPort serial;
  
 
@@ -98,7 +98,7 @@ public class Robot extends IterativeRobot {
    // if (m_autonomousCommand != null) {
     //  m_autonomousCommand.start();
     //}
-    testing = new Testing();
+    testing = new Autonomous(true);
     DriveSystem.getInstance().setPIDFValues(0.1, 0.0001, 0, 0);
     DriveSystem.getInstance().setPosition(0);
     if(testing != null) {

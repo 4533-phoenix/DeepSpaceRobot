@@ -1,22 +1,26 @@
-package frc.team4533.robot.commands;
+package frc.robot.commands;
 
 import edu.wpi.first.wpilibj.command.CommandGroup;
 
-public class MiddleAuto extends CommandGroup {
-   /**
+public class Autonomous extends CommandGroup {
+
+    private double angleWait = 1;
+
+    /**
     this moves the bot forward off the HAB platform
     */ 
 
-    this.addSequential(new DrivePosition(95.28));
-    public MiddleAuto(boolean left) {
+    
+    public Autonomous(boolean left) {
+        this.addSequential(new DrivePosition(95));
         /**
         differentiates between starting on the left 2nd level or the right
          */
-        if (boolean left == true) {
+        if (left == true) {
             /**
             turns the bot 90 degrees left
              */
-            this.addSequential(new AngleTurn(-90));
+            this.addSequential(new AutoDrive(1, -1), angleWait);
             /**
             moves the bot 13 inches forward
             actual:13.00189572 
@@ -25,7 +29,7 @@ public class MiddleAuto extends CommandGroup {
             /**
             aligns the bot with the close side of the rocket ship
              */
-            this.addSequential(new AngleTurn(52));
+            this.addSequential(new AutoDrive(-1, 1), (angleWait/90) * 52);
             /**
             moves forward into the rocket
             Actual: 119.0695697
@@ -35,9 +39,9 @@ public class MiddleAuto extends CommandGroup {
             same thing but for right side
              */
         }else {
-            this.addsequential(new AngleTurn(90));
+            this.addSequential(new AutoDrive(-1, 1), angleWait);
             this.addSequential(new DrivePosition(13));
-            this.addsequential(new AngleTurn(-52));
+            this.addSequential(new AutoDrive(1, -1), (angleWait/90) * 52);
             this.addSequential(new DrivePosition(119));
 
         }
