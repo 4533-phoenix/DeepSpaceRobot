@@ -9,13 +9,15 @@ package frc.robot.commands;
 
 import edu.wpi.first.wpilibj.command.Command;
 import frc.robot.subsystems.ElevatorSystem;
+import edu.wpi.first.wpilibj.DigitalInput;
 
 public class ElevatorCommand extends Command {
 
   private static final double INCHES_PER_REVOLUTION = 4096 / 3.875 ;
   double distance = 0 ;
   ElevatorSystem elevator; 
-
+  DigitalInput limitSwitch = new DigitalInput(1);
+  
   public ElevatorCommand(double distance) {
     this.distance = distance * INCHES_PER_REVOLUTION;
     elevator = ElevatorSystem.getInstance();
@@ -39,7 +41,11 @@ public class ElevatorCommand extends Command {
   // Make this return true when this Command no longer needs to run execute()
   @Override
   protected boolean isFinished() {
+    if(limitSwitch.get()) {
+      elevator.stop();
+    }
     return Math.abs(elevator.getPosition()) >= distance;
+
   }
 
   // Called once after isFinished returns true
