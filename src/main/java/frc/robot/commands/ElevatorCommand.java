@@ -17,7 +17,8 @@ public class ElevatorCommand extends Command {
   double distance = 0 ;
   ElevatorSystem elevator; 
   DigitalInput limitSwitch = new DigitalInput(1);
-  
+  DigitalInput limitSwitchTwo = new DigitalInput(0);
+
   public ElevatorCommand(double distance) {
     this.distance = distance * INCHES_PER_REVOLUTION;
     elevator = ElevatorSystem.getInstance();
@@ -42,7 +43,10 @@ public class ElevatorCommand extends Command {
   @Override
   protected boolean isFinished() {
     if(limitSwitch.get()) {
-      elevator.stop();
+      return true;
+    }
+    if(limitSwitchTwo.get()) {
+      return true;
     }
     return Math.abs(elevator.getPosition()) >= distance;
 
