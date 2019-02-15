@@ -1,10 +1,8 @@
 package frc.robot.commands;
 
 import edu.wpi.first.wpilibj.command.CommandGroup;
-
+import frc.robot.commands.*;
 public class Autonomous extends CommandGroup {
-
-    private double angleWait = 1;
 
     /**
     this moves the bot forward off the HAB platform
