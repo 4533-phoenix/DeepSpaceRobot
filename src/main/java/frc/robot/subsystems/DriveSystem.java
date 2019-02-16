@@ -152,6 +152,10 @@ public class DriveSystem extends Subsystem {
     rightMaster.set (ControlMode.Velocity, targetR);
     rightSlave.set (ControlMode.Follower, RobotMap.RIGHT_MASTER_MOTOR);
   }
+  public void setVelocity(int velocity) {
+    MAX_VELOCITY = velocity;
+    
+  }
   /**
    * gets motor controller temp
    * @return

@@ -7,6 +7,7 @@
 
 package frc.robot.commands;
 import edu.wpi.first.wpilibj.Joystick;
+import edu.wpi.first.wpilibj.buttons.JoystickButton;
 import edu.wpi.first.wpilibj.command.Command;
 import frc.robot.RobotMap;
 import frc.robot.subsystems.DriveSystem;
@@ -16,11 +17,13 @@ import frc.robot.subsystems.DriveSystem;
 public class DriveVelocity extends Command {
   Joystick controller;
   DriveSystem driveSystem;
+  JoystickButton leftTrigger;
 
   public DriveVelocity() {
     // Use requires() here to declare subsystem dependencies
     // eg. requires(chassis);
     controller = new Joystick(RobotMap.JOYSTICK_PORT);
+    leftTrigger = new JoystickButton(controller, RobotMap.LEFT_TRIGGER);
     driveSystem = DriveSystem.getInstance();
     this.requires(DriveSystem.getInstance());
     driveSystem.setPeakOutput(1);
@@ -34,6 +37,12 @@ public class DriveVelocity extends Command {
   // Called repeatedly when this Command is scheduled to run
   @Override
   protected void execute() {
+    if (leftTrigger.get()) {
+      driveSystem.setVelocity(500);
+    }
+    else{
+      driveSystem.setVelocity(250);
+    }
     driveSystem.driveVelocity(controller.getRawAxis(3), -controller.getRawAxis(1));
   }
 
