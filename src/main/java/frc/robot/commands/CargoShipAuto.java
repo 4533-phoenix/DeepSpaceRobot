@@ -24,6 +24,11 @@ public class CargoShipAuto extends CommandGroup {
       this.addSequential(new AngleTurn(-180+148.9305));
       //actual 73.97
       this.addSequential(new DrivePosition(73.97));
+      this.addSequential(new DrivePosition(-15));
+      this.addSequential(new AngleTurn(-149.72));
+      this.addSequential(new DrivePosition(182.09));
+      this.addSequential(new AngleTurn(-30.28));
+      this.addSequential(new DrivePosition(95.28));
     }
     else {
       //actual 31.0695
@@ -34,6 +39,11 @@ public class CargoShipAuto extends CommandGroup {
       this.addSequential(new AngleTurn(148.9305));
       //actual 73.97
       this.addSequential(new DrivePosition(73.97));
+      this.addSequential(new DrivePosition(-15));
+      this.addSequential(new AngleTurn(149.72));
+      this.addSequential(new DrivePosition(182.09));
+      this.addSequential(new AngleTurn(30.28));
+      this.addSequential(new DrivePosition(95.28));
     }
     // Use requires() here to declare subsystem dependencies
     // eg. requires(chassis);
