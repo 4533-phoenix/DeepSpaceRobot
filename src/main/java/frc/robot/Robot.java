@@ -46,9 +46,14 @@ public class Robot extends IterativeRobot {
   public void robotInit() {
     m_oi = new OI();
     DriveSystem.initialize();
+    ElevatorSystem.initialize();
+    IntakeSystem.initialize();
     // chooser.addOption("My Auto", new MyAutoCommand());
     smartDashboardValues = new SmartDashboardValues();
     DriveSystem.getInstance().setPosition(0);
+    /*
+     * 
+     
     serial = new SerialPort(115200, Port.kUSB);
     //Setup the oDroid Communications
     try {
@@ -59,6 +64,7 @@ public class Robot extends IterativeRobot {
     }
     receiveData = new byte [256];
     sendData = new byte[256];
+    */
   }
 
   /**
