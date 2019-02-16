@@ -68,6 +68,8 @@ public class DriveSystem extends Subsystem {
     /**
      * Inverts the wheel direction
      */
+    rightMaster.setInverted(true);
+    rightSlave.setInverted(true);
     /**
      * Sets PID
      */
@@ -155,9 +157,9 @@ public class DriveSystem extends Subsystem {
    * @param right
    * @param left
    */
-  public void driveVelocity (double right, double left){
-    targetL = -left * MAX_VELOCITY * 4096 / 600;
-    targetR = -right * MAX_VELOCITY * 4096 / 600;
+  public void driveVelocity (double left, double right){
+    targetL = left * MAX_VELOCITY * 4096 / 600;
+    targetR = right * MAX_VELOCITY * 4096 / 600;
     /**
      * creates new drive control mode, Velocity
      */

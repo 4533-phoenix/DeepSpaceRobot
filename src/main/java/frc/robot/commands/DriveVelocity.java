@@ -34,7 +34,7 @@ public class DriveVelocity extends Command {
   // Called repeatedly when this Command is scheduled to run
   @Override
   protected void execute() {
-    driveSystem.driveVelocity(-controller.getRawAxis(3), controller.getRawAxis(1));
+    driveSystem.driveVelocity(controller.getRawAxis(3), controller.getRawAxis(1));
   }
 
   // Make this return true when this Command no longer needs to run execute()

@@ -15,14 +15,13 @@ public class CargoShipAuto extends CommandGroup {
   public CargoShipAuto(boolean left) {
     // actual 46.28
     this.addSequential(new DrivePosition(46.28));
-
     if(left == true) {
       //actual 31.0695
       this.addSequential(new AngleTurn(31.0695));
       //actual 58.373
       this.addSequential(new DrivePosition(58.373));
       //actual 148.9305
-      this.addSequential(new AngleTurn(-148.9305));
+      this.addSequential(new AngleTurn(-180+148.9305));
       //actual 73.97
       this.addSequential(new DrivePosition(73.97));
     }
@@ -38,6 +37,7 @@ public class CargoShipAuto extends CommandGroup {
     }
     // Use requires() here to declare subsystem dependencies
     // eg. requires(chassis);
+  
   }
 
   // Called just before this Command runs the first time
