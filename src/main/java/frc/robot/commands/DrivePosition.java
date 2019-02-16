@@ -25,7 +25,7 @@ public class DrivePosition extends Command {
     // Use requires() here to declare subsystem dependencies
     // eg. requires(chassis);
 
-    this.requires(DriveSystem.getInstance());
+    this.requires(driveSystem.getInstance());
     /**
      * sets variable distance equal to parameter distance * UNITS_PER_INCH
      */
@@ -75,7 +75,7 @@ public class DrivePosition extends Command {
     /**
      * sets the maximum amount of speed
      */
-    driveSystem.setPeakOutput(1);
+    driveSystem.setPosition(0);
     /**
      * Stops the robot
      */

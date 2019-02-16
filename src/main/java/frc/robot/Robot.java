@@ -29,6 +29,7 @@ public class Robot extends IterativeRobot {
   public SmartDashboardValues smartDashboardValues;
   public SendableChooser<String> autoPositionChooser;
   Autonomous testing;
+  CargoShipAuto auto;
   public SerialPort serial;
  
 
@@ -109,10 +110,11 @@ public class Robot extends IterativeRobot {
     else {
       testing = new Autonomous(false);
     }
+    auto = new CargoShipAuto(true);
     DriveSystem.getInstance().setPIDFValues(0.1, 0.0001, 0, 0);
     DriveSystem.getInstance().setPosition(0);
-    if(testing != null) {
-      testing.start();
+    if(auto != null) {
+      auto.start();
     }
   }
 

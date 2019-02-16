@@ -31,11 +31,14 @@ public class AngleTurn extends Command {
   @Override
   protected void execute() {
     DriveSystem.getInstance().setPIDFValues(0.25, 0, 2.5, 0.243);
-    if (angle < 0 ) {
+    if (angle > 0) {
       DriveSystem.getInstance().driveVelocity(0.35, -0.35);
-    }else{
+
+    }
+    else if (angle < 0) {
       DriveSystem.getInstance().driveVelocity(-0.35, 0.35);
     }
+    System.out.println(DriveSystem.getInstance().getAngle());
 
   }
 
@@ -48,8 +51,8 @@ public class AngleTurn extends Command {
   // Called once after isFinished returns true
   @Override
   protected void end() {
-    DriveSystem.getInstance().setPosition(0);
     DriveSystem.getInstance().resetAngle();
+    DriveSystem.getInstance().setPosition(0);
     DriveSystem.getInstance().stop();
   }
 
