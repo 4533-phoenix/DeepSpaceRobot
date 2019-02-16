@@ -20,12 +20,14 @@ public class ElevatorSystem extends Subsystem {
 	 * Sets up the motors for elevator
 	 */
 	public ElevatorSystem() {
-		elevatorMotor = new TalonSRX(RobotMap.INTAKE_MOTOR);
+		elevatorMotor =new TalonSRX(RobotMap.INTAKE_MOTOR);
 		elevatorMotor.configSelectedFeedbackSensor(FeedbackDevice.CTRE_MagEncoder_Relative,0,100);
 		elevatorMotor.setSensorPhase(true);
 		elevatorMotor.configAllowableClosedloopError(0, 50, 100);
 	}
-	
+	public void elevatorPercentOutput(double speed) {
+		elevatorMotor.set(ControlMode.PercentOutput, speed);
+	}
 	/**
 	 * Instance is instantiated as a new ElevatorSystem
 	 */

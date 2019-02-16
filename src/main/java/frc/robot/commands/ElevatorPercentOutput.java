@@ -8,23 +8,18 @@
 package frc.robot.commands;
 
 import edu.wpi.first.wpilibj.command.Command;
-import frc.robot.subsystems.ElevatorSystem;
+import frc.robot.subsystems.*;
 
-public class ElevatorCommand extends Command {
+public class ElevatorPercentOutput extends Command {
+  ElevatorSystem elevatorSystem;
+  double percent;
+  public ElevatorPercentOutput(double percent) {
+    this.percent = percent;
+    elevatorSystem = ElevatorSystem.getInstance();
+    requires(ElevatorSystem.getInstance());
 
-  private static final double INCHES_PER_REVOLUTION = 4096 / 3.875 ;
-  double distance = 0 ;
-  ElevatorSystem elevator; 
-
-  public ElevatorCommand(double distance) {
-    this.distance = distance * INCHES_PER_REVOLUTION;
-    elevator = ElevatorSystem.getInstance();
     // Use requires() here to declare subsystem dependencies
     // eg. requires(chassis);
-    this.requires(ElevatorSystem.getInstance());
-
-    
-    
   }
 
   // Called just before this Command runs the first time
@@ -35,19 +30,18 @@ public class ElevatorCommand extends Command {
   // Called repeatedly when this Command is scheduled to run
   @Override
   protected void execute() {
-   elevator.elevatorMovement((int) -distance);
+    elevatorSystem.elevatorPercentOutput(percent);
   }
 
   // Make this return true when this Command no longer needs to run execute()
   @Override
   protected boolean isFinished() {
-    return Math.abs(elevator.getPosition()) >= distance;
+    return false;
   }
 
   // Called once after isFinished returns true
   @Override
   protected void end() {
-    elevator.stop();
   }
 
   // Called when another command which requires one or more of the same
