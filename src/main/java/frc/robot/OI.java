@@ -71,8 +71,8 @@ public class OI {
     /**
      * when start is pressed increase the max velocity by 50 rpm
      */
-    start.whenPressed(new IncrementMaxVelocity(true));
-    select.whenPressed(new IncrementMaxVelocity(false));
+    start.whenPressed(new ElevatorPercentOutput(0.2));
+    select.whenPressed(new ElevatorPercentOutput(-0.2));
     // aButton.whenPressed(new JevoisRetreival());
     leftBumperButton.whileHeld(new IntakeCommand(false, .5));
     rightBumperButton.whileHeld(new IntakeCommand(true, .5));
@@ -96,4 +96,5 @@ public class OI {
     }
     bButton.whenPressed(new ElevatorDownCommand());
   }
+
 }
