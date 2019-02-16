@@ -27,6 +27,7 @@ import edu.wpi.first.wpilibj.SerialPort.Port;
 public class Robot extends IterativeRobot {
   public static OI m_oi;
   public SmartDashboardValues smartDashboardValues;
+  public SendableChooser<String> autoPositionChooser;
   Autonomous testing;
   public SerialPort serial;
  
@@ -42,6 +43,10 @@ public class Robot extends IterativeRobot {
     // chooser.addOption("My Auto", new MyAutoCommand());
     smartDashboardValues = new SmartDashboardValues();
     DriveSystem.getInstance().setPosition(0);
+    autoPositionChooser = new SendableChooser<>();
+    autoPositionChooser.addDefault("Left", "L");
+    autoPositionChooser.addDefault("Right", "R");
+    autoPositionChooser.addDefault("Middle", "M");
     //serial = new SerialPort(115200, Port.kUSB);
   }
 
@@ -98,7 +103,12 @@ public class Robot extends IterativeRobot {
    // if (m_autonomousCommand != null) {
     //  m_autonomousCommand.start();
     //}
-    testing = new Autonomous(true);
+    if (autoPositionChooser.getSelected().equals("L")) {
+      testing = new Autonomous(true);
+    }
+    else {
+      testing = new Autonomous(false);
+    }
     DriveSystem.getInstance().setPIDFValues(0.1, 0.0001, 0, 0);
     DriveSystem.getInstance().setPosition(0);
     if(testing != null) {
