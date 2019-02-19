@@ -16,10 +16,7 @@ public class ElevatorCommand extends Command {
   private static final double INCHES_PER_REVOLUTION = 4096 / 3.875 ;
   double distance = 0 ;
   ElevatorSystem elevator; 
-  DigitalInput limitSwitchTwo = new DigitalInput(0);
-  DigitalInput limitSwitch = new DigitalInput(1);
-  DigitalInput limitSwitchThree = new DigitalInput(2);
-  DigitalInput limitSwitchFour = new DigitalInput(3);
+  
 
   public ElevatorCommand(double distance) {
     this.distance = distance * INCHES_PER_REVOLUTION;
@@ -40,19 +37,16 @@ public class ElevatorCommand extends Command {
   // Called repeatedly when this Command is scheduled to run
   @Override
   protected void execute() {
-   elevator.elevatorMovement((int) -distance);
+   elevator.elevatorMovement((int) distance);
   }
 
   // Make this return true when this Command no longer needs to run execute()
   @Override
   protected boolean isFinished() {
-    if(limitSwitch.get()) {
+    if(!elevator.getLimitSwitchIntake()&& !elevator.getLimitSwitchMid()) {
       return true;
     }
-    if(limitSwitchTwo.get()) {
-      return true;
-    }
-    if(limitSwitchThree.get() && limitSwitchFour.get()) {
+    if(elevator.getLimitSwitchBottom()) {
       return true;
     }
     return Math.abs(elevator.getPosition()) >= distance;

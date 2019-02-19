@@ -65,6 +65,8 @@ public class DriveSystem extends Subsystem {
      */
     leftMaster.configAllowableClosedloopError(0, 50, 100);
     rightMaster.configAllowableClosedloopError(0, 50, 100);
+    leftSlave.follow(leftMaster);
+    rightSlave.follow(rightMaster);
   }
   public void drivePercentOutput(double left, double right) {
     /**
@@ -148,9 +150,9 @@ public class DriveSystem extends Subsystem {
      * creates new drive control mode, Velocity
      */
     leftMaster.set (ControlMode.Velocity, targetL);
-    leftSlave.set (ControlMode.Follower, RobotMap.LEFT_MASTER_MOTOR);
+    //leftSlave.set (ControlMode.Follower, RobotMap.LEFT_MASTER_MOTOR);
     rightMaster.set (ControlMode.Velocity, targetR);
-    rightSlave.set (ControlMode.Follower, RobotMap.RIGHT_MASTER_MOTOR);
+    //rightSlave.set (ControlMode.Follower, RobotMap.RIGHT_MASTER_MOTOR);
   }
   public void setVelocity(int velocity) {
     MAX_VELOCITY = velocity;

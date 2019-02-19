@@ -17,8 +17,8 @@ public class ElevatorDownCommand extends Command {
 
   public ElevatorDownCommand() {
     // Sets distance equal to the postion - 19 inches * inches per revolution to get the distance in encoder ticks
-    this.distance = elevatorDown.getPosition() - 19 * INCHES_PER_REVOLUTION;
     elevatorDown = ElevatorSystem.getInstance();
+    this.distance = elevatorDown.getPosition() - 19 * INCHES_PER_REVOLUTION;
     this.requires(ElevatorSystem.getInstance());
     // Use requires() here to declare subsystem dependencies
     // eg. requires(chassis);

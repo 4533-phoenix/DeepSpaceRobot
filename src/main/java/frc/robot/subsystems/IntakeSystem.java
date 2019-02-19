@@ -53,6 +53,7 @@ public class IntakeSystem extends Subsystem {
 	 * Stops the motors
 	 */
 	public void stop() {
+		System.out.println("Intake System - Stop");
 		intakeMotor.set(ControlMode.PercentOutput, 0);
 	}
 	/**

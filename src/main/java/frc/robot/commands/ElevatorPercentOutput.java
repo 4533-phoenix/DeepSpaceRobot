@@ -16,7 +16,7 @@ public class ElevatorPercentOutput extends Command {
   public ElevatorPercentOutput(double percent) {
     this.percent = percent;
     elevatorSystem = ElevatorSystem.getInstance();
-    requires(ElevatorSystem.getInstance());
+    requires(elevatorSystem);
 
     // Use requires() here to declare subsystem dependencies
     // eg. requires(chassis);

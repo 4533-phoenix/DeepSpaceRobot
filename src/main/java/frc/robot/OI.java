@@ -57,8 +57,8 @@ public class OI {
   /**
    * add buttons start and select by creating objects
    */
-  JoystickButton select = new JoystickButton(controller,RobotMap.SELECT);
-  JoystickButton start = new JoystickButton(controller, RobotMap.START);
+  //JoystickButton select = new JoystickButton(controller,RobotMap.SELECT);
+  //JoystickButton start = new JoystickButton(controller, RobotMap.START);
   JoystickButton aButton = new JoystickButton(controller, RobotMap.A_BUTTON);
   JoystickButton leftBumperButton = new JoystickButton(controller, RobotMap.LEFT_BUMPER);
   JoystickButton rightBumperButton = new JoystickButton(controller, RobotMap.RIGHT_BUMPER);
@@ -66,16 +66,16 @@ public class OI {
   JoystickButton yButton = new JoystickButton(controller, RobotMap.Y_BUTTON);
   JoystickButton xButton = new JoystickButton(controller, RobotMap.X_BUTTON);
   JoystickButton rightTrigger = new JoystickButton(controller, RobotMap.RIGHT_TRIGGER);
-
+  JoystickButton leftTrigger = new JoystickButton(controller, RobotMap.LEFT_TRIGGER);
   public OI() {
     /**
      * when start is pressed increase the max velocity by 50 rpm
      */
-    start.whenPressed(new ElevatorPercentOutput(0.2));
-    select.whenPressed(new ElevatorPercentOutput(-0.2));
+    //start.whenPressed(new ElevatorPercentOutput(0.2));
+    //select.whenPressed(new ElevatorPercentOutput(-0.2));
     // aButton.whenPressed(new JevoisRetreival());
-    leftBumperButton.whileHeld(new IntakeCommand(false, .5));
-    rightBumperButton.whileHeld(new IntakeCommand(true, .5));
+    leftTrigger.whileHeld(new IntakeIn());
+    rightTrigger.whileHeld(new IntakeOut());
 
     // Values are from game manual
     if (rightTrigger.get()) {  

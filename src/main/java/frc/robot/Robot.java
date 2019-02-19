@@ -44,13 +44,14 @@ public class Robot extends IterativeRobot {
    */
   @Override
   public void robotInit() {
-    m_oi = new OI();
     DriveSystem.initialize();
     ElevatorSystem.initialize();
     IntakeSystem.initialize();
+    m_oi = new OI();
     // chooser.addOption("My Auto", new MyAutoCommand());
     smartDashboardValues = new SmartDashboardValues();
     DriveSystem.getInstance().setPosition(0);
+    ElevatorSystem.getInstance().setPIDFValues(0.1, 0.0001, 0, 0);
     /*
      * 
      
@@ -158,7 +159,7 @@ public class Robot extends IterativeRobot {
     smartDashboardValues.updateValue();
     //byte[] jVData = serial.read(0);
     //while(jVData[0] != 126) {
-      System.out.println((serial.getBytesReceived()));
+      //System.out.println((serial.getBytesReceived()));
     //}
     
   }
