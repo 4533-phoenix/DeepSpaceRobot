@@ -6,27 +6,29 @@
 /*----------------------------------------------------------------------------*/
 
 package frc.robot.commands;
-import edu.wpi.first.wpilibj.Joystick;
-import edu.wpi.first.wpilibj.buttons.JoystickButton;
+
 import edu.wpi.first.wpilibj.command.Command;
 import frc.robot.RobotMap;
-import frc.robot.subsystems.DriveSystem;
-/**
- * In this command we call the method driveVelocity which originates drive system
- */
-public class DriveVelocity extends Command {
-  Joystick controller;
-  DriveSystem driveSystem;
-  JoystickButton leftTrigger;
+import frc.robot.subsystems.IntakeSystem;
+import edu.wpi.first.wpilibj.Joystick;
+import edu.wpi.first.wpilibj.buttons.*;
 
-  public DriveVelocity() {
+public class IntakeCommand extends Command {
+
+  IntakeSystem intake;
+  boolean extake;
+  double output;
+  //Joystick controller;
+  //JoystickButton leftBumper = new JoystickButton(controller, RobotMap.LEFT_BUMPER);
+  //JoystickButton rightBumper = new JoystickButton(controller, RobotMap.RIGHT_BUMPER);
+  public IntakeCommand(boolean extake, double output) {
     // Use requires() here to declare subsystem dependencies
     // eg. requires(chassis);
-    controller = new Joystick(RobotMap.JOYSTICK_PORT);
-    leftTrigger = new JoystickButton(controller, RobotMap.LEFT_TRIGGER);
-    driveSystem = DriveSystem.getInstance();
-    this.requires(DriveSystem.getInstance());
-    driveSystem.setPeakOutput(1);
+    //controller = new Joystick(0);
+    intake = IntakeSystem.getInstance();
+    requires(intake);
+    this.extake = extake;
+    this.output = output;
   }
 
   // Called just before this Command runs the first time
@@ -37,13 +39,12 @@ public class DriveVelocity extends Command {
   // Called repeatedly when this Command is scheduled to run
   @Override
   protected void execute() {
-    if (leftTrigger.get()) {
-      driveSystem.setVelocity(500);
+    if(extake) {
+      intake.out(output);
     }
-    else{
-      driveSystem.setVelocity(250);
+    else {
+      intake.in(output);
     }
-    driveSystem.driveVelocity(controller.getRawAxis(3), -controller.getRawAxis(1));
   }
 
   // Make this return true when this Command no longer needs to run execute()
@@ -55,6 +56,7 @@ public class DriveVelocity extends Command {
   // Called once after isFinished returns true
   @Override
   protected void end() {
+    intake.stop();
   }
 
   // Called when another command which requires one or more of the same

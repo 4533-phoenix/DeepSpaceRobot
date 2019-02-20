@@ -10,6 +10,7 @@ package frc.robot.subsystems;
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.FeedbackDevice;
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
+import com.ctre.phoenix.motorcontrol.can.VictorSPX;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.command.Subsystem;
 import frc.robot.commands.DriveCommand;
@@ -27,8 +28,8 @@ public class DriveSystem extends Subsystem {
    */
   TalonSRX rightMaster;
   TalonSRX leftMaster;
-  TalonSRX rightSlave;
-  TalonSRX leftSlave;
+  VictorSPX rightSlave;
+  VictorSPX leftSlave;
   /**
    * Creating target speed variables for Left and right
    */
@@ -46,8 +47,8 @@ public class DriveSystem extends Subsystem {
      */
     rightMaster = new TalonSRX(RobotMap.RIGHT_MASTER_MOTOR); 
     leftMaster = new TalonSRX(RobotMap.LEFT_MASTER_MOTOR);
-    rightSlave = new TalonSRX(RobotMap.RIGHT_SLAVE_MOTOR);
-    leftSlave = new TalonSRX(RobotMap.LEFT_SLAVE_MOTOR);
+    rightSlave = new VictorSPX(RobotMap.RIGHT_SLAVE_MOTOR);
+    leftSlave = new VictorSPX(RobotMap.LEFT_SLAVE_MOTOR);
     /**
      * configures drive sensors
      */
@@ -64,6 +65,8 @@ public class DriveSystem extends Subsystem {
      */
     leftMaster.configAllowableClosedloopError(0, 50, 100);
     rightMaster.configAllowableClosedloopError(0, 50, 100);
+    leftSlave.follow(leftMaster);
+    rightSlave.follow(rightMaster);
   }
   public void drivePercentOutput(double left, double right) {
     /**
@@ -147,9 +150,13 @@ public class DriveSystem extends Subsystem {
      * creates new drive control mode, Velocity
      */
     leftMaster.set (ControlMode.Velocity, targetL);
-    leftSlave.set (ControlMode.Follower, RobotMap.LEFT_MASTER_MOTOR);
+    //leftSlave.set (ControlMode.Follower, RobotMap.LEFT_MASTER_MOTOR);
     rightMaster.set (ControlMode.Velocity, targetR);
-    rightSlave.set (ControlMode.Follower, RobotMap.RIGHT_MASTER_MOTOR);
+    //rightSlave.set (ControlMode.Follower, RobotMap.RIGHT_MASTER_MOTOR);
+  }
+  public void setVelocity(int velocity) {
+    MAX_VELOCITY = velocity;
+    
   }
   /**
    * gets motor controller temp
