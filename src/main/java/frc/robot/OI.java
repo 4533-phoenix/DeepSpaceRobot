@@ -11,6 +11,7 @@ import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.buttons.Button;
 import edu.wpi.first.wpilibj.buttons.JoystickButton;
 import frc.robot.commands.*;
+import frc.robot.subsystems.ElevatorSystem;
 
 /**
  * This class is the glue that binds the controls on the physical operator
@@ -57,7 +58,7 @@ public class OI {
   /**
    * add buttons start and select by creating objects
    */
-  //JoystickButton select = new JoystickButton(controller,RobotMap.SELECT);
+  JoystickButton select = new JoystickButton(controller,RobotMap.SELECT);
   //JoystickButton start = new JoystickButton(controller, RobotMap.START);
   JoystickButton aButton = new JoystickButton(controller, RobotMap.A_BUTTON);
   JoystickButton leftBumperButton = new JoystickButton(controller, RobotMap.LEFT_BUMPER);
@@ -72,12 +73,13 @@ public class OI {
      * when start is pressed increase the max velocity by 50 rpm
      */
     //start.whenPressed(new ElevatorPercentOutput(0.2));
-    //select.whenPressed(new ElevatorPercentOutput(-0.2));
-    // aButton.whenPressed(new JevoisRetreival());
+    select.whenPressed(new ElevatorRotation());
+    //aButton.whenPressed(new JevoisRetreival());
     leftTrigger.whileHeld(new IntakeIn());
     rightTrigger.whileHeld(new IntakeOut());
 
     // Values are from game manual
+    /*
     if (rightTrigger.get()) {  
       // When pressed elevator goes to first cargo level
       aButton.whenPressed(new ElevatorCommand(27.5));
@@ -86,15 +88,16 @@ public class OI {
       // When pressed elevator goes to third cargo level
       yButton.whenPressed(new ElevatorCommand(83.5));
     }
-    else{
+    */
       // When pressed elevator goes to first hatch level
-      aButton.whenPressed(new ElevatorCommand(19));
+      //19
+    
       // When pressed elevator goes to second hatch level
-      xButton.whenPressed(new ElevatorCommand(47));
+      //xButton.whenPressed(new ElevatorCommand(47));
       // When pressed elevator goes to third hatch level
-      yButton.whenPressed(new ElevatorCommand(75));
-    }
-    bButton.whenPressed(new ElevatorDownCommand());
+      //yButton.whenPressed(new ElevatorCommand(75));
+      bButton.whileHeld(new ElevatorPercentOutput(.5));
+      aButton.whileHeld(new ElevatorPercentOutput(-.25));
   }
 
 }

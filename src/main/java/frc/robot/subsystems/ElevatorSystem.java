@@ -25,14 +25,15 @@ public class ElevatorSystem extends Subsystem {
 	 * Sets up the motors for elevator
 	 */
 	public ElevatorSystem() {
-		elevatorMotor =new TalonSRX(RobotMap.ELEVATOR_MOTOR);
-		elevatorMotor.configSelectedFeedbackSensor(FeedbackDevice.CTRE_MagEncoder_Relative,0,100);
+		elevatorMotor = new TalonSRX(RobotMap.ELEVATOR_MOTOR);
+		elevatorMotor.configSelectedFeedbackSensor(FeedbackDevice.QuadEncoder,0,100);
 		elevatorMotor.setSensorPhase(true);
 		elevatorMotor.configAllowableClosedloopError(0, 50, 100);
 		limitSwitch = new DigitalInput(0);
 		limitSwitchTwo = new DigitalInput(1);
 		limitSwitchThree = new DigitalInput(3);
 		limitSwitchFour = new DigitalInput(5);
+		elevatorMotor.configClosedloopRamp(3);
 	}
 	public void elevatorPercentOutput(double speed) {
 		elevatorMotor.set(ControlMode.PercentOutput, speed);
@@ -53,22 +54,10 @@ public class ElevatorSystem extends Subsystem {
 		return INSTANCE;
 	}
 	/**
-	 * Sets the motors to bring the cube in
-	 */
-	public void up(double percent) {
-		elevatorMotor.set(ControlMode.PercentOutput, -percent);
-	}
-	/**
-	 * Sets the motors to push the cube out
-	 */
-	public void down(double percent) {
-		elevatorMotor.set(ControlMode.PercentOutput, percent);
-	}
-	/**
 	 * Stops the motors
 	 */
 	public void stop() {
-		elevatorMotor.set(ControlMode.PercentOutput, 0);
+		elevatorMotor.set(ControlMode.PercentOutput, .1);
 	}
 	public void setPIDFValues(double p,double i,double d,double f){
 		elevatorMotor.config_kF(0,f,100);
@@ -86,7 +75,7 @@ public class ElevatorSystem extends Subsystem {
 	}
 
 	public void elevatorMovement (int postion) {
-		elevatorMotor.set(ControlMode.PercentOutput, postion);
+		elevatorMotor.set(ControlMode.Position, postion);
 	}
 
 	public int getPosition() {
@@ -95,6 +84,7 @@ public class ElevatorSystem extends Subsystem {
 
 	public void setPosition(int distance) {
 		elevatorMotor.setSelectedSensorPosition(distance);
+		System.out.println("Distance Set: " + distance);
 	}
 	public boolean getLimitSwitchIntake(){
 		return limitSwitch.get();

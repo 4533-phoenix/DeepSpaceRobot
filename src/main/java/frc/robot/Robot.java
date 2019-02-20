@@ -51,6 +51,7 @@ public class Robot extends IterativeRobot {
     // chooser.addOption("My Auto", new MyAutoCommand());
     smartDashboardValues = new SmartDashboardValues();
     DriveSystem.getInstance().setPosition(0);
+    ElevatorSystem.getInstance().setPosition(0);
     ElevatorSystem.getInstance().setPIDFValues(0.1, 0.0001, 0, 0);
     /*
      * 
@@ -161,7 +162,7 @@ public class Robot extends IterativeRobot {
     //while(jVData[0] != 126) {
       //System.out.println((serial.getBytesReceived()));
     //}
-    
+    System.out.println("Pos: " + ElevatorSystem.getInstance().getPosition());
   }
 
   /**

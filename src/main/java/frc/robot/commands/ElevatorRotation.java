@@ -8,13 +8,17 @@
 package frc.robot.commands;
 
 import edu.wpi.first.wpilibj.command.Command;
-import frc.robot.subsystems.IntakeSystem;
+import frc.robot.subsystems.ElevatorSystem;
 
-public class IntakeOut extends Command {
-  public IntakeOut() {
+public class ElevatorRotation extends Command {
+  ElevatorSystem elevator;
+  double curdist;
+  public ElevatorRotation() {
     // Use requires() here to declare subsystem dependencies
     // eg. requires(chassis);
-    requires(IntakeSystem.getInstance());
+    elevator = ElevatorSystem.getInstance();
+    curdist = elevator.getPosition();
+    this.requires(elevator);
   }
 
   // Called just before this Command runs the first time
@@ -25,18 +29,26 @@ public class IntakeOut extends Command {
   // Called repeatedly when this Command is scheduled to run
   @Override
   protected void execute() {
-    IntakeSystem.getInstance().out(.35);
+    elevator.elevatorMovement(1000);
+    System.out.println(elevator.getPosition());
+    System.out.println(curdist);
   }
 
   // Make this return true when this Command no longer needs to run execute()
   @Override
   protected boolean isFinished() {
-    return false;
+    return Math.abs(elevator.getPosition()) >= curdist + 999;
   }
 
   // Called once after isFinished returns true
   @Override
   protected void end() {
-    IntakeSystem.getInstance().stop();
+    elevator.stop();
+  }
+
+  // Called when another command which requires one or more of the same
+  // subsystems is scheduled to run
+  @Override
+  protected void interrupted() {
   }
 }

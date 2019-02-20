@@ -13,7 +13,7 @@ import edu.wpi.first.wpilibj.DigitalInput;
 
 public class ElevatorCommand extends Command {
 
-  private static final double INCHES_PER_REVOLUTION = 4096 / 3.875 ;
+  private static final double INCHES_PER_REVOLUTION = 4096 / 4.36 ;
   double distance = 0 ;
   ElevatorSystem elevator; 
   
@@ -44,9 +44,6 @@ public class ElevatorCommand extends Command {
   @Override
   protected boolean isFinished() {
     if(!elevator.getLimitSwitchIntake()&& !elevator.getLimitSwitchMid()) {
-      return true;
-    }
-    if(elevator.getLimitSwitchBottom()) {
       return true;
     }
     return Math.abs(elevator.getPosition()) >= distance;
