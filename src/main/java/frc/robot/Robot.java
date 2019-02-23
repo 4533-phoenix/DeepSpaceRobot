@@ -25,9 +25,9 @@ import edu.wpi.first.wpilibj.SerialPort.Port;
  * project.
  */
 public class Robot extends IterativeRobot {
-  public static OI m_oi;
+  public static OI oi;
   public SmartDashboardValues smartDashboardValues;
-  public SendableChooser<String> autoPositionChooser;
+  public SendableChooser<String> autoChooser;
   Autonomous testing;
   CargoShipAuto auto;
   public SerialPort serial;
@@ -39,15 +39,15 @@ public class Robot extends IterativeRobot {
    */
   @Override
   public void robotInit() {
-    m_oi = new OI();
+    oi = new OI();
     DriveSystem.initialize();
     // chooser.addOption("My Auto", new MyAutoCommand());
     smartDashboardValues = new SmartDashboardValues();
     DriveSystem.getInstance().setPosition(0);
-    autoPositionChooser = new SendableChooser<>();
-    autoPositionChooser.addDefault("Left", "L");
-    autoPositionChooser.addDefault("Right", "R");
-    autoPositionChooser.addDefault("Middle", "M");
+    autoChooser = new SendableChooser<>();
+    autoChooser.addDefault("Left", "L");
+    autoChooser.addObject("Right", "R");
+    autoChooser.addObject("Middle", "M");
     //serial = new SerialPort(115200, Port.kUSB);
   }
 
