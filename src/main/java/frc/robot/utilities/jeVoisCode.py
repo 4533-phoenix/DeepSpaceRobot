@@ -5,18 +5,26 @@ import math
 import json
 #4060/distCentroids = distToReflectTape (in)
 class Robotics:
-        count=0
+        #count=0
         rollingm_1 = []
         rollingm_2 = []
         rollingm_3 = []
         rollingm_4 = []
+        #creates a new font
+        font = cv2.FONT_HERSHEY_SIMPLEX
         def process(self, inframe, outframe):
             #gets the width and height of the image
             def getHeight(image):
-                    height = np.size(image, 0)
+                    if(np.size(image, 0) != null)
+                        height = np.size(image, 0)
+                    else
+                        height = 1
                     return height
             def getWidth(image):
-                    width = np.size(median, 1)
+                    if(np.size(image, 1) != null)
+                        width = np.size(image, 1)
+                    else
+                        width = 1
                     return width
             #finds the center between the center of the image and center of the targets
             def findDistBetweenCenters(median, thresh):
@@ -25,7 +33,8 @@ class Robotics:
                     #finds the moments of the threshold image
                     M = cv2.moments(thresh)
                     #if statement prevents a divide by zero error
-                    if(M["m00"] !=0 ):
+                    try:
+                        if(M["m00"] !=0):
                             #Finds the x and y cordinates of the center of the two vision targets
                             cX = int(M["m10"]/M["m00"])
                             cY = int(M["m01"]/M["m00"])
@@ -35,10 +44,10 @@ class Robotics:
                             #cv2.line(median, (cX,cY),(int(getWidth(median)/2), int(getHeight(median)/2)), (255,0,0),5)
                             #finds the distance between the center of the screen and the center of the targets (pixels)
                             dist = math.sqrt(math.pow((cX-(getWidth(median)/2)),2)+math.pow((cY-(getHeight(median)/2)),2))
-                            #creates a font
-                            font = cv2.FONT_HERSHEY_SIMPLEX
                             #puts text on the screen regarding distance between the center of the screen and the vision targets (pixels)
                             #cv2.putText(median,'Distance: ' + str(int(dist))+ ' (pixels)' ,(0,int(getHeight(median))-35), font, .5,(255,255,255),1,cv2.LINE_AA)
+                    except:
+                        jevois.LINFO("Failed to get X,Y coordinates of the vision targets")
             def createContours(image, grayImage) :
                     #generates contours on the grayscale image
                     contours, hierarchy = cv2.findContours(grayImage, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
@@ -62,15 +71,13 @@ class Robotics:
                                     ccY0 = int(mom0['m01']/mom0['m00'])
                                     ccY1 = int(mom1['m01']/mom1['m00'])
                                     #calculates the distance between the centers of the targets (pixels)
-                                    centroidDistance=math.sqrt((ccX1-ccX0)*(ccX1-ccX0)+(ccY1-ccY0)*(ccY1-ccY0))
-                                    #creates a new font
-                                    font = cv2.FONT_HERSHEY_SIMPLEX
+                                    centroidDistance=math.sqrt(math.pow((ccX1-ccX0),2)+math.pow((ccY1-ccY0),2))
                                     #puts the distance between centroids on the screen in text form (pixels)
                                     #cv2.putText(median,'Distance between centroids: ' + str(int(centroidDistance)) + ' pixels' ,(0,int(getHeight(median))-20), font, .5,(255,255,255),1,cv2.LINE_AA)
                                     #puts the distance between the camera and the targets on the screen (inches)
                                     #cv2.putText(median,'Distance to tape: ' + str(int(4060/centroidDistance))+' in' ,(0,int(getHeight(median))-5), font, .5,(255,255,255),1,cv2.LINE_AA)
                                     #creates a line through the contours
-                                    rows,cols = median.shape[:2]
+                                    """rows,cols = median.shape[:2]
                                     [vx,vy,x,y] = cv2.fitLine(cnt0, cv2.DIST_L2,0,0.01,0.01)
                                     lefty = int((-x*vy/vx) + y)
                                     righty = int(((cols-x)*vy/vx)+y)
@@ -95,14 +102,12 @@ class Robotics:
                                     rect = cv2.minAreaRect(contours[0])
                                     #creates the bounding box around the vision targets
                                     box = cv2.boxPoints(rect)
-                                    #creating the font again (but global)
-                                    font = cv2.FONT_HERSHEY_SIMPLEX
                                     #putting the box height (I think) and putting it on screen
-                                    #cv2.putText(median,'Box: '+str((math.sqrt((box[0][0]-box[1][0])*(box[0][0]-box[1][0])+(box[0][1]-box[1][1])*(box[0][1]-box[1][1]))/math.sqrt((box[2][0]-box[1][0])*(box[2][0]-box[1][0])+(box[2][1]-box[1][1])*(box[2][1]-box[1][1])))),(0,int(getHeight(median))-50), font, .5,(255,255,255),1,cv2.LINE_AA)
+                                    #cv2.putText(median,'Box: '+str((math.sqrt((box[0][0]-box[1][0])*(box[0][0]-box[1][0])+(box[0][1]-box[1][1])*(box[0][1]-box[1][1]))/math.sqrt((box[2][0]-box[1][0])*(box[2][0]-box[1][0])+(box[2][1]-box[1][1])*(box[2][1]-box[1][1])))),(0,int(getHeight(median))-50), font, .5,(255,255,255),1,cv2.LINE_AA)"""
             def serialStuff():
                 #stuff = {"Hello" : 1}
                 #json_stuff = json.dumps(stuff)
-                jevois.sendSerial("Hello")
+                jevois.sendSerial("Hello ")
             def jamesCode(contours,img):
                     width=getWidth(img)
                     height=getHeight(img)
@@ -118,6 +123,7 @@ class Robotics:
                             m_3=999
                             m_4=1
                             for a in range(4):
+                                    #box0[a][0] must be less than 999
                                     if(box0[a][0]<m_1):
                                             m_1=box0[a][0]
                                     if(box0[a][0]>m_2):
@@ -126,6 +132,7 @@ class Robotics:
                                             m_3=box1[a][0]
                                     if(box1[a][0]>m_4):
                                             m_4=box1[a][0]
+                            #Swap values
                             if(m_1>m_3):
                                     hold_1=m_1
                                     hold_2=m_2
@@ -133,6 +140,7 @@ class Robotics:
                                     m_2=m_4
                                     m_3=hold_1
                                     m_4=hold_2
+                            
                             if(len(self.rollingm_1)<9):
                                     self.rollingm_1.append(m_1)
                                     self.rollingm_2.append(m_2)
@@ -154,41 +162,51 @@ class Robotics:
                             m=0
                             dm=0.02;
                             c=int(width)
-                            #Where/What is b
-                            jevois.LINFO(str(m_1))
-                            jevois.LINFO(str(m_2))
-                            jevois.LINFO(str(m_3))
-                            jevois.LINFO(str(m_4))
-                            b=11.31/math.sqrt(((1+m/(c/m_1-m)+1+m/(c/m_2-m))/2-(1+m/(c/m_3-m)+1+m/(c/m_4-m))/2)*((1+m/(c/m_1-m)+1+m/(c/m_2-m))/2-(1+m/(c/m_3-m)+1+m/(c/m_4-m))/2)+((1/2/(c/m_1-m)+1/2/(c/m_2-m))-(1/2/(c/m_3-m)+1/2/(c/m_4-m)))*((1/2/(c/m_1-m)+1/2/(c/m_2-m))-(1/2/(c/m_3-m)+1/2/(c/m_4-m))))
-                            rrrt1=(m*b*(c/m_1-c/m_2)/(c/m_1-m)/(c/m_2-m))
-                            rrrt2=((b/(c/m_1-m))-(b/(c/m_2-m)))
-                            jevois.LINFO("r1 "+str(rrrt1))
-                            jevois.LINFO("r2 "+str(rrrt2))
-                            rrrt=math.sqrt(rrrt1*rrrt1+rrrt2*rrrt2)
-                            jevois.LINFO(str(rrrt))
-                            jevois.LINFO(str(b))
+                            cm1m = c/m_1-m
+                            cm2m = c/m_2-m
+                            cm3m = c/m_3-m
+                            cm4m = c/m_4-m
+                            cmwhat1 = math.pow(((1+m/cm1m+1+m/cm2m)/2-(1+m/cm3m+1+m/cm4m)/2),2)
+                            cmwhat2 = math.pow((1/2/cm1m+1/2/cm2m)-(1/2/cm3m+1/2/cm4m),2)
+                            b=11.31/math.sqrt(cmwhat1+cmwhat2)
+                            #jevois.LINFO(str(m_1))
+                            #jevois.LINFO(str(m_2))
+                            #jevois.LINFO(str(m_3))
+                            #jevois.LINFO(str(m_4))
+                            rrrt1=math.pow((m*b*(c/m_1-c/m_2)/(c/m_1-m)/(c/m_2-m)),2)
+                            rrrt2=math.pow(((b/(c/m_1-m))-(b/(c/m_2-m))),2)
+                            #jevois.LINFO("r1 "+str(rrrt1))
+                            #jevois.LINFO("r2 "+str(rrrt2))
+                            rrrt=math.sqrt(rrrt1+rrrt2)
+                            #jevois.LINFO(str(rrrt))
+                            #jevois.LINFO(str(b))
                             if(rrrt!=0):
-                                    m_d=math.sqrt((m*b*(c/m_3-c/m_4)/(c/m_3-m)/(c/m_4-m))*(m*b*(c/m_3-c/m_4)/(c/m_3-m)/(c/m_4-m))+((b/(c/m_3-m))-(b/(c/m_4-m)))*((b/(c/m_3-m))-(b/(c/m_4-m))))/rrrt
+                                    mb = math.pow((m*b*(c/m_3-c/m_4)/(c/m_3-m)/(c/m_4-m),2)
+                                    mb1 = math.pow(((b/(c/m_3-m))-(b/(c/m_4-m))),2)
+                                    m_d=math.sqrt((mb))+mb1)/rrrt
                             else:
                                     m_d=999
                             if(m_d>1):
+                                mb = math.pow((m*b*(c/m_3-c/m_4)/(c/m_3-m)/(c/m_4-m),2)
+                                mb1 = math.pow(((b/(c/m_3-m))-(b/(c/m_4-m))),2)
+                                why = (mb)+(mb1)/rrrt
                                     while(m_d>1):
                                             m+=dm
-                                            if(math.sqrt((m*b*(c/m_3-c/m_4)/(c/m_3-m)/(c/m_4-m))*(m*b*(c/m_3-c/m_4)/(c/m_3-m)/(c/m_4-m))+((b/(c/m_3-m))-(b/(c/m_4-m)))*((b/(c/m_3-m))-(b/(c/m_4-m))))/math.sqrt((m*b*(c/m_1-c/m_2)/(c/m_1-m)/(c/m_2-m))*(m*b*(c/m_1-c/m_2)/(c/m_1-m)/(c/m_2-m))+((b/(c/m_1-m))-(b/(c/m_2-m)))*((b/(c/m_1-m))-(b/(c/m_2-m))))>m_d):
+                                            if(math.sqrt(why>m_d):
                                                     dm=0-dm
                                                     m+=dm
                                             else:
-                                                    m_d=math.sqrt((m*b*(c/m_3-c/m_4)/(c/m_3-m)/(c/m_4-m))*(m*b*(c/m_3-c/m_4)/(c/m_3-m)/(c/m_4-m))+((b/(c/m_3-m))-(b/(c/m_4-m)))*((b/(c/m_3-m))-(b/(c/m_4-m))))/math.sqrt((m*b*(c/m_1-c/m_2)/(c/m_1-m)/(c/m_2-m))*(m*b*(c/m_1-c/m_2)/(c/m_1-m)/(c/m_2-m))+((b/(c/m_1-m))-(b/(c/m_2-m)))*((b/(c/m_1-m))-(b/(c/m_2-m))))
-                                            b=11.31/math.sqrt(((1+m/(c/m_1-m)+1+m/(c/m_2-m))/2-(1+m/(c/m_3-m)+1+m/(c/m_4-m))/2)*((1+m/(c/m_1-m)+1+m/(c/m_2-m))/2-(1+m/(c/m_3-m)+1+m/(c/m_4-m))/2)+((1/2/(c/m_1-m)+1/2/(c/m_2-m))-(1/2/(c/m_3-m)+1/2/(c/m_4-m)))*((1/2/(c/m_1-m)+1/2/(c/m_2-m))-(1/2/(c/m_3-m)+1/2/(c/m_4-m))))
+                                                    m_d=math.sqrt(why)
+                                            b=11.31/math.sqrt(cmwhat1+cmwhat2)
                             else:
                                     while(m_d<1):
                                             m+=dm
-                                            if(math.sqrt((m*b*(c/m_3-c/m_4)/(c/m_3-m)/(c/m_4-m))*(m*b*(c/m_3-c/m_4)/(c/m_3-m)/(c/m_4-m))+((b/(c/m_3-m))-(b/(c/m_4-m)))*((b/(c/m_3-m))-(b/(c/m_4-m))))/math.sqrt((m*b*(c/m_1-c/m_2)/(c/m_1-m)/(c/m_2-m))*(m*b*(c/m_1-c/m_2)/(c/m_1-m)/(c/m_2-m))+((b/(c/m_1-m))-(b/(c/m_2-m)))*((b/(c/m_1-m))-(b/(c/m_2-m))))<m_d):
+                                            if(math.sqrt(why)<m_d):
                                                     dm=0-dm
                                                     m+=dm
                                             else:
-                                                    m_d=math.sqrt((m*b*(c/m_3-c/m_4)/(c/m_3-m)/(c/m_4-m))*(m*b*(c/m_3-c/m_4)/(c/m_3-m)/(c/m_4-m))+((b/(c/m_3-m))-(b/(c/m_4-m)))*((b/(c/m_3-m))-(b/(c/m_4-m))))/math.sqrt((m*b*(c/m_1-c/m_2)/(c/m_1-m)/(c/m_2-m))*(m*b*(c/m_1-c/m_2)/(c/m_1-m)/(c/m_2-m))+((b/(c/m_1-m))-(b/(c/m_2-m)))*((b/(c/m_1-m))-(b/(c/m_2-m))))
-                                            b=11.31/math.sqrt(((1+m/(c/m_1-m)+1+m/(c/m_2-m))/2-(1+m/(c/m_3-m)+1+m/(c/m_4-m))/2)*((1+m/(c/m_1-m)+1+m/(c/m_2-m))/2-(1+m/(c/m_3-m)+1+m/(c/m_4-m))/2)+((1/2/(c/m_1-m)+1/2/(c/m_2-m))-(1/2/(c/m_3-m)+1/2/(c/m_4-m)))*((1/2/(c/m_1-m)+1/2/(c/m_2-m))-(1/2/(c/m_3-m)+1/2/(c/m_4-m))))
+                                                    m_d=math.sqrt(why)
+                                            b=11.31/math.sqrt(cmwhat1+cmwhat2)
                             """for a in range(10):
                                     cv2.line(median,(46+4*a,int(height)-7-8*a),(48+4*a,int(height)-11-8*a),(100,0,0),1)
                                     cv2.line(median,(44-4*a,int(height)-7-8*a),(42-4*a,int(height)-11-8*a),(100,0,0),1)
@@ -198,7 +216,6 @@ class Robotics:
                             #cv2.line(median,(45,int(height)-5),(45,int(height)-85),(255,255,255),1)"""
                             #cv2.line(median,(int(45-(b/(m-c/m_1)+b/(m-c/m_2)+b/(m-c/m_3)+b/(m-c/m_4))/4),int(height)-5),(int(45-(b/(m-c/m_1)+b/(m-c/m_2)+b/(m-c/m_3)+b/(m-c/m_4))/4),int(height)-85),(255,255,0),1)
                             #cv2.line(median,(5,int(int(height)-5-((b-m*b/(m-c/m_1))+(b-m*b/(m-c/m_2))+(b-m*b/(m-c/m_3))+(b-m*b/(m-c/m_4)))/4)),(85,int(int(height)-5-((b-m*b/(m-c/m_1))+(b-m*b/(m-c/m_2))+(b-m*b/(m-c/m_3))+(b-m*b/(m-c/m_4)))/4)),(255,255,0),1)
-                            font = cv2.FONT_HERSHEY_SIMPLEX
                             x_dist1=(b-m*b/(m-c/m_1))
                             x_dist2=(b-m*b/(m-c/m_2))
                             x_dist3=(b-m*b/(m-c/m_3))
@@ -260,7 +277,7 @@ class Robotics:
                              cv2.circle(median,(ccX, ccY), 5, (0,0,255), -1)
                         #jevois.LINFO(str(contours))
             #cv2.imwrite("frames/frame%d.png"%self.count,img)
-            self.count+=1
+            #self.count+=1
             #displays the image on the video feed"""
             outframe.sendCv(median)
         

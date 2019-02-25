@@ -16,7 +16,7 @@ public class DrivePosition extends Command {
   /** 
    * get the circumfrace of the wheels used on the robot
   */
-  private static final double CIRCUMFRANCE=6*Math.PI;
+  private static final double CIRCUMFRANCE=8*Math.PI;
   /**
    * set the coding units are on the wheel
    */

@@ -98,6 +98,8 @@ public class RobotMap {
   /**
    * This variable allows use of the JOYSTICK_PORT in the code
    */
+  public static final int INTAKE_MOTOR = 4;
+  public static final int ELEVATOR_MOTOR = 5;
   public static final int JOYSTICK_PORT = 0;
 }
 

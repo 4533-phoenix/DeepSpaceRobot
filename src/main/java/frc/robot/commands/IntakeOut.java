@@ -6,27 +6,15 @@
 /*----------------------------------------------------------------------------*/
 
 package frc.robot.commands;
-import edu.wpi.first.wpilibj.Joystick;
-import edu.wpi.first.wpilibj.buttons.JoystickButton;
-import edu.wpi.first.wpilibj.command.Command;
-import frc.robot.RobotMap;
-import frc.robot.subsystems.DriveSystem;
-/**
- * In this command we call the method driveVelocity which originates drive system
- */
-public class DriveVelocity extends Command {
-  Joystick controller;
-  DriveSystem driveSystem;
-  JoystickButton leftTrigger;
 
-  public DriveVelocity() {
+import edu.wpi.first.wpilibj.command.Command;
+import frc.robot.subsystems.IntakeSystem;
+
+public class IntakeOut extends Command {
+  public IntakeOut() {
     // Use requires() here to declare subsystem dependencies
     // eg. requires(chassis);
-    controller = new Joystick(RobotMap.JOYSTICK_PORT);
-    leftTrigger = new JoystickButton(controller, RobotMap.LEFT_TRIGGER);
-    driveSystem = DriveSystem.getInstance();
-    this.requires(DriveSystem.getInstance());
-    driveSystem.setPeakOutput(1);
+    requires(IntakeSystem.getInstance());
   }
 
   // Called just before this Command runs the first time
@@ -37,13 +25,7 @@ public class DriveVelocity extends Command {
   // Called repeatedly when this Command is scheduled to run
   @Override
   protected void execute() {
-    if (leftTrigger.get()) {
-      driveSystem.setVelocity(500);
-    }
-    else{
-      driveSystem.setVelocity(250);
-    }
-    driveSystem.driveVelocity(controller.getRawAxis(3), controller.getRawAxis(1));
+    IntakeSystem.getInstance().out(.35);
   }
 
   // Make this return true when this Command no longer needs to run execute()
@@ -55,11 +37,6 @@ public class DriveVelocity extends Command {
   // Called once after isFinished returns true
   @Override
   protected void end() {
-  }
-
-  // Called when another command which requires one or more of the same
-  // subsystems is scheduled to run
-  @Override
-  protected void interrupted() {
+    IntakeSystem.getInstance().stop();
   }
 }
