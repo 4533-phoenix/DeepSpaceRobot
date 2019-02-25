@@ -23,8 +23,11 @@ public class CargoShipAuto extends CommandGroup {
       //actual 148.9305
       this.addSequential(new AngleTurn(-180+148.9305));
       //actual 73.97
-      this.addSequential(new DrivePosition(73.97));
-      this.addSequential(new DrivePosition(-15));
+      this.addSequential(new DrivePosition(70.97));
+      this.addSequential(new ElevatorCommand(19));
+      this.addSequential(new DrivePosition(3));
+      // this.addSequential(new ElevatorRemoval());
+      this.addSequential(new DrivePosition(-12));
       this.addSequential(new AngleTurn(-149.72));
       this.addSequential(new DrivePosition(182.09));
       this.addSequential(new AngleTurn(-30.28));
@@ -38,8 +41,11 @@ public class CargoShipAuto extends CommandGroup {
       //actual 148.9305
       this.addSequential(new AngleTurn(148.9305));
       //actual 73.97
-      this.addSequential(new DrivePosition(73.97));
-      this.addSequential(new DrivePosition(-15));
+      this.addSequential(new DrivePosition(70.97));
+      this.addSequential(new ElevatorCommand(19));
+      this.addSequential(new DrivePosition(3));
+      // this.addSequential(new ElevatorRemoval());
+      this.addSequential(new DrivePosition(-12));
       this.addSequential(new AngleTurn(149.72));
       this.addSequential(new DrivePosition(182.09));
       this.addSequential(new AngleTurn(30.28));
