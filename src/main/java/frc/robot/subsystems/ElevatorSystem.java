@@ -14,8 +14,10 @@ import frc.robot.RobotMap;
  *
  */
 public class ElevatorSystem extends Subsystem {
+	//creates the elevator motor object
     private TalonSRX elevatorMotor;
 	private static ElevatorSystem INSTANCE;
+	//creates the limit switch objects for the elevators
 	DigitalInput limitSwitch;
   	DigitalInput limitSwitchTwo;
   	DigitalInput limitSwitchThree;
@@ -25,16 +27,23 @@ public class ElevatorSystem extends Subsystem {
 	 * Sets up the motors for elevator
 	 */
 	public ElevatorSystem() {
+		//instanciating the object elevatorMotor
 		elevatorMotor = new TalonSRX(RobotMap.ELEVATOR_MOTOR);
+		//gets the values for the encoder
 		elevatorMotor.configSelectedFeedbackSensor(FeedbackDevice.QuadEncoder,0,100);
+		//configures drive sensors
 		elevatorMotor.setSensorPhase(true);
+		//how presice the elevator is 
 		elevatorMotor.configAllowableClosedloopError(0, 50, 100);
+		//instanciates limit switch objects
 		limitSwitch = new DigitalInput(0);
 		limitSwitchTwo = new DigitalInput(1);
 		limitSwitchThree = new DigitalInput(3);
 		limitSwitchFour = new DigitalInput(5);
+		//configues Ramp Rate (seconds)
 		elevatorMotor.configClosedloopRamp(3);
 	}
+	// creates 
 	public void elevatorPercentOutput(double speed) {
 		elevatorMotor.set(ControlMode.PercentOutput, speed);
 	}
