@@ -30,9 +30,12 @@ import edu.wpi.first.wpilibj.SerialPort.Port;
  * project.
  */
 public class Robot extends IterativeRobot {
-  public static OI m_oi;
+  public static OI oi;
   public SmartDashboardValues smartDashboardValues;
-  Testing testing;
+  public SendableChooser<String> autoChooser;
+  Autonomous testing;
+  CargoShipAuto auto;
+  CargoMiddle midAuto;
   public SerialPort serial;
   public DatagramSocket serverSocket;
   public byte[] receiveData;
@@ -67,6 +70,12 @@ public class Robot extends IterativeRobot {
     receiveData = new byte [256];
     sendData = new byte[256];
     */
+    autoChooser = new SendableChooser<>();
+    autoChooser.addDefault("No Auto", "N");
+    autoChooser.addObject("Left", "L");
+    autoChooser.addObject("Right", "R");
+    autoChooser.addObject("Middle", "M");
+    //serial = new SerialPort(115200, Port.kUSB);
   }
 
   /**
@@ -122,11 +131,24 @@ public class Robot extends IterativeRobot {
    // if (m_autonomousCommand != null) {
     //  m_autonomousCommand.start();
     //}
-    testing = new Testing();
     DriveSystem.getInstance().setPIDFValues(0.1, 0.0001, 0, 0);
     DriveSystem.getInstance().setPosition(0);
-    if(testing != null) {
-      testing.start();
+    if(autoChooser.getSelected().equals("L")){
+      auto = new CargoShipAuto(true);
+    }
+    else if(autoChooser.getSelected().equals("R")){
+      auto = new CargoShipAuto(false);
+    }
+    else if(autoChooser.getSelected().equals("M")){
+      midAuto = new CargoMiddle();
+    }
+    if(auto != null || midAuto != null) {
+      if(auto != null) {
+        auto.start();
+      }
+      if(midAuto != null) {
+        midAuto.start();
+      }
     }
   }
 
@@ -208,3 +230,4 @@ public class Robot extends IterativeRobot {
 
   
 }
+

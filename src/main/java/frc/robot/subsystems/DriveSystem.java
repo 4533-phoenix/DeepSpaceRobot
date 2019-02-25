@@ -16,7 +16,11 @@ import edu.wpi.first.wpilibj.command.Subsystem;
 import frc.robot.commands.DriveCommand;
 import frc.robot.commands.DriveVelocity;
 import frc.robot.RobotMap;
+import com.kauailabs.navx.*;
+import com.kauailabs.navx.frc.AHRS;
 
+import edu.wpi.first.wpilibj.SPI;
+import edu.wpi.first.wpilibj.SPI.Port;
 /**
  * Add your docs here.
  */
@@ -30,6 +34,8 @@ public class DriveSystem extends Subsystem {
   TalonSRX leftMaster;
   VictorSPX rightSlave;
   VictorSPX leftSlave;
+  private AHRS navX;
+  private Port navXPort;
   /**
    * Creating target speed variables for Left and right
    */
@@ -42,6 +48,9 @@ public class DriveSystem extends Subsystem {
   public static double MAX_VELOCITY = 250;
  
   public DriveSystem() {
+    navXPort = SPI.Port.kMXP;
+    navX = new AHRS(navXPort);
+
     /**
      * Creating new TalonSRX's
      */
@@ -60,6 +69,8 @@ public class DriveSystem extends Subsystem {
     /**
      * Inverts the wheel direction
      */
+    rightMaster.setInverted(true);
+    rightSlave.setInverted(true);
     /**
      * Sets PID
      */
@@ -67,6 +78,12 @@ public class DriveSystem extends Subsystem {
     rightMaster.configAllowableClosedloopError(0, 50, 100);
     leftSlave.follow(leftMaster);
     rightSlave.follow(rightMaster);
+  }
+  public double getAngle() {
+    return navX.getAngle();
+  }
+  public void resetAngle() {
+    navX.reset();
   }
   public void drivePercentOutput(double left, double right) {
     /**
@@ -143,7 +160,7 @@ public class DriveSystem extends Subsystem {
    * @param right
    * @param left
    */
-  public void driveVelocity (double right, double left){
+  public void driveVelocity (double left, double right){
     targetL = left * MAX_VELOCITY * 4096 / 600;
     targetR = right * MAX_VELOCITY * 4096 / 600;
     /**

@@ -21,11 +21,11 @@ public class DrivePosition extends Command {
    * set the coding units are on the wheel
    */
   private static final double UNITS_PER_INCH=4096/CIRCUMFRANCE;
-  public DrivePosition(int distance) {
+  public DrivePosition(double distance) {
     // Use requires() here to declare subsystem dependencies
     // eg. requires(chassis);
 
-    this.requires(DriveSystem.getInstance());
+    this.requires(driveSystem.getInstance());
     /**
      * sets variable distance equal to parameter distance * UNITS_PER_INCH
      */
@@ -75,7 +75,7 @@ public class DrivePosition extends Command {
     /**
      * sets the maximum amount of speed
      */
-    driveSystem.setPeakOutput(1);
+    driveSystem.setPosition(0);
     /**
      * Stops the robot
      */
