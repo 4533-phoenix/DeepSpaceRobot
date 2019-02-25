@@ -30,6 +30,7 @@ public class Robot extends IterativeRobot {
   public SendableChooser<String> autoChooser;
   Autonomous testing;
   CargoShipAuto auto;
+  CargoMiddle midAuto;
   public SerialPort serial;
  
 
@@ -45,7 +46,8 @@ public class Robot extends IterativeRobot {
     smartDashboardValues = new SmartDashboardValues();
     DriveSystem.getInstance().setPosition(0);
     autoChooser = new SendableChooser<>();
-    autoChooser.addDefault("Left", "L");
+    autoChooser.addDefault("No Auto", "N");
+    autoChooser.addObject("Left", "L");
     autoChooser.addObject("Right", "R");
     autoChooser.addObject("Middle", "M");
     //serial = new SerialPort(115200, Port.kUSB);
@@ -104,11 +106,24 @@ public class Robot extends IterativeRobot {
    // if (m_autonomousCommand != null) {
     //  m_autonomousCommand.start();
     //}
-    auto = new CargoShipAuto(true);
     DriveSystem.getInstance().setPIDFValues(0.1, 0.0001, 0, 0);
     DriveSystem.getInstance().setPosition(0);
-    if(auto != null) {
-      auto.start();
+    if(autoChooser.getSelected().equals("L")){
+      auto = new CargoShipAuto(true);
+    }
+    else if(autoChooser.getSelected().equals("R")){
+      auto = new CargoShipAuto(false);
+    }
+    else if(autoChooser.getSelected().equals("M")){
+      midAuto = new CargoMiddle();
+    }
+    if(auto != null || midAuto != null) {
+      if(auto != null) {
+        auto.start();
+      }
+      if(midAuto != null) {
+        midAuto.start();
+      }
     }
   }
 
