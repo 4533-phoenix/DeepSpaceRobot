@@ -50,7 +50,7 @@ public class Robot extends IterativeRobot {
     DriveSystem.initialize();
     ElevatorSystem.initialize();
     IntakeSystem.initialize();
-    m_oi = new OI();
+    oi = new OI();
     // chooser.addOption("My Auto", new MyAutoCommand());
     smartDashboardValues = new SmartDashboardValues();
     DriveSystem.getInstance().setPosition(0);
