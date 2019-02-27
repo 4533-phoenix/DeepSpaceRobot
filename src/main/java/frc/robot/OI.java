@@ -73,7 +73,7 @@ public class OI {
      * when start is pressed increase the max velocity by 50 rpm
      */
     //start.whenPressed(new ElevatorPercentOutput(0.2));
-    select.whenPressed(new ElevatorRotation());
+    select.whenPressed(new HatchExit());
     //aButton.whenPressed(new JevoisRetreival());
     leftTrigger.whileHeld(new IntakeIn());
     rightTrigger.whileHeld(new IntakeOut());
