@@ -10,7 +10,7 @@ package frc.robot.utilities;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.commands.DrivePosition;
 import frc.robot.subsystems.DriveSystem;
-
+import edu.wpi.first.wpilibj.DriverStation;
 /**
  * Add your docs here.
  */
@@ -28,5 +28,6 @@ public class SmartDashboardValues {
         SmartDashboard.putData("Drive Distance", new DrivePosition(48));
         DriveSystem.MAX_VELOCITY = SmartDashboard.getNumber("Max Velocity", 250);
         SmartDashboard.putNumber("Actual Max Velocity", DriveSystem.MAX_VELOCITY);
+        SmartDashboard.putNumber("Match Time", DriverStation.getInstance().getMatchTime());
     }
 }
