@@ -33,7 +33,6 @@ public class Autonomous extends CommandGroup {
             Actual: 119.0695697
              */
             this.addSequential(new DrivePosition(116));
-            this.addSequential(new );
             /**
             same thing but for right side
              */
