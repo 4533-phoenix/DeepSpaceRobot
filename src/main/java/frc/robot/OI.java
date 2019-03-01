@@ -92,7 +92,7 @@ public class OI {
         //When pressed elevator goes to third hatch level
         yButton.whenPressed(new ElevatorCommand(75));
       }
-      //select.whenPressed(new ElevatorExitThingy);
+      select.whenPressed(new HatchExit());
     }
     leftBumperButton.whileHeld(new IntakeIn());
     rightBumperButton.whileHeld(new IntakeOut());
