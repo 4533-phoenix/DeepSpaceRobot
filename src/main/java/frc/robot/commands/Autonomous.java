@@ -32,7 +32,10 @@ public class Autonomous extends CommandGroup {
             moves forward into the rocket
             Actual: 119.0695697
              */
-            this.addSequential(new DrivePosition(119));
+            this.addSequential(new DrivePosition(116));
+            this.addSequential(new ElevatorCommand(19));
+            this.addSequential(new DrivePosition(3));
+            this.addSequential(new HatchExit());
             /**
             same thing but for right side
              */
@@ -40,7 +43,10 @@ public class Autonomous extends CommandGroup {
             this.addSequential(new AngleTurn(90));
             this.addSequential(new DrivePosition(13));
             this.addSequential(new AngleTurn(-52));
-            this.addSequential(new DrivePosition(119));
+            this.addSequential(new DrivePosition(116));
+            this.addSequential(new ElevatorCommand(19));
+            this.addSequential(new DrivePosition(3));
+            this.addSequential(new HatchExit());
 
         }
 
