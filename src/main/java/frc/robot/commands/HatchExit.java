@@ -30,7 +30,7 @@ public class HatchExit extends CommandGroup {
     // e.g. if Command1 requires chassis, and Command2 requires arm,
     // a CommandGroup containing them would require both the chassis and the
     // arm.
-    this.addSequential(new ElevatorDownCommand());
-    this.addParallel(new DrivePosition(-3));
+    this.addSequential(new ElevatorPercentOutput(-.25), 1);
+    this.addSequential(new DrivePosition(-10));
   }
 }

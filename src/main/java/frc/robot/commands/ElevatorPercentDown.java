@@ -10,10 +10,10 @@ package frc.robot.commands;
 import edu.wpi.first.wpilibj.command.Command;
 import frc.robot.subsystems.*;
 
-public class ElevatorPercentOutput extends Command {
+public class ElevatorPercentDown extends Command {
   ElevatorSystem elevatorSystem;
   double percent;
-  public ElevatorPercentOutput(double percent) {
+  public ElevatorPercentDown(double percent) {
     this.percent = percent;
     elevatorSystem = ElevatorSystem.getInstance();
     requires(elevatorSystem);
@@ -37,7 +37,7 @@ public class ElevatorPercentOutput extends Command {
   // Make this return true when this Command no longer needs to run execute()
   @Override
   protected boolean isFinished() {
-    return false;
+    return !elevatorSystem.getLimitSwitchBottom();
   }
 
   // Called once after isFinished returns true

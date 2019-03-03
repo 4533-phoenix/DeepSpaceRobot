@@ -41,7 +41,8 @@ public class ElevatorSystem extends Subsystem {
 		limitSwitchThree = new DigitalInput(3);
 		limitSwitchFour = new DigitalInput(5);
 		//configues Ramp Rate (seconds)
-		elevatorMotor.configClosedloopRamp(3);
+		elevatorMotor.configClosedloopRamp(1);
+		elevatorMotor.setInverted(true);
 	}
 	// creates 
 	public void elevatorPercentOutput(double speed) {

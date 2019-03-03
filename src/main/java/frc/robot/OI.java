@@ -75,24 +75,25 @@ public class OI {
       aButton.whileHeld(new ElevatorPercentOutput(-.25));
     }
     else {
-      bButton.whenPressed(new ElevatorDownCommand());
-      if(rightTrigger.get()) {
+      bButton.whenPressed(new ElevatorPercentDown(-.25));
+      /*
+      if(controller.getRawButton(RobotMap.RIGHT_TRIGGER)) {
         //When pressed elevator goes to first cargo level
         aButton.whenPressed(new ElevatorCommand(27.5));
         // When pressed elevator goes to second cargo level
         xButton.whenPressed(new ElevatorCommand(55.5));
         // When pressed elevator goes to third cargo level
-        yButton.whenPressed(new ElevatorCommand(83.5));
+        yButton.whenPressed(new ElevatorCommand(83.5));   
       }
-      else {
-        //When pressed elevator goes to first hatch level
-        aButton.whenPressed(new ElevatorCommand(19));
-        //When pressed elevator goes to second hatch level
-        xButton.whenPressed(new ElevatorCommand(47));
-        //When pressed elevator goes to third hatch level
-        yButton.whenPressed(new ElevatorCommand(75));
-      }
-      select.whenPressed(new HatchExit());
+      */
+      //When pressed elevator goes to first hatch level
+      aButton.whenPressed(new ElevatorCommand(19-15));
+      //When pressed elevator goes to second hatch level
+      xButton.whenPressed(new ElevatorCommand(47-15));
+      //When pressed elevator goes to third hatch level
+      yButton.whenPressed(new ElevatorCommand(75-15));
+      select.whenPressed(new ElevatorPercentOutput(-.25));
+      start.whileHeld(new ElevatorPercentOutput(.5));
     }
     leftBumperButton.whileHeld(new IntakeIn());
     rightBumperButton.whileHeld(new IntakeOut());
@@ -106,3 +107,4 @@ public class OI {
   }
 
 }
+

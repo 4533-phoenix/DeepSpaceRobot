@@ -69,8 +69,8 @@ public class DriveSystem extends Subsystem {
     /**
      * Inverts the wheel direction
      */
-    rightMaster.setInverted(true);
-    rightSlave.setInverted(true);
+    leftMaster.setInverted(true);
+    leftSlave.setInverted(true);
     /**
      * Sets PID
      */
@@ -78,6 +78,10 @@ public class DriveSystem extends Subsystem {
     rightMaster.configAllowableClosedloopError(0, 50, 100);
     leftSlave.follow(leftMaster);
     rightSlave.follow(rightMaster);
+    leftMaster.configClosedloopRamp(.75);
+    rightMaster.configClosedloopRamp(.75);
+    leftSlave.configClosedloopRamp(.75);
+    rightSlave.configClosedloopRamp(.75);
   }
   public double getAngle() {
     return navX.getAngle();

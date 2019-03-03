@@ -29,7 +29,7 @@ public class ElevatorRotation extends Command {
   // Called repeatedly when this Command is scheduled to run
   @Override
   protected void execute() {
-    elevator.elevatorMovement(1000);
+    elevator.elevatorMovement(4096);
     System.out.println(elevator.getPosition());
     System.out.println(curdist);
   }
@@ -37,7 +37,7 @@ public class ElevatorRotation extends Command {
   // Make this return true when this Command no longer needs to run execute()
   @Override
   protected boolean isFinished() {
-    return Math.abs(elevator.getPosition()) >= curdist + 999;
+    return Math.abs(elevator.getPosition()) >= curdist + 4096;
   }
 
   // Called once after isFinished returns true

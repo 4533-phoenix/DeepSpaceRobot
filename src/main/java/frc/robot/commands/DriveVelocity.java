@@ -11,6 +11,7 @@ import edu.wpi.first.wpilibj.buttons.JoystickButton;
 import edu.wpi.first.wpilibj.command.Command;
 import frc.robot.RobotMap;
 import frc.robot.subsystems.DriveSystem;
+import jdk.jfr.ContentType;
 /**
  * In this command we call the method driveVelocity which originates drive system
  */
@@ -37,13 +38,13 @@ public class DriveVelocity extends Command {
   // Called repeatedly when this Command is scheduled to run
   @Override
   protected void execute() {
-    if (leftTrigger.get()) {
+    if (controller.getRawButton(RobotMap.LEFT_TRIGGER)) {
       driveSystem.setVelocity(500);
     }
     else{
       driveSystem.setVelocity(250);
     }
-    driveSystem.driveVelocity(controller.getRawAxis(3), controller.getRawAxis(1));
+    driveSystem.driveVelocity(controller.getRawAxis(1), controller.getRawAxis(3));
   }
 
   // Make this return true when this Command no longer needs to run execute()

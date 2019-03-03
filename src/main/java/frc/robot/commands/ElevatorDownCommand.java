@@ -22,6 +22,7 @@ public class ElevatorDownCommand extends Command {
     this.requires(ElevatorSystem.getInstance());
     // Use requires() here to declare subsystem dependencies
     // eg. requires(chassis);
+    ElevatorSystem.getInstance().setPIDFValues(0.00624, 0.0001, 62.4, 0);
   }
 
   // Called just before this Command runs the first time
@@ -38,9 +39,10 @@ public class ElevatorDownCommand extends Command {
   // Make this return true when this Command no longer needs to run execute()
   @Override
   protected boolean isFinished() {
-    if(elevatorDown.getLimitSwitchBottom()) {
+    /*if(elevatorDown.getLimitSwitchBottom()) {
       return true;
     }
+    */
     return Math.abs(elevatorDown.getPosition()) <= distance;
   }
 
