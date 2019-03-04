@@ -33,9 +33,22 @@ public class Autonomous extends CommandGroup {
             Actual: 119.0695697
              */
             this.addSequential(new DrivePosition(116));
+            /** 
+            moves the elevator up to first level
+            */
             this.addSequential(new ElevatorCommand(19));
+            /**
+            moves forward three inches in order to place the hatch
+            */ 
             this.addSequential(new DrivePosition(3));
-            this.addSequential(new HatchExit());
+            /** 
+            move elevator down to position 0
+            */
+            this.addSequential(new ElevatorCommand(-19));
+            /** 
+            moves robot back 
+            */
+            this.addSequential(new DrivePosition(-10));
             /**
             same thing but for right side
              */
@@ -46,9 +59,8 @@ public class Autonomous extends CommandGroup {
             this.addSequential(new DrivePosition(116));
             this.addSequential(new ElevatorCommand(19));
             this.addSequential(new DrivePosition(3));
-            this.addSequential(new HatchExit());
-
+            this.addSequential(new ElevatorCommand(-19));
+            this.addSequential(new DrivePosition(-10));
         }
-
     }
 }
