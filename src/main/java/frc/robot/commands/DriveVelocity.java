@@ -38,7 +38,7 @@ public class DriveVelocity extends Command {
   // Called repeatedly when this Command is scheduled to run
   @Override
   protected void execute() {
-    if (controller.getRawButton(RobotMap.LEFT_TRIGGER)) {
+    if (controller.getRawButton(RobotMap.LEFT_BUMPER)) {
       driveSystem.setVelocity(500);
     }
     else{

@@ -7,18 +7,21 @@
 
 package frc.robot.commands;
 
+import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.command.Command;
+import frc.robot.RobotMap;
 import frc.robot.subsystems.*;
 
 public class ElevatorPercentDown extends Command {
   ElevatorSystem elevatorSystem;
   double percent;
+  Joystick controller;
   public ElevatorPercentDown(double percent) {
     this.percent = percent;
     elevatorSystem = ElevatorSystem.getInstance();
     requires(elevatorSystem);
-    elevatorSystem.setPosition(0);
-
+    //elevatorSystem.setPosition(0);
+    controller = new Joystick(RobotMap.JOYSTICK_PORT);
     // Use requires() here to declare subsystem dependencies
     // eg. requires(chassis);
   }
@@ -44,6 +47,8 @@ public class ElevatorPercentDown extends Command {
   @Override
   protected void end() {
     elevatorSystem.stop();
+    elevatorSystem.setPosition(0);
+    //elevatorSystem.elevatorMovement(5);
   }
 
   // Called when another command which requires one or more of the same

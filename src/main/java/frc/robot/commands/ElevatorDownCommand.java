@@ -23,6 +23,7 @@ public class ElevatorDownCommand extends Command {
     // Use requires() here to declare subsystem dependencies
     // eg. requires(chassis);
     ElevatorSystem.getInstance().setPIDFValues(0.00624, 0.0001, 62.4, 0);
+    //elevatorDown.setPosition(0);
   }
 
   // Called just before this Command runs the first time
@@ -49,6 +50,7 @@ public class ElevatorDownCommand extends Command {
   // Called once after isFinished returns true
   @Override
   protected void end() {
+    elevatorDown.setPosition(0);
     elevatorDown.stop();
   }
 

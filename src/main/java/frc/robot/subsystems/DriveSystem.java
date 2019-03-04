@@ -45,7 +45,7 @@ public class DriveSystem extends Subsystem {
   /**
    * setting the max velocity to 250 rpm
    */
-  public static double MAX_VELOCITY = 250;
+  public static double MAX_VELOCITY = 300;
  
   public DriveSystem() {
     navXPort = SPI.Port.kMXP;
@@ -78,10 +78,10 @@ public class DriveSystem extends Subsystem {
     rightMaster.configAllowableClosedloopError(0, 50, 100);
     leftSlave.follow(leftMaster);
     rightSlave.follow(rightMaster);
-    leftMaster.configClosedloopRamp(.75);
-    rightMaster.configClosedloopRamp(.75);
-    leftSlave.configClosedloopRamp(.75);
-    rightSlave.configClosedloopRamp(.75);
+    leftMaster.configClosedloopRamp(.5);
+    rightMaster.configClosedloopRamp(.5);
+    leftSlave.configClosedloopRamp(.5);
+    rightSlave.configClosedloopRamp(.5);
   }
   public double getAngle() {
     return navX.getAngle();
