@@ -13,42 +13,55 @@ import frc.robot.commands.*;
 public class CargoShipAuto extends CommandGroup {
 
   public CargoShipAuto(boolean left) {
-    // actual 46.28
+    // go forward off the 2nd HAB level
     this.addSequential(new DrivePosition(46.28));
     if(left == true) {
-      //actual 31.0695
+      //Turn slightly right
       this.addSequential(new AngleTurn(31.0695));
-      //actual 58.373
+      //go forward to align with cargo ship
       this.addSequential(new DrivePosition(58.373));
-      //actual 148.9305
+      //Turn so you are colinear to the cargoship
       this.addSequential(new AngleTurn(-180+148.9305));
-      //actual 73.97
+      // go forward to the cargoship
       this.addSequential(new DrivePosition(70.97));
+      //moves the elevator up to the hatch level on the cargoship
       this.addSequential(new ElevatorCommand(19));
+      // moves forward to have the intake exactly on the cargoship
       this.addSequential(new DrivePosition(3));
-      this.addSequential(new HatchExit());
-      this.addSequential(new DrivePosition(-12));
+      //makes the intake not hold onto the hatch
+      this.addSequential(new ElevatorDownCommand());
+      this.addSequential(new DrivePosition(-15));
+      //turns left for going to the loading station
       this.addSequential(new AngleTurn(-149.72));
+      //moves forward to align with the intake
       this.addSequential(new DrivePosition(182.09));
+      //turns and becomes colinear to the loading station
       this.addSequential(new AngleTurn(-30.28));
+      //goes up to the loading station
       this.addSequential(new DrivePosition(95.28));
     }
     else {
-      //actual 31.0695
+      //turns slightly left 
       this.addSequential(new AngleTurn(-31.0695));
-      //actual 58.373
+      //moves forward to align with the cargo ship
       this.addSequential(new DrivePosition(58.373));
-      //actual 148.9305
+      //turns right to become colinear with the Cargo Ship
       this.addSequential(new AngleTurn(148.9305));
-      //actual 73.97
+      //moves forward to align with the cargo ship
       this.addSequential(new DrivePosition(70.97));
+      //moves the elevator up to the hatch level on the cargoship
       this.addSequential(new ElevatorCommand(19));
       this.addSequential(new DrivePosition(3));
-      this.addSequential(new HatchExit());
-      this.addSequential(new DrivePosition(-12));
+      //makes the intake not hold onto the hatch
+      this.addSequential(new ElevatorDownCommand());
+      this.addSequential(new DrivePosition(-15));
+      //turns right to go to the loading station
       this.addSequential(new AngleTurn(149.72));
+      //moves forward to align with loading station
       this.addSequential(new DrivePosition(182.09));
+      //turns to be colinear with loading station
       this.addSequential(new AngleTurn(30.28));
+      //moves forward to loading station
       this.addSequential(new DrivePosition(95.28));
     }
     // Use requires() here to declare subsystem dependencies
