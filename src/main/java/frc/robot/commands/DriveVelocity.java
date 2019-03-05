@@ -43,7 +43,7 @@ public class DriveVelocity extends Command {
     else{
       driveSystem.setVelocity(250);
     }
-    driveSystem.driveVelocity(controller.getRawAxis(3), controller.getRawAxis(1));
+    driveSystem.driveVelocity(controller.getRawAxis(1), controller.getRawAxis(3));
   }
 
   // Make this return true when this Command no longer needs to run execute()

@@ -71,11 +71,12 @@ public class Robot extends IterativeRobot {
     sendData = new byte[256];
     */
     autoChooser = new SendableChooser<>();
-    autoChooser.addDefault("No Auto", "N");
-    autoChooser.addObject("Left", "L");
-    autoChooser.addObject("Right", "R");
-    autoChooser.addObject("Middle", "M");
+    autoChooser.addOption("No Auto", "N");
+    autoChooser.addOption("Left", "L");
+    autoChooser.addOption("Right", "R");
+    autoChooser.addOption("Middle", "M");
     //serial = new SerialPort(115200, Port.kUSB);
+    SmartDashboard.putData("Auto Chooser", autoChooser);
   }
 
   /**
