@@ -27,7 +27,7 @@ public class ElevatorCommand extends Command {
     // Use requires() here to declare subsystem dependencies
     // eg. requires(chassis);
     this.requires(ElevatorSystem.getInstance());
-    ElevatorSystem.getInstance().setPIDFValues(0.1, 0.0001, 0, 0);
+    ElevatorSystem.getInstance().setPIDFValues(2, 0.0001, 0, 0);
     controller = new Joystick(RobotMap.JOYSTICK_PORT);
     
   }
@@ -45,6 +45,12 @@ public class ElevatorCommand extends Command {
   protected void execute() {
     ball = controller.getRawButton(RobotMap.RIGHT_BUMPER);
     elevator.elevatorMovement((int) (distance));
+    if(!elevator.getLimitSwitchIntake() && !elevator.getLimitSwitchMid()) {
+      elevator.setPosition((int)(72*INCHES_PER_REVOLUTION));
+    }
+    else if(!elevator.getLimitSwitchBottom()) {
+      elevator.setPosition((int)(0));
+    }
   }
 
   // Make this return true when this Command no longer needs to run execute()

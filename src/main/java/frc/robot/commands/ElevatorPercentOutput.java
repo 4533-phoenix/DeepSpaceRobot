@@ -32,6 +32,12 @@ public class ElevatorPercentOutput extends Command {
   @Override
   protected void execute() {
     elevatorSystem.elevatorPercentOutput(percent);
+    if(!elevatorSystem.getLimitSwitchIntake() && !elevatorSystem.getLimitSwitchMid()) {
+      elevatorSystem.setPosition((int)(72*4096));
+    }
+    else if(!elevatorSystem.getLimitSwitchBottom()) {
+      elevatorSystem.setPosition((int)(0));
+    }
   }
 
   // Make this return true when this Command no longer needs to run execute()
