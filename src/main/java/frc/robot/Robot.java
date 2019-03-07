@@ -131,7 +131,7 @@ public class Robot extends IterativeRobot {
    // if (m_autonomousCommand != null) {
     //  m_autonomousCommand.start();
     //}
-    DriveSystem.getInstance().setPIDFValues(0.1, 0.0001, 0, 0);
+    //DriveSystem.getInstance().setPIDFValues(0.1, 0.0001, 0, 0);
     DriveSystem.getInstance().setPosition(0);
     if(autoChooser.getSelected().equals("L")){
       auto = new CargoShipAuto(true);

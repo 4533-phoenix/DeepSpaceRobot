@@ -16,8 +16,10 @@ public class ElevatorPercentDown extends Command {
   ElevatorSystem elevatorSystem;
   double percent;
   Joystick controller;
+  double tempPercent;
   public ElevatorPercentDown(double percent) {
     this.percent = percent;
+    this.tempPercent = this.percent;
     elevatorSystem = ElevatorSystem.getInstance();
     requires(elevatorSystem);
     //elevatorSystem.setPosition(0);
@@ -34,6 +36,13 @@ public class ElevatorPercentDown extends Command {
   // Called repeatedly when this Command is scheduled to run
   @Override
   protected void execute() {
+    if(controller.getRawButton(RobotMap.RIGHT_TRIGGER)) {
+      tempPercent = percent;
+      percent = 1;
+    }
+    else {
+      percent = tempPercent;
+    }
     elevatorSystem.elevatorPercentOutput(percent);
     if(!elevatorSystem.getLimitSwitchIntake() && !elevatorSystem.getLimitSwitchMid()) {
       elevatorSystem.setPosition((int)(72*4096));
