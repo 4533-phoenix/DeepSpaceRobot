@@ -6,14 +6,16 @@ import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 import edu.wpi.first.wpilibj.DigitalInput;
 
 import edu.wpi.first.wpilibj.AnalogInput;
-import edu.wpi.first.wpilibj.command.Subsystem;
+import edu.wpi.first.wpilibj.command.PIDSubsystem;
+import edu.wpi.first.wpilibj.interfaces.Potentiometer;
 import frc.robot.RobotMap;
+import frc.robot.commands.StringElevator;
 /**
  * The system that allows the robot to elevator cubes and shoot them out
  * @author 4533 Programming Team
  *
  */
-public class ElevatorSystem extends Subsystem {
+public class ElevatorSystem extends PIDSubsystem {
 	//creates the elevator motor object
     private TalonSRX elevatorMotor;
 	private static ElevatorSystem INSTANCE;
@@ -22,11 +24,12 @@ public class ElevatorSystem extends Subsystem {
   	DigitalInput limitSwitchTwo;
   	DigitalInput limitSwitchThree;
   	DigitalInput limitSwitchFour;
-	
+	private AnalogInput stringPot;
 	/**
 	 * Sets up the motors for elevator
 	 */
 	public ElevatorSystem() {
+		super(.1,0.001,0.0);
 		//instanciating the object elevatorMotor
 		elevatorMotor = new TalonSRX(RobotMap.ELEVATOR_MOTOR);
 		//gets the values for the encoder
@@ -43,6 +46,8 @@ public class ElevatorSystem extends Subsystem {
 		//configues Ramp Rate (seconds)
 		elevatorMotor.configClosedloopRamp(1);
 		elevatorMotor.setInverted(true);
+		stringPot = new AnalogInput(0);
+		getPIDController().setContinuous(false);
 	}
 	// creates 
 	public void elevatorPercentOutput(double speed) {
@@ -67,7 +72,12 @@ public class ElevatorSystem extends Subsystem {
 	 * Stops the motors
 	 */
 	public void stop() {
-		elevatorMotor.set(ControlMode.PercentOutput, .1);
+		//this.getPIDController().close();
+		elevatorMotor.set(ControlMode.PercentOutput, -.1);
+		//System.out.println("Pressed");
+	}
+	public void _disable() {
+		this.getPIDController().reset();
 	}
 	public void setPIDFValues(double p,double i,double d,double f){
 		elevatorMotor.config_kF(0,f,100);
@@ -81,17 +91,15 @@ public class ElevatorSystem extends Subsystem {
 	 */
 	@Override
 	protected void initDefaultCommand() {
-		// TODO Auto-generated method stub
 	}
 
 	public void elevatorMovement (int postion) {
-		elevatorMotor.set(ControlMode.Position, postion);
 	}
 
-	public int getPosition() {
+	/*public double getPosition() {
 		return elevatorMotor.getSelectedSensorPosition(0);
 	}
-
+*/
 	public void setPosition(int distance) {
 		elevatorMotor.setSelectedSensorPosition(distance);
 		System.out.println("Distance Set: " + distance);
@@ -108,5 +116,16 @@ public class ElevatorSystem extends Subsystem {
 	public boolean getLimitSwitchBottom(){
 		return limitSwitchFour.get();
 	}
-
+	public double position() {
+		return stringPot.getValue();
+	}
+	protected double returnPIDInput() {
+		return this.position();
+	}
+	protected void usePIDOutput(double output) {
+		elevatorMotor.set(ControlMode.PercentOutput, output * .5);
+	}
+	public void setDistance(double distance) {
+		this.setSetpoint(distance);
+	}
 }

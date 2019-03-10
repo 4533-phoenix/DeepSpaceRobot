@@ -89,11 +89,14 @@ public class OI {
       }
       */
       //When pressed elevator goes to first hatch level
-      bButton.whenPressed(new ElevatorCommand(19-15));
+      //bButton.whenPressed(new ElevatorCommand(19-15));
+      bButton.whenPressed(new StringElevator(1188));
       //When pressed elevator goes to second hatch level
-      xButton.whenPressed(new ElevatorCommand(47-15));
+      //xButton.whenPressed(new ElevatorCommand(47-15));
+      xButton.whenPressed(new StringElevator(2278));
       //When pressed elevator goes to third hatch level
-      yButton.whenPressed(new ElevatorCommand(75-15));
+      //yButton.whenPressed(new ElevatorCommand(75-15));
+      yButton.whenPressed(new StringElevator(3536));
       select.whileHeld(new ElevatorPercentOutput(-.25));
       start.whileHeld(new ElevatorPercentOutput(.5));
       leftJoystickButton.whileHeld(new ElevatorPercentOutput(-.25));

@@ -10,6 +10,7 @@ package frc.robot.utilities;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.commands.DrivePosition;
 import frc.robot.subsystems.DriveSystem;
+import frc.robot.subsystems.ElevatorSystem;
 import edu.wpi.first.wpilibj.DriverStation;
 /**
  * Add your docs here.
@@ -21,6 +22,7 @@ public class SmartDashboardValues {
        SmartDashboard.putString("Drive Position", "");
        SmartDashboard.putData("Drive Distance", new DrivePosition(48));
        SmartDashboard.putNumber("Max Velocity", DriveSystem.MAX_VELOCITY);
+       SmartDashboard.putNumber("StringPotPosition", ElevatorSystem.getInstance().position());
     }
     public void updateValue() {
         SmartDashboard.putNumber("Current Distance Traveled This Match",(int) (-DriveSystem.getInstance().getRightPosition() / (4096/(6*Math.PI)))/12);
@@ -29,5 +31,6 @@ public class SmartDashboardValues {
         DriveSystem.MAX_VELOCITY = SmartDashboard.getNumber("Max Velocity", 250);
         SmartDashboard.putNumber("Actual Max Velocity", DriveSystem.MAX_VELOCITY);
         SmartDashboard.putNumber("Match Time", DriverStation.getInstance().getMatchTime());
+        SmartDashboard.putNumber("StringPotPosition", ElevatorSystem.getInstance().position());
     }
 }

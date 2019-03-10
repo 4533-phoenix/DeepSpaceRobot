@@ -185,6 +185,7 @@ public class Robot extends IterativeRobot {
       //System.out.println((serial.getBytesReceived()));
     //}
     System.out.println("Pos: " + ElevatorSystem.getInstance().getPosition());
+
   }
 
   /**
