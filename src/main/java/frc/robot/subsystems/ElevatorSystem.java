@@ -45,7 +45,7 @@ public class ElevatorSystem extends PIDSubsystem {
 		limitSwitchFour = new DigitalInput(5);
 		//configues Ramp Rate (seconds)
 		elevatorMotor.configClosedloopRamp(1);
-		elevatorMotor.setInverted(true);
+		elevatorMotor.setInverted(false);
 		stringPot = new AnalogInput(0);
 		getPIDController().setContinuous(false);
 	}

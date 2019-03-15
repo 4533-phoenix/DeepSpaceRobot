@@ -8,35 +8,49 @@
 package frc.robot.commands;
 
 import edu.wpi.first.wpilibj.command.Command;
+import frc.robot.RobotMap;
 import frc.robot.subsystems.ElevatorSystem;
+import edu.wpi.first.wpilibj.Joystick;
 public class StringElevator extends Command {
   int target;
   boolean up;
   double curPos;
+  Joystick controller;
   public StringElevator(int tar) {
     // Use requires() here to declare subsystem dependencies
     // eg. requires(chassis);
     requires(ElevatorSystem.getInstance());
     target = tar;
+    controller = new Joystick(0);
   }
 
   // Called just before this Command runs the first time
   @Override
   protected void initialize() {
-    ElevatorSystem.getInstance().enable();
     curPos = ElevatorSystem.getInstance().position();
+    if(target >= curPos) {
+      ElevatorSystem.getInstance().enable();
+    }
   }
 
   // Called repeatedly when this Command is scheduled to run
   @Override
   protected void execute() {
-    ElevatorSystem.getInstance().setPosition(target);
+    if(target >= curPos) {
+      ElevatorSystem.getInstance().setPosition(target);
+    }
+    else {
+      ElevatorSystem.getInstance().elevatorPercentOutput(.25);
+    }
   }
 
   // Make this return true when this Command no longer needs to run execute()
   @Override
   protected boolean isFinished() {
-    return (Math.abs(ElevatorSystem.getInstance().position()-target)>= 0);
+    if(target <= curPos) {
+      return (Math.abs(ElevatorSystem.getInstance().position())<= target);
+    }
+    return (Math.abs(ElevatorSystem.getInstance().position())>= target);
   }
 
   // Called once after isFinished returns true

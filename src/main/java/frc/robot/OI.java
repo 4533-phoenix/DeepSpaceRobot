@@ -55,6 +55,7 @@ public class OI {
    * create constructor for OI class
    */
   Joystick controller = new Joystick(RobotMap.JOYSTICK_PORT);
+  Joystick buttons = new Joystick(1);
   /**
    * add buttons start and select by creating objects
    */
@@ -70,6 +71,15 @@ public class OI {
   JoystickButton leftTrigger = new JoystickButton(controller, RobotMap.LEFT_TRIGGER);
   JoystickButton rightJoystickButton = new JoystickButton(controller, RobotMap.RIGHT_JOYSTICK_BUTTON);
   JoystickButton leftJoystickButton = new JoystickButton(controller, RobotMap.LEFT_JOYSTICK_BUTTON);
+  JoystickButton cargo1 = new JoystickButton(buttons, 3);
+  JoystickButton cargo2 = new JoystickButton(buttons, 2);
+  JoystickButton cargo3 = new JoystickButton(buttons, 1);
+  JoystickButton hatch1 = new JoystickButton(buttons, 4);
+  JoystickButton hatch2 = new JoystickButton(buttons, 5);
+  JoystickButton hatch3 = new JoystickButton(buttons, 6);
+  JoystickButton zero = new JoystickButton(buttons, 8);
+  JoystickButton manualUp = new JoystickButton(buttons, 10);
+  JoystickButton manualDown = new JoystickButton(buttons, 9);
   public OI() {
     boolean percentOutput = false;
     if(percentOutput) {
@@ -77,7 +87,7 @@ public class OI {
       aButton.whileHeld(new ElevatorPercentOutput(-.25));
     }
     else {
-      aButton.whenPressed(new ElevatorPercentDown(-.25));
+      aButton.whenPressed(new StringElevator(RobotMap.BOTTOM));
       /*
       if(controller.getRawButton(RobotMap.RIGHT_TRIGGER)) {
         //When pressed elevator goes to first cargo level
@@ -90,21 +100,31 @@ public class OI {
       */
       //When pressed elevator goes to first hatch level
       //bButton.whenPressed(new ElevatorCommand(19-15));
-      bButton.whenPressed(new StringElevator(1188));
+      bButton.whenPressed(new StringElevator(RobotMap.BOTTOM_CARGO));
       //When pressed elevator goes to second hatch level
       //xButton.whenPressed(new ElevatorCommand(47-15));
-      xButton.whenPressed(new StringElevator(2278));
+      //2278
+      xButton.whenPressed(new StringElevator(RobotMap.MID_CARGO));
       //When pressed elevator goes to third hatch level
       //yButton.whenPressed(new ElevatorCommand(75-15));
-      yButton.whenPressed(new StringElevator(3536));
-      select.whileHeld(new ElevatorPercentOutput(-.25));
-      start.whileHeld(new ElevatorPercentOutput(.5));
+      yButton.whenPressed(new StringElevator(RobotMap.TOP_CARGO));
+      select.whileHeld(new ElevatorPercentOutput(.25));
+      start.whileHeld(new ElevatorPercentOutput(-.5));
       leftJoystickButton.whileHeld(new ElevatorPercentOutput(-.25));
       rightJoystickButton.whileHeld(new ElevatorPercentOutput(.5));
     }
     leftTrigger.whileHeld(new IntakeIn());
     rightTrigger.whileHeld(new IntakeOut());
-    
+    //2nd driver controller
+    cargo1.whenPressed(new StringElevator(RobotMap.BOTTOM_CARGO));
+    cargo2.whenPressed(new StringElevator(RobotMap.MID_CARGO));
+    cargo3.whenPressed(new StringElevator(RobotMap.TOP_CARGO));
+    hatch1.whenPressed(new StringElevator(RobotMap.BOTTOM_HATCH));
+    hatch2.whenPressed(new StringElevator(RobotMap.MID_HATCH));
+    hatch3.whenPressed(new StringElevator(RobotMap.TOP_HATCH));
+    zero.whenPressed(new StringElevator(RobotMap.BOTTOM));
+    manualDown.whileHeld(new ElevatorPercentOutput(.25));
+    manualUp.whileHeld(new ElevatorPercentOutput(-.5));
     //Buttons that are currently free
     /*
     Start

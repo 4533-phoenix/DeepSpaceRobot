@@ -101,5 +101,12 @@ public class RobotMap {
   public static final int INTAKE_MOTOR = 4;
   public static final int ELEVATOR_MOTOR = 5;
   public static final int JOYSTICK_PORT = 0;
+  public static final int BOTTOM = 475;
+  public static final int BOTTOM_HATCH = 594;
+  public static final int MID_HATCH = 1389;
+  public static final int TOP_HATCH = 2189;
+  public static final int BOTTOM_CARGO = 1106;
+  public static final int MID_CARGO = 2015;
+  public static final int TOP_CARGO = 2757;
 }
 

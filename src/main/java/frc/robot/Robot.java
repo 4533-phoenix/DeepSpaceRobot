@@ -150,6 +150,9 @@ public class Robot extends IterativeRobot {
         midAuto.start();
       }
     }
+    else {
+      teleopInit();
+    }
   }
 
   /**
