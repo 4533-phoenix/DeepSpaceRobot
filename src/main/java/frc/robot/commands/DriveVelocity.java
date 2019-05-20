@@ -39,10 +39,10 @@ public class DriveVelocity extends Command {
   @Override
   protected void execute() {
     if (controller.getRawButton(RobotMap.LEFT_BUMPER)) {
-      driveSystem.setVelocity(500);
+      driveSystem.setVelocity(250);
     }
     else{
-      driveSystem.setVelocity(250);
+      driveSystem.setVelocity(400);
     }
     driveSystem.driveVelocity(controller.getRawAxis(1), controller.getRawAxis(3));
   }

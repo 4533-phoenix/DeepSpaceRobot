@@ -29,7 +29,7 @@ public class ElevatorSystem extends PIDSubsystem {
 	 * Sets up the motors for elevator
 	 */
 	public ElevatorSystem() {
-		super(.1,0.001,0.0);
+		super(.1,0.001,0);
 		//instanciating the object elevatorMotor
 		elevatorMotor = new TalonSRX(RobotMap.ELEVATOR_MOTOR);
 		//gets the values for the encoder

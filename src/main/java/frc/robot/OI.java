@@ -76,7 +76,7 @@ public class OI {
   JoystickButton cargo3 = new JoystickButton(buttons, 1);
   JoystickButton hatch1 = new JoystickButton(buttons, 4);
   JoystickButton hatch2 = new JoystickButton(buttons, 5);
-  JoystickButton hatch3 = new JoystickButton(buttons, 6);
+  JoystickButton hatch3 = new JoystickButton(buttons, 7);
   JoystickButton zero = new JoystickButton(buttons, 8);
   JoystickButton manualUp = new JoystickButton(buttons, 10);
   JoystickButton manualDown = new JoystickButton(buttons, 9);
@@ -100,14 +100,14 @@ public class OI {
       */
       //When pressed elevator goes to first hatch level
       //bButton.whenPressed(new ElevatorCommand(19-15));
-      bButton.whenPressed(new StringElevator(RobotMap.BOTTOM_CARGO));
+      bButton.whenPressed(new StringElevator(RobotMap.BOTTOM_HATCH));
       //When pressed elevator goes to second hatch level
       //xButton.whenPressed(new ElevatorCommand(47-15));
       //2278
-      xButton.whenPressed(new StringElevator(RobotMap.MID_CARGO));
+      xButton.whenPressed(new StringElevator(RobotMap.MID_HATCH));
       //When pressed elevator goes to third hatch level
       //yButton.whenPressed(new ElevatorCommand(75-15));
-      yButton.whenPressed(new StringElevator(RobotMap.TOP_CARGO));
+      yButton.whenPressed(new StringElevator(RobotMap.TOP_HATCH));
       select.whileHeld(new ElevatorPercentOutput(.25));
       start.whileHeld(new ElevatorPercentOutput(-.5));
       leftJoystickButton.whileHeld(new ElevatorPercentOutput(-.25));

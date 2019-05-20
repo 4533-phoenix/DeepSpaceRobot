@@ -45,7 +45,7 @@ public class DriveSystem extends Subsystem {
   /**
    * setting the max velocity to 250 rpm
    */
-  public static double MAX_VELOCITY = 300;
+  public static double MAX_VELOCITY = 400;
  
   public DriveSystem() {
     navXPort = SPI.Port.kMXP;

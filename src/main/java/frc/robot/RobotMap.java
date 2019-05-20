@@ -107,6 +107,6 @@ public class RobotMap {
   public static final int TOP_HATCH = 2189;
   public static final int BOTTOM_CARGO = 1106;
   public static final int MID_CARGO = 2015;
-  public static final int TOP_CARGO = 2757;
+  public static final int TOP_CARGO = 2730;
 }
 
