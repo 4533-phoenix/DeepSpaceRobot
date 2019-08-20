@@ -11,7 +11,6 @@ import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.FeedbackDevice;
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 import com.ctre.phoenix.motorcontrol.can.VictorSPX;
-import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.command.Subsystem;
 import frc.robot.commands.DriveCommand;
 import frc.robot.commands.DriveVelocity;
@@ -19,8 +18,8 @@ import frc.robot.RobotMap;
 //import com.kauailabs.navx.*;
 //import com.kauailabs.navx.frc.AHRS;
 
-import edu.wpi.first.wpilibj.SPI;
-import edu.wpi.first.wpilibj.SPI.Port;
+//import edu.wpi.first.wpilibj.SPI;
+//import edu.wpi.first.wpilibj.SPI.Port;
 /**
  * Add your docs here.
  */
