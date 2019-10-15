@@ -146,6 +146,9 @@ public class DriveSystem extends Subsystem {
    * @return
    */
   public static DriveSystem getInstance() {
+    if (INSTANCE == null) {
+      INSTANCE = new DriveSystem();
+    }
     return INSTANCE;
   }
   /**

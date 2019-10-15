@@ -108,8 +108,8 @@ public class OI {
       //When pressed elevator goes to third hatch level
       //yButton.whenPressed(new ElevatorCommand(75-15));
       yButton.whenPressed(new StringElevator(RobotMap.TOP_HATCH));
-      select.whileHeld(new ElevatorPercentOutput(.25));
-      start.whileHeld(new ElevatorPercentOutput(-.5));
+      select.whenPressed(new Normal());
+      start.whenPressed(new Invert());
       leftJoystickButton.whileHeld(new ElevatorPercentOutput(-.25));
       rightJoystickButton.whileHeld(new ElevatorPercentOutput(.5));
     }

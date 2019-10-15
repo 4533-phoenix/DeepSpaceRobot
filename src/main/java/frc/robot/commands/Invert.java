@@ -4,30 +4,24 @@
 /* must be accompanied by the FIRST BSD license file in the root directory of */
 /* the project.                                                               */
 /*----------------------------------------------------------------------------*/
-
 package frc.robot.commands;
-import edu.wpi.first.wpilibj.Joystick;
-import edu.wpi.first.wpilibj.buttons.JoystickButton;
-import edu.wpi.first.wpilibj.command.Command;
-import frc.robot.RobotMap;
-import frc.robot.subsystems.DriveSystem;
-import jdk.jfr.ContentType;
-/**
- * In this command we call the method driveVelocity which originates drive system
- */
-public class DriveVelocity extends Command {
-  Joystick controller;
-  DriveSystem driveSystem;
-  JoystickButton leftTrigger;
 
-  public DriveVelocity() {
+import edu.wpi.first.wpilibj.command.Command;
+import frc.robot.subsystems.DriveSystem;
+import edu.wpi.first.wpilibj.Joystick;
+import frc.robot.RobotMap;
+
+public class Invert extends Command {
+  DriveSystem inv;
+  Joystick joystick;
+  double percent;
+  public Invert() {
+    inv = new DriveSystem();
+    joystick = new Joystick(RobotMap.JOYSTICK_PORT);
+    inv = DriveSystem.getInstance();
+    requires(inv);
     // Use requires() here to declare subsystem dependencies
     // eg. requires(chassis);
-    controller = new Joystick(RobotMap.JOYSTICK_PORT);
-    leftTrigger = new JoystickButton(controller, RobotMap.LEFT_TRIGGER);
-    driveSystem = DriveSystem.getInstance();
-    this.requires(driveSystem);
-    driveSystem.setPeakOutput(1);
   }
 
   // Called just before this Command runs the first time
@@ -38,13 +32,7 @@ public class DriveVelocity extends Command {
   // Called repeatedly when this Command is scheduled to run
   @Override
   protected void execute() {
-    if (controller.getRawButton(RobotMap.LEFT_BUMPER)) {
-      driveSystem.setVelocity(250);
-    }
-    else{
-      driveSystem.setVelocity(400);
-    }
-    driveSystem.driveVelocity(controller.getRawAxis(1), controller.getRawAxis(3));
+    inv.drivePercentOutput(-joystick.getRawAxis(1) ,joystick.getRawAxis(3));
   }
 
   // Make this return true when this Command no longer needs to run execute()
@@ -56,6 +44,7 @@ public class DriveVelocity extends Command {
   // Called once after isFinished returns true
   @Override
   protected void end() {
+    inv.stop();
   }
 
   // Called when another command which requires one or more of the same
