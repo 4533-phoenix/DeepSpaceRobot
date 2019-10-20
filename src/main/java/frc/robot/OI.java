@@ -8,10 +8,13 @@
 package frc.robot;
 
 import edu.wpi.first.wpilibj.Joystick;
-import edu.wpi.first.wpilibj.buttons.Button;
 import edu.wpi.first.wpilibj.buttons.JoystickButton;
-import frc.robot.commands.*;
-import frc.robot.subsystems.ElevatorSystem;
+import frc.robot.commands.ElevatorPercentOutput;
+import frc.robot.commands.IntakeIn;
+import frc.robot.commands.IntakeOut;
+import frc.robot.commands.Invert;
+import frc.robot.commands.Normal;
+import frc.robot.commands.StringElevator;
 
 /**
  * This class is the glue that binds the controls on the physical operator
@@ -80,6 +83,7 @@ public class OI {
   JoystickButton zero = new JoystickButton(buttons, 8);
   JoystickButton manualUp = new JoystickButton(buttons, 10);
   JoystickButton manualDown = new JoystickButton(buttons, 9);
+
   public OI() {
     boolean percentOutput = false;
     if(percentOutput) {
@@ -113,6 +117,7 @@ public class OI {
       leftJoystickButton.whileHeld(new ElevatorPercentOutput(-.25));
       rightJoystickButton.whileHeld(new ElevatorPercentOutput(.5));
     }
+
     leftTrigger.whileHeld(new IntakeIn());
     rightTrigger.whileHeld(new IntakeOut());
     //2nd driver controller
@@ -132,6 +137,5 @@ public class OI {
     LeftJoystickButton
     */
   }
-
 }
 

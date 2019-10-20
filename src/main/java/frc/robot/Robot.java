@@ -7,21 +7,22 @@
 
 package frc.robot;
 
-import java.net.ServerSocket;
-import java.net.SocketException;
-import java.io.*;
-import java.net.*;
+import java.io.IOException;
+import java.net.DatagramPacket;
+import java.net.DatagramSocket;
 import java.net.InetAddress;
-import edu.wpi.first.wpilibj.IterativeRobot;
-import edu.wpi.first.wpilibj.command.Command;
+
+import edu.wpi.first.wpilibj.TimedRobot;
+import edu.wpi.first.wpilibj.SerialPort;
 import edu.wpi.first.wpilibj.command.Scheduler;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-import frc.robot.subsystems.*;
+import frc.robot.commands.Autonomous;
+import frc.robot.commands.CargoMiddle;
+import frc.robot.commands.CargoShipAuto;
+import frc.robot.subsystems.DriveSystem;
+import frc.robot.subsystems.ElevatorSystem;
+import frc.robot.subsystems.IntakeSystem;
 import frc.robot.utilities.SmartDashboardValues;
-import frc.robot.commands.*;
-import edu.wpi.first.wpilibj.SerialPort;
-import edu.wpi.first.wpilibj.SerialPort.Port;
 /**
  * The VM is configured to automatically run this class, and to call the
  * functions corresponding to each mode, as described in the TimedRobot
@@ -29,7 +30,7 @@ import edu.wpi.first.wpilibj.SerialPort.Port;
  * creating this project, you must also update the build.gradle file in the
  * project.
  */
-public class Robot extends IterativeRobot {
+public class Robot extends TimedRobot {
   public static OI oi;
   public SmartDashboardValues smartDashboardValues;
   public SendableChooser<String> autoChooser;
@@ -208,11 +209,11 @@ public class Robot extends IterativeRobot {
     }
      
     int _port = 3641;
-    String requestValue = "0";
+
     DatagramPacket sendPacket = new DatagramPacket(sendData, sendData.length, _ip, _port);
+
     try {
         serverSocket.send(sendPacket);
-        
     } catch (IOException e) {
         e.printStackTrace();
     }
@@ -228,7 +229,6 @@ public class Robot extends IterativeRobot {
      String incoming = new String(receivePacket.getData());
      String[] parts = incoming.split(" ");
      String part1_raw = parts[0];
-     double part1_double = Double.parseDouble(part1_raw);
      System.out.println("RECEIVED: " + part1_raw);
  }
 

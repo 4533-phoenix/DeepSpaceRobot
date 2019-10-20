@@ -7,9 +7,7 @@ import edu.wpi.first.wpilibj.DigitalInput;
 
 import edu.wpi.first.wpilibj.AnalogInput;
 import edu.wpi.first.wpilibj.command.PIDSubsystem;
-import edu.wpi.first.wpilibj.interfaces.Potentiometer;
 import frc.robot.RobotMap;
-import frc.robot.commands.StringElevator;
 /**
  * The system that allows the robot to elevator cubes and shoot them out
  * @author 4533 Programming Team

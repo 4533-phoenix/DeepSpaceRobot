@@ -11,7 +11,7 @@ import edu.wpi.first.wpilibj.buttons.JoystickButton;
 import edu.wpi.first.wpilibj.command.Command;
 import frc.robot.RobotMap;
 import frc.robot.subsystems.DriveSystem;
-import jdk.jfr.ContentType;
+
 /**
  * In this command we call the method driveVelocity which originates drive system
  */

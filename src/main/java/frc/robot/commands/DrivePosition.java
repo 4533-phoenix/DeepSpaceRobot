@@ -25,7 +25,7 @@ public class DrivePosition extends Command {
     // Use requires() here to declare subsystem dependencies
     // eg. requires(chassis);
 
-    this.requires(driveSystem.getInstance());
+    this.requires(DriveSystem.getInstance());
     /**
      * sets variable distance equal to parameter distance * UNITS_PER_INCH
      */

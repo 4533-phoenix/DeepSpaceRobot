@@ -3,7 +3,6 @@ package frc.robot.subsystems;
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.can.VictorSPX;
 
-import edu.wpi.first.wpilibj.AnalogInput;
 import edu.wpi.first.wpilibj.command.Subsystem;
 import frc.robot.RobotMap;
 /**
@@ -56,12 +55,7 @@ public class IntakeSystem extends Subsystem {
 		System.out.println("Intake System - Stop");
 		intakeMotor.set(ControlMode.PercentOutput, 0);
 	}
-	/**
-	 * Detects if there is a cube in the Intake
-	 * @return False because we have no sensor on the intake yet
-	 */
+
 	@Override
-	protected void initDefaultCommand() {
-		// TODO Auto-generated method stub
-	}
+	protected void initDefaultCommand() {}
 }
