@@ -16,7 +16,7 @@ public class Invert extends Command {
   Joystick joystick;
   double percent;
   public Invert() {
-    inv = new DriveSystem();
+    inv = DriveSystem.getInstance();
     joystick = new Joystick(RobotMap.JOYSTICK_PORT);
     inv = DriveSystem.getInstance();
     requires(inv);

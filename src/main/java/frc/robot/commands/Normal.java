@@ -16,7 +16,7 @@ public class Normal extends Command {
   Joystick joystick;
   double percent;
   public Normal() {
-    norm = new DriveSystem();
+    norm = DriveSystem.getInstance();
     joystick = new Joystick(RobotMap.JOYSTICK_PORT);
     norm = DriveSystem.getInstance();
     requires(norm);

@@ -44,7 +44,7 @@ public class DriveSystem extends Subsystem {
    */
   public static double MAX_VELOCITY = 400;
  
-  public DriveSystem() {
+  private DriveSystem() {
     navXPort = SPI.Port.kMXP;
     navX = new AHRS(navXPort);
 
