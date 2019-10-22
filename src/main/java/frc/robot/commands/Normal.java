@@ -32,7 +32,7 @@ public class Normal extends Command {
   // Called repeatedly when this Command is scheduled to run
   @Override
   protected void execute() {
-    norm.drivePercentOutput(joystick.getRawAxis(1) ,-joystick.getRawAxis(3));
+    norm.drivePercentOutput(joystick.getRawAxis(1) ,joystick.getRawAxis(3));
   }
 
   // Make this return true when this Command no longer needs to run execute()
