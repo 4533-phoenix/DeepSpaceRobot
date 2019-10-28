@@ -114,8 +114,8 @@ public class OI {
       //yButton.whenPressed(new StringElevator(RobotMap.TOP_HATCH));
       select.whenPressed(new Normal());
       start.whenPressed(new Invert());
-      xButton.whileHeld(new ElevatorPercentOutput(-.25));
-      yButton.whileHeld(new ElevatorPercentOutput(.5));
+      xButton.whileHeld(new ElevatorPercentOutput(.25));
+      yButton.whileHeld(new ElevatorPercentOutput(-.5));
     }
 
     leftTrigger.whileHeld(new IntakeIn());

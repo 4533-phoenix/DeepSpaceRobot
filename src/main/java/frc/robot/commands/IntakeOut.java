@@ -25,7 +25,7 @@ public class IntakeOut extends Command {
   // Called repeatedly when this Command is scheduled to run
   @Override
   protected void execute() {
-    IntakeSystem.getInstance().out(.4);
+    IntakeSystem.getInstance().out(.45);
   }
 
   // Make this return true when this Command no longer needs to run execute()
